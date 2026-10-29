@@ -54,6 +54,7 @@ The browser only calls this server at `/api/...`; `next.config.ts` forwards thos
 # with the API running (OMS_SHOW_API_DOCS=true)
 pnpm api:fetch      # refresh openapi/openapi.json
 pnpm api:types      # regenerate src/api/generated/schema.d.ts
+pnpm api:check      # fail if the committed types differ from the snapshot (CI runs this)
 ```
 
 Review both diffs in the same commit.
