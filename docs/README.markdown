@@ -8,4 +8,4 @@ Planning documents are kept in the backend repository `oms-be` under `docs/` so 
 - `DECISIONS.markdown`
 - `IMPLEMENTATION_PLAN.markdown`
 
-Portal-specific documents (component conventions, theming, i18n catalog rules) will be added here during scaffolding (Stage 7).
+Portal-specific documents (component conventions, theming, i18n catalog rules) will be added here as the portal grows. For now the conventions are in the root `README.markdown`.

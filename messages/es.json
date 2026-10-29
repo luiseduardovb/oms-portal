@@ -1,0 +1,37 @@
+{
+  "app": {
+    "name": "Portal de comercios"
+  },
+  "home": {
+    "title": "Portal de comercios",
+    "subtitle": "Administra tu tienda, tu catálogo y tus pedidos.",
+    "apiStatus": "Estado del servicio",
+    "apiOk": "El servicio está disponible",
+    "apiChecking": "Verificando el servicio…",
+    "apiDown": "No pudimos conectar con el servicio",
+    "retry": "Reintentar"
+  },
+  "errors": {
+    "unknown": "Ocurrió un error inesperado. Inténtalo de nuevo.",
+    "client": {
+      "network_error": "No hay conexión con el servidor. Revisa tu internet.",
+      "unknown_error": "Ocurrió un error inesperado. Inténtalo de nuevo."
+    },
+    "common": {
+      "bad_request": "La solicitud no es válida.",
+      "not_found": "No encontramos lo que buscas.",
+      "method_not_allowed": "Esa acción no está permitida.",
+      "conflict": "Esa acción choca con el estado actual. Actualiza e inténtalo de nuevo.",
+      "validation_error": "Revisa los datos ingresados.",
+      "invalid_sort": "No se puede ordenar por ese campo.",
+      "rate_limited": "Demasiados intentos. Espera un momento."
+    },
+    "auth": {
+      "unauthenticated": "Inicia sesión para continuar.",
+      "forbidden": "No tienes permiso para hacer esto."
+    },
+    "server": {
+      "error": "Error del servidor. Inténtalo más tarde."
+    }
+  }
+}
