@@ -260,6 +260,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/team/invitations/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview Invitation
+         * @description Public. Shows the accept page what it needs. Limited like accepting,
+         *     and an invalid token counts as a failure, so tokens cannot be guessed.
+         */
+        get: operations["preview_invitation_team_invitations_preview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -361,6 +382,17 @@ export interface components {
              */
             createdAt: string;
         };
+        /** InvitationPreview */
+        InvitationPreview: {
+            /** Merchantname */
+            merchantName: string;
+            /** Rolename */
+            roleName: string;
+            /** Requiresdni */
+            requiresDni: boolean;
+            /** Userexists */
+            userExists: boolean;
+        };
         /** LegalData */
         LegalData: {
             /** Legalname */
@@ -399,7 +431,7 @@ export interface components {
             merchant: components["schemas"]["MerchantOut"];
             /** Memberid */
             memberId: number;
-            role: components["schemas"]["app__authz__routes__RoleOut"];
+            role: components["schemas"]["MeRoleOut"];
             /** Isowner */
             isOwner: boolean;
             /** Levels */
@@ -413,6 +445,15 @@ export interface components {
             dni: string | null;
             /** Memberships */
             memberships: components["schemas"]["MembershipItem"][];
+        };
+        /** MeRoleOut */
+        MeRoleOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Templatekey */
+            templateKey: string | null;
         };
         /** MemberOut */
         MemberOut: {
@@ -498,6 +539,23 @@ export interface components {
             /** Ids */
             ids: number[];
         };
+        /** RoleOut */
+        RoleOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Templatekey */
+            templateKey: string | null;
+            /** Islocked */
+            isLocked: boolean;
+            /** Levels */
+            levels: {
+                [key: string]: string;
+            };
+            /** Extras */
+            extras: string[];
+        };
         /** SwitchMerchantRequest */
         SwitchMerchantRequest: {
             /** Merchantid */
@@ -558,32 +616,6 @@ export interface components {
             input?: unknown;
             /** Context */
             ctx?: Record<string, never>;
-        };
-        /** RoleOut */
-        app__authz__routes__RoleOut: {
-            /** Id */
-            id: number;
-            /** Name */
-            name: string;
-            /** Templatekey */
-            templateKey: string | null;
-        };
-        /** RoleOut */
-        app__team__schemas__RoleOut: {
-            /** Id */
-            id: number;
-            /** Name */
-            name: string;
-            /** Templatekey */
-            templateKey: string | null;
-            /** Islocked */
-            isLocked: boolean;
-            /** Levels */
-            levels: {
-                [key: string]: string;
-            };
-            /** Extras */
-            extras: string[];
         };
     };
     responses: never;
@@ -826,7 +858,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["app__team__schemas__RoleOut"][];
+                    "application/json": components["schemas"]["RoleOut"][];
                 };
             };
         };
@@ -1001,6 +1033,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AcceptedInvitation"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_invitation_team_invitations_preview_get: {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationPreview"];
                 };
             };
             /** @description Validation Error */

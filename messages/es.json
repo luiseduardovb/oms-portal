@@ -82,7 +82,83 @@
     "userMenu": "Menú de usuario",
     "logout": "Cerrar sesión",
     "nav": {
-      "home": "Inicio"
+      "home": "Inicio",
+      "team": "Equipo"
     }
+  },
+  "team": {
+    "title": "Equipo",
+    "noAccess": "No tienes permiso para ver el equipo.",
+    "loading": "Cargando el equipo…",
+    "tabs": {
+      "members": "Miembros",
+      "invitations": "Invitaciones pendientes"
+    },
+    "members": {
+      "table": "Miembros del equipo",
+      "name": "Nombre",
+      "email": "Correo",
+      "role": "Rol",
+      "status": "Estado",
+      "actions": "Acciones",
+      "you": "Tú",
+      "active": "Activo",
+      "suspended": "Suspendido",
+      "suspend": "Suspender",
+      "reactivate": "Reactivar",
+      "remove": "Quitar",
+      "changeRole": "Cambiar el rol de {name}",
+      "removeTitle": "Quitar del equipo",
+      "removeBody": "{name} perderá el acceso a este comercio. Puedes invitarle de nuevo más adelante.",
+      "cancel": "Cancelar",
+      "confirmRemove": "Quitar"
+    },
+    "invitations": {
+      "table": "Invitaciones pendientes",
+      "empty": "No hay invitaciones pendientes.",
+      "email": "Correo",
+      "role": "Rol",
+      "expires": "Vence",
+      "actions": "Acciones",
+      "revoke": "Revocar"
+    },
+    "invite": {
+      "open": "Invitar",
+      "title": "Invitar a una persona",
+      "email": "Correo electrónico",
+      "role": "Rol",
+      "allOutlets": "Acceso a todos los locales",
+      "cancel": "Cancelar",
+      "submit": "Crear invitación",
+      "readyTitle": "Invitación lista",
+      "readyNote": "Comparte este enlace con {email}. Por ahora no enviamos correos; el enlace vence en 7 días y solo se muestra una vez.",
+      "link": "Enlace de invitación",
+      "copy": "Copiar enlace",
+      "copied": "Copiado",
+      "whatsapp": "Compartir por WhatsApp",
+      "whatsappText": "Te invito a unirte a nuestro equipo como {role}. Acepta la invitación aquí: {link}",
+      "done": "Listo"
+    }
+  },
+  "accept": {
+    "loading": "Cargando la invitación…",
+    "invalidTitle": "Invitación no válida",
+    "goToLogin": "Ir a iniciar sesión",
+    "title": "Únete a {merchant}",
+    "subtitle": "Te invitaron como {role}.",
+    "newUser": "Crea tu cuenta para aceptar.",
+    "existingUser": "Ya tienes una cuenta. Ingresa tu contraseña actual para aceptar.",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "dni": "DNI",
+    "dniHelp": "13 dígitos. Los dueños lo necesitan para registrarse.",
+    "dniRequired": "Ingresa tu DNI.",
+    "newPassword": "Elige una contraseña",
+    "currentPassword": "Tu contraseña actual",
+    "passwordRequired": "Ingresa tu contraseña.",
+    "passwordTooShort": "La contraseña necesita al menos 10 caracteres.",
+    "submit": "Aceptar invitación",
+    "doneTitle": "¡Listo!",
+    "doneBody": "Ya eres parte de {merchant}. Inicia sesión para entrar."
   }
 }

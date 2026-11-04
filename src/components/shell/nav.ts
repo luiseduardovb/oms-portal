@@ -10,7 +10,10 @@ export interface NavItem {
 
 /** Sidebar order follows Zyda's dashboard. Items are added here as their
  * screens are built: Orders, Product Catalog, Marketing, Analytics, Setup. */
-export const NAV_ITEMS: NavItem[] = [{ key: "home", href: "/" }];
+export const NAV_ITEMS: NavItem[] = [
+  { key: "home", href: "/" },
+  { key: "team", href: "/team", area: "team" },
+];
 
 export function visibleNav(
   items: NavItem[],

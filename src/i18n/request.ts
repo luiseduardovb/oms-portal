@@ -6,6 +6,9 @@ export default getRequestConfig(async () => {
   const locale = "es";
   return {
     locale,
+    // Honduras has no daylight saving time. A fixed zone keeps dates the same
+    // on the server and in the browser.
+    timeZone: "America/Tegucigalpa",
     messages: (await import(`../../messages/${locale}.json`)).default,
   };
 });

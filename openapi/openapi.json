@@ -311,7 +311,7 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/app__team__schemas__RoleOut"
+                    "$ref": "#/components/schemas/RoleOut"
                   },
                   "type": "array",
                   "title": "Response Roles Team Roles Get"
@@ -622,6 +622,49 @@
           }
         }
       }
+    },
+    "/team/invitations/preview": {
+      "get": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Preview Invitation",
+        "description": "Public. Shows the accept page what it needs. Limited like accepting,\nand an invalid token counts as a failure, so tokens cannot be guessed.",
+        "operationId": "preview_invitation_team_invitations_preview_get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvitationPreview"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -857,6 +900,34 @@
         ],
         "title": "InvitationOut"
       },
+      "InvitationPreview": {
+        "properties": {
+          "merchantName": {
+            "type": "string",
+            "title": "Merchantname"
+          },
+          "roleName": {
+            "type": "string",
+            "title": "Rolename"
+          },
+          "requiresDni": {
+            "type": "boolean",
+            "title": "Requiresdni"
+          },
+          "userExists": {
+            "type": "boolean",
+            "title": "Userexists"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchantName",
+          "roleName",
+          "requiresDni",
+          "userExists"
+        ],
+        "title": "InvitationPreview"
+      },
       "LegalData": {
         "properties": {
           "legalName": {
@@ -1001,7 +1072,7 @@
             "title": "Memberid"
           },
           "role": {
-            "$ref": "#/components/schemas/app__authz__routes__RoleOut"
+            "$ref": "#/components/schemas/MeRoleOut"
           },
           "isOwner": {
             "type": "boolean",
@@ -1057,6 +1128,36 @@
           "memberships"
         ],
         "title": "MeResponse"
+      },
+      "MeRoleOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "templateKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Templatekey"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "templateKey"
+        ],
+        "title": "MeRoleOut"
       },
       "MemberOut": {
         "properties": {
@@ -1306,6 +1407,57 @@
         ],
         "title": "OutletScopeOut"
       },
+      "RoleOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "templateKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Templatekey"
+          },
+          "isLocked": {
+            "type": "boolean",
+            "title": "Islocked"
+          },
+          "levels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Levels"
+          },
+          "extras": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Extras"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "templateKey",
+          "isLocked",
+          "levels",
+          "extras"
+        ],
+        "title": "RoleOut"
+      },
       "SwitchMerchantRequest": {
         "properties": {
           "merchantId": {
@@ -1484,87 +1636,6 @@
           "type"
         ],
         "title": "ValidationError"
-      },
-      "app__authz__routes__RoleOut": {
-        "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "templateKey": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Templatekey"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "templateKey"
-        ],
-        "title": "RoleOut"
-      },
-      "app__team__schemas__RoleOut": {
-        "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "templateKey": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Templatekey"
-          },
-          "isLocked": {
-            "type": "boolean",
-            "title": "Islocked"
-          },
-          "levels": {
-            "additionalProperties": {
-              "type": "string"
-            },
-            "type": "object",
-            "title": "Levels"
-          },
-          "extras": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Extras"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "templateKey",
-          "isLocked",
-          "levels",
-          "extras"
-        ],
-        "title": "RoleOut"
       }
     },
     "securitySchemes": {

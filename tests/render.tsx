@@ -16,7 +16,11 @@ export function renderWithProviders(
   return {
     store,
     ...render(
-      <NextIntlClientProvider locale="es" messages={messages}>
+      <NextIntlClientProvider
+        locale="es"
+        messages={messages}
+        timeZone="America/Tegucigalpa"
+      >
         <ThemeProvider theme={theme}>
           <Provider store={store}>{ui}</Provider>
         </ThemeProvider>

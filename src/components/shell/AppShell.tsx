@@ -1,6 +1,7 @@
 "use client";
 
 import HomeIcon from "@mui/icons-material/Home";
+import GroupIcon from "@mui/icons-material/Group";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -25,7 +26,10 @@ import { UserMenu } from "./UserMenu";
 
 const DRAWER_WIDTH = 232;
 
-const ICONS: Record<string, ReactNode> = { home: <HomeIcon /> };
+const ICONS: Record<string, ReactNode> = {
+  home: <HomeIcon />,
+  team: <GroupIcon />,
+};
 
 export function AppShell({ children }: { children: ReactNode }) {
   const t = useTranslations("shell");
