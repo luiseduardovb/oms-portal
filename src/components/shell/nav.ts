@@ -13,6 +13,7 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { key: "home", href: "/" },
   { key: "team", href: "/team", area: "team" },
+  { key: "setup", href: "/setup", area: "setup" },
 ];
 
 export function visibleNav(

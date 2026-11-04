@@ -148,6 +148,208 @@ export interface paths {
         patch: operations["update_legal_merchant_legal_patch"];
         trace?: never;
     };
+    "/merchant/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Setup */
+        get: operations["get_setup_merchant_settings_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Settings */
+        patch: operations["update_settings_merchant_settings_patch"];
+        trace?: never;
+    };
+    "/merchant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Rename */
+        patch: operations["rename_merchant_patch"];
+        trace?: never;
+    };
+    "/merchant/payment-methods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set Payment Methods */
+        put: operations["set_payment_methods_merchant_payment_methods_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/slug": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change Slug
+         * @description The old address is retired for good, so no one else can take it and
+         *     old links never open another business.
+         */
+        post: operations["change_slug_merchant_slug_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Outlets */
+        get: operations["list_outlets_outlets_get"];
+        put?: never;
+        /** Create Outlet */
+        post: operations["create_outlet_outlets_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Outlet */
+        get: operations["get_outlet_outlets__outlet_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Outlet */
+        patch: operations["update_outlet_outlets__outlet_id__patch"];
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Archive Outlet
+         * @description Takes the outlet off the public page and off every team member's
+         *     outlet list. There is no delete: orders will point at outlets.
+         */
+        post: operations["archive_outlet_outlets__outlet_id__archive_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Restore Outlet
+         * @description Brings it back private. Team members who lost it must be given it
+         *     again.
+         */
+        post: operations["restore_outlet_outlets__outlet_id__restore_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/hours": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace Hours */
+        put: operations["replace_hours_outlets__outlet_id__hours_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/hour-exceptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace Exceptions */
+        put: operations["replace_exceptions_outlets__outlet_id__hour_exceptions_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/alert-contacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace Contacts */
+        put: operations["replace_contacts_outlets__outlet_id__alert_contacts_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/team/members": {
         parameters: {
             query?: never;
@@ -309,6 +511,39 @@ export interface components {
             /** Usercreated */
             userCreated: boolean;
         };
+        /** AlertContact */
+        AlertContact: {
+            /** Phone */
+            phone: string;
+            /** Label */
+            label?: string | null;
+            /**
+             * Active
+             * @default true
+             */
+            active: boolean;
+        };
+        /** ContactsReplace */
+        ContactsReplace: {
+            /** Alertcontacts */
+            alertContacts: components["schemas"]["AlertContact"][];
+        };
+        /** CountryInfo */
+        CountryInfo: {
+            /** Code */
+            code: string;
+            /** Name */
+            name: string;
+            /** Currencycode */
+            currencyCode: string;
+            /** Timezone */
+            timezone: string;
+        };
+        /** ExceptionsReplace */
+        ExceptionsReplace: {
+            /** Exceptions */
+            exceptions: components["schemas"]["HourException"][];
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -321,6 +556,27 @@ export interface components {
              * @constant
              */
             status: "ok";
+        };
+        /** HourException */
+        HourException: {
+            /**
+             * Ondate
+             * Format: date
+             */
+            onDate: string;
+            /** Isclosed */
+            isClosed: boolean;
+            /** Opensat */
+            opensAt?: string | null;
+            /** Closesat */
+            closesAt?: string | null;
+            /** Reason */
+            reason?: string | null;
+        };
+        /** HoursReplace */
+        HoursReplace: {
+            /** Hours */
+            hours: components["schemas"]["OpeningInterval"][];
         };
         /** InvitationCreate */
         InvitationCreate: {
@@ -475,6 +731,8 @@ export interface components {
             templateKey: string | null;
             /** Alloutlets */
             allOutlets: boolean;
+            /** Outletids */
+            outletIds: number[];
             /** Status */
             status: string;
             /**
@@ -485,7 +743,9 @@ export interface components {
         };
         /**
          * MemberUpdate
-         * @description Send only what changes. Outlet ids arrive with outlets in M2.
+         * @description Send only what changes. ``outletIds`` limits the member to those
+         *     outlets (and so turns ``allOutlets`` off); ``allOutlets: true`` lifts any
+         *     limit. Sending both ``outletIds`` and ``allOutlets: true`` is refused.
          */
         MemberUpdate: {
             /** Roleid */
@@ -494,6 +754,8 @@ export interface components {
             status?: string | null;
             /** Alloutlets */
             allOutlets?: boolean | null;
+            /** Outletids */
+            outletIds?: number[] | null;
         };
         /** MembershipItem */
         MembershipItem: {
@@ -532,12 +794,242 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** NameUpdate */
+        NameUpdate: {
+            /** Name */
+            name: string;
+        };
+        /** OpeningInterval */
+        OpeningInterval: {
+            /**
+             * Weekday
+             * @description 1 = Monday … 7 = Sunday
+             */
+            weekday: number;
+            /**
+             * Opensat
+             * Format: time
+             */
+            opensAt: string;
+            /**
+             * Closesat
+             * Format: time
+             */
+            closesAt: string;
+        };
+        /** OrderSettings */
+        OrderSettings: {
+            /** Pagetitle */
+            pageTitle: string | null;
+            /** Slogan */
+            slogan: string | null;
+            /** Primarycolor */
+            primaryColor: string | null;
+            /** Hidestorename */
+            hideStoreName: boolean;
+            /** Asapenabled */
+            asapEnabled: boolean;
+            /** Scheduledenabled */
+            scheduledEnabled: boolean;
+            /** Slotintervalminutes */
+            slotIntervalMinutes: number;
+            /** Maxscheduledays */
+            maxScheduleDays: number;
+            /** Tipsenabled */
+            tipsEnabled: boolean;
+            /** Tippresetspercent */
+            tipPresetsPercent: string[];
+        };
+        /** OutletCreate */
+        OutletCreate: {
+            /** Name */
+            name: string;
+            /** Addresstext */
+            addressText?: string | null;
+            /** Referencenotes */
+            referenceNotes?: string | null;
+            /** Latitude */
+            latitude?: number | string | null;
+            /** Longitude */
+            longitude?: number | string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Timezone */
+            timezone?: string | null;
+            /**
+             * Pickupenabled
+             * @default true
+             */
+            pickupEnabled: boolean;
+            /**
+             * Deliveryenabled
+             * @default true
+             */
+            deliveryEnabled: boolean;
+            /**
+             * Preptimeminutes
+             * @default 20
+             */
+            prepTimeMinutes: number;
+            /**
+             * Acceptalertminutes
+             * @default 3
+             */
+            acceptAlertMinutes: number;
+            /**
+             * Expireunacceptedminutes
+             * @default 15
+             */
+            expireUnacceptedMinutes: number;
+            /**
+             * Autoaccept
+             * @default false
+             */
+            autoAccept: boolean;
+            /**
+             * Deliveryfee
+             * @default 0
+             */
+            deliveryFee: number | string;
+            /**
+             * Deliveryminorder
+             * @default 0
+             */
+            deliveryMinOrder: number | string;
+            /**
+             * Deliveryetaminutes
+             * @default 40
+             */
+            deliveryEtaMinutes: number;
+        };
+        /** OutletDetail */
+        OutletDetail: {
+            /** Name */
+            name: string;
+            /** Addresstext */
+            addressText: string | null;
+            /** Referencenotes */
+            referenceNotes: string | null;
+            /** Latitude */
+            latitude: string | null;
+            /** Longitude */
+            longitude: string | null;
+            /** Phone */
+            phone: string | null;
+            /** Timezone */
+            timezone: string;
+            /** Ispublic */
+            isPublic: boolean;
+            /** Pickupenabled */
+            pickupEnabled: boolean;
+            /** Deliveryenabled */
+            deliveryEnabled: boolean;
+            /** Isbusy */
+            isBusy: boolean;
+            /** Preptimeminutes */
+            prepTimeMinutes: number;
+            /** Acceptalertminutes */
+            acceptAlertMinutes: number;
+            /** Expireunacceptedminutes */
+            expireUnacceptedMinutes: number;
+            /** Autoaccept */
+            autoAccept: boolean;
+            /** Deliveryfee */
+            deliveryFee: string;
+            /** Deliveryminorder */
+            deliveryMinOrder: string;
+            /** Deliveryetaminutes */
+            deliveryEtaMinutes: number;
+            /** Id */
+            id: number;
+            /** Archivedat */
+            archivedAt: string | null;
+            /** Hours */
+            hours: components["schemas"]["OpeningInterval"][];
+            /** Exceptions */
+            exceptions: components["schemas"]["HourException"][];
+            /** Alertcontacts */
+            alertContacts: components["schemas"]["AlertContact"][];
+        };
         /** OutletScopeOut */
         OutletScopeOut: {
             /** All */
             all: boolean;
             /** Ids */
             ids: number[];
+        };
+        /** OutletSummary */
+        OutletSummary: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Addresstext */
+            addressText: string | null;
+            /** Phone */
+            phone: string | null;
+            /** Timezone */
+            timezone: string;
+            /** Ispublic */
+            isPublic: boolean;
+            /** Pickupenabled */
+            pickupEnabled: boolean;
+            /** Deliveryenabled */
+            deliveryEnabled: boolean;
+            /** Isbusy */
+            isBusy: boolean;
+            /** Archivedat */
+            archivedAt: string | null;
+        };
+        /**
+         * OutletUpdate
+         * @description Send only what changes. Optional text and the map pin may be null to
+         *     clear. A new outlet starts private; ``isPublic`` is how it goes live.
+         */
+        OutletUpdate: {
+            /** Name */
+            name?: string | null;
+            /** Addresstext */
+            addressText?: string | null;
+            /** Referencenotes */
+            referenceNotes?: string | null;
+            /** Latitude */
+            latitude?: number | string | null;
+            /** Longitude */
+            longitude?: number | string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Timezone */
+            timezone?: string | null;
+            /** Ispublic */
+            isPublic?: boolean | null;
+            /** Pickupenabled */
+            pickupEnabled?: boolean | null;
+            /** Deliveryenabled */
+            deliveryEnabled?: boolean | null;
+            /** Isbusy */
+            isBusy?: boolean | null;
+            /** Preptimeminutes */
+            prepTimeMinutes?: number | null;
+            /** Acceptalertminutes */
+            acceptAlertMinutes?: number | null;
+            /** Expireunacceptedminutes */
+            expireUnacceptedMinutes?: number | null;
+            /** Autoaccept */
+            autoAccept?: boolean | null;
+            /** Deliveryfee */
+            deliveryFee?: number | string | null;
+            /** Deliveryminorder */
+            deliveryMinOrder?: number | string | null;
+            /** Deliveryetaminutes */
+            deliveryEtaMinutes?: number | null;
+        };
+        /** PaymentMethods */
+        PaymentMethods: {
+            /** Cashondelivery */
+            cashOnDelivery: boolean;
+            /** Cardondelivery */
+            cardOnDelivery: boolean;
         };
         /** RoleOut */
         RoleOut: {
@@ -555,6 +1047,52 @@ export interface components {
             };
             /** Extras */
             extras: string[];
+        };
+        /**
+         * SettingsUpdate
+         * @description Send only the fields to change. Text fields may be null to clear.
+         */
+        SettingsUpdate: {
+            /** Pagetitle */
+            pageTitle?: string | null;
+            /** Slogan */
+            slogan?: string | null;
+            /** Primarycolor */
+            primaryColor?: string | null;
+            /** Hidestorename */
+            hideStoreName?: boolean | null;
+            /** Asapenabled */
+            asapEnabled?: boolean | null;
+            /** Scheduledenabled */
+            scheduledEnabled?: boolean | null;
+            /** Slotintervalminutes */
+            slotIntervalMinutes?: number | null;
+            /** Maxscheduledays */
+            maxScheduleDays?: number | null;
+            /** Tipsenabled */
+            tipsEnabled?: boolean | null;
+            /** Tippresetspercent */
+            tipPresetsPercent?: (number | string)[] | null;
+        };
+        /** SlugChange */
+        SlugChange: {
+            /** Slug */
+            slug: string;
+        };
+        /** StoreSetup */
+        StoreSetup: {
+            /** Name */
+            name: string;
+            /** Slug */
+            slug: string;
+            /** Status */
+            status: string;
+            /** Timezone */
+            timezone: string;
+            country: components["schemas"]["CountryInfo"];
+            tax: components["schemas"]["TaxInfo"] | null;
+            settings: components["schemas"]["OrderSettings"];
+            paymentMethods: components["schemas"]["PaymentMethods"];
         };
         /** SwitchMerchantRequest */
         SwitchMerchantRequest: {
@@ -574,6 +1112,21 @@ export interface components {
             expiresIn: number;
             /** Merchantid */
             merchantId: number;
+        };
+        /**
+         * TaxInfo
+         * @description The tax in force for the merchant's country. Read-only.
+         */
+        TaxInfo: {
+            /** Label */
+            label: string;
+            /** Ratepercent */
+            ratePercent: string;
+            /**
+             * Effectivefrom
+             * Format: date-time
+             */
+            effectiveFrom: string;
         };
         /** TokenResponse */
         TokenResponse: {
@@ -810,6 +1363,455 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["LegalData"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_setup_merchant_settings_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreSetup"];
+                };
+            };
+        };
+    };
+    update_settings_merchant_settings_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SettingsUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreSetup"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    rename_merchant_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NameUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreSetup"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_payment_methods_merchant_payment_methods_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentMethods"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreSetup"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_slug_merchant_slug_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SlugChange"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreSetup"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_outlets_outlets_get: {
+        parameters: {
+            query?: {
+                includeArchived?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_outlet_outlets_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OutletCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_outlet_outlets__outlet_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_outlet_outlets__outlet_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OutletUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_outlet_outlets__outlet_id__archive_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    restore_outlet_outlets__outlet_id__restore_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    replace_hours_outlets__outlet_id__hours_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HoursReplace"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    replace_exceptions_outlets__outlet_id__hour_exceptions_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExceptionsReplace"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    replace_contacts_outlets__outlet_id__alert_contacts_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContactsReplace"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OutletDetail"];
                 };
             };
             /** @description Validation Error */

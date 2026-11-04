@@ -57,7 +57,29 @@
       "role_not_found": "Ese rol no existe.",
       "invalid_email": "Revisa el correo ingresado.",
       "dni_required": "Ingresa un DNI válido de 13 dígitos.",
-      "password_too_short": "La contraseña necesita al menos 10 caracteres."
+      "password_too_short": "La contraseña necesita al menos 10 caracteres.",
+      "outlets_ambiguous": "Elige todas las sucursales o una lista de sucursales, no ambas.",
+      "outlet_not_found": "Alguna de esas sucursales no existe o está archivada."
+    },
+    "setup": {
+      "no_order_timing": "Activa pedidos inmediatos, programados o ambos.",
+      "tips_need_presets": "Las propinas necesitan al menos un porcentaje sugerido.",
+      "no_payment_method": "Deja al menos un método de pago activo.",
+      "slug_invalid": "La dirección solo puede tener letras minúsculas, números y guiones (3 a 63 caracteres).",
+      "slug_reserved": "Esa dirección está reservada. Elige otra.",
+      "slug_taken": "Esa dirección no está disponible."
+    },
+    "outlet": {
+      "not_found": "No encontramos esa sucursal.",
+      "name_taken": "Otra sucursal ya usa ese nombre.",
+      "archived": "Esa sucursal está archivada. Restáurala primero.",
+      "not_ready": "Una sucursal pública necesita dirección, horario y recogida o entrega.",
+      "invalid_pin": "Ingresa latitud y longitud, o ninguna.",
+      "invalid_times": "El recordatorio debe llegar antes de que el pedido expire.",
+      "hours_overlap": "Dos horarios se traslapan. Revísalos.",
+      "duplicate_exception": "Solo puede haber una excepción por fecha.",
+      "exception_in_past": "Las excepciones deben ser de hoy en adelante.",
+      "duplicate_contact": "Cada número se puede agregar una sola vez."
     }
   },
   "login": {
@@ -83,7 +105,8 @@
     "logout": "Cerrar sesión",
     "nav": {
       "home": "Inicio",
-      "team": "Equipo"
+      "team": "Equipo",
+      "setup": "Configuración"
     }
   },
   "team": {
@@ -160,5 +183,70 @@
     "submit": "Aceptar invitación",
     "doneTitle": "¡Listo!",
     "doneBody": "Ya eres parte de {merchant}. Inicia sesión para entrar."
+  },
+  "setup": {
+    "title": "Configuración",
+    "noAccess": "No tienes permiso para ver la configuración.",
+    "loading": "Cargando la configuración…",
+    "readOnly": "Puedes ver esta información, pero no cambiarla.",
+    "saved": "Cambios guardados.",
+    "save": "Guardar cambios",
+    "saving": "Guardando…",
+    "tabs": {
+      "store": "Tienda",
+      "payments": "Pagos",
+      "orders": "Pedidos"
+    },
+    "store": {
+      "nameSection": "Datos del negocio",
+      "name": "Nombre del negocio",
+      "nameRequired": "Ingresa el nombre del negocio.",
+      "addressSection": "Dirección de tu tienda",
+      "addressHelp": "Así abren tus clientes tu tienda en línea. Solo un dueño puede cambiarla.",
+      "slug": "Dirección",
+      "slugRequired": "Ingresa la dirección.",
+      "changeSlug": "Cambiar dirección",
+      "confirmTitle": "¿Cambiar la dirección de tu tienda?",
+      "confirmText": "Los enlaces con la dirección actual dejarán de funcionar y nadie más podrá usarla. Solo tú podrás volver a ella.",
+      "confirm": "Sí, cambiarla",
+      "cancel": "Cancelar",
+      "regionSection": "País y zona horaria",
+      "country": "País",
+      "timezone": "Zona horaria",
+      "currency": "Moneda",
+      "taxSection": "Impuesto",
+      "taxText": "{label} {rate}% desde el {date}",
+      "taxNone": "Todavía no hay un impuesto definido para tu país.",
+      "taxNote": "El impuesto lo define la plataforma para tu país; no se puede cambiar aquí."
+    },
+    "payments": {
+      "section": "Métodos de pago",
+      "help": "Cómo pagan tus clientes al recibir su pedido. Deja al menos uno activo.",
+      "cashOnDelivery": "Efectivo al recibir",
+      "cardOnDelivery": "Tarjeta al recibir",
+      "noMethod": "Deja al menos un método de pago activo."
+    },
+    "orders": {
+      "pageSection": "Tu página de pedidos",
+      "pageTitle": "Título de la página",
+      "slogan": "Eslogan",
+      "primaryColor": "Color principal",
+      "colorInvalid": "Usa un color como #1A73E8.",
+      "pickColor": "Elegir color",
+      "hideStoreName": "Ocultar el nombre del negocio en la página",
+      "timingSection": "Cuándo piden tus clientes",
+      "asapEnabled": "Pedidos inmediatos",
+      "scheduledEnabled": "Pedidos programados",
+      "noTiming": "Activa pedidos inmediatos, programados o ambos.",
+      "slotInterval": "Intervalo entre horarios (minutos)",
+      "maxScheduleDays": "Días por adelantado",
+      "daysInvalid": "Ingresa un número de 1 a 30.",
+      "tipsSection": "Propinas",
+      "tipsEnabled": "Permitir propinas",
+      "tipPresets": "Porcentajes sugeridos",
+      "tipPresetsHelp": "Separados por comas, de menor a mayor. Por ejemplo: 5, 10, 15.",
+      "tipPresetsInvalid": "Usa hasta 5 porcentajes distintos entre 0 y 100, de menor a mayor.",
+      "tipsNeedPresets": "Las propinas necesitan al menos un porcentaje sugerido."
+    }
   }
 }

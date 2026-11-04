@@ -261,6 +261,763 @@
         ]
       }
     },
+    "/merchant/settings": {
+      "get": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Get Setup",
+        "operationId": "get_setup_merchant_settings_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreSetup"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Update Settings",
+        "operationId": "update_settings_merchant_settings_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreSetup"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/merchant": {
+      "patch": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Rename",
+        "operationId": "rename_merchant_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NameUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreSetup"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/merchant/payment-methods": {
+      "put": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Set Payment Methods",
+        "operationId": "set_payment_methods_merchant_payment_methods_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentMethods"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreSetup"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/merchant/slug": {
+      "post": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Change Slug",
+        "description": "The old address is retired for good, so no one else can take it and\nold links never open another business.",
+        "operationId": "change_slug_merchant_slug_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SlugChange"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreSetup"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "owner": "true"
+          }
+        ]
+      }
+    },
+    "/outlets": {
+      "get": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "List Outlets",
+        "operationId": "list_outlets_outlets_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "includeArchived",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Includearchived"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutletSummary"
+                  },
+                  "title": "Response List Outlets Outlets Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Create Outlet",
+        "operationId": "create_outlet_outlets_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutletCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}": {
+      "get": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Get Outlet",
+        "operationId": "get_outlet_outlets__outlet_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Update Outlet",
+        "operationId": "update_outlet_outlets__outlet_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutletUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/archive": {
+      "post": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Archive Outlet",
+        "description": "Takes the outlet off the public page and off every team member's\noutlet list. There is no delete: orders will point at outlets.",
+        "operationId": "archive_outlet_outlets__outlet_id__archive_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/restore": {
+      "post": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Restore Outlet",
+        "description": "Brings it back private. Team members who lost it must be given it\nagain.",
+        "operationId": "restore_outlet_outlets__outlet_id__restore_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/hours": {
+      "put": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Replace Hours",
+        "operationId": "replace_hours_outlets__outlet_id__hours_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HoursReplace"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/hour-exceptions": {
+      "put": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Replace Exceptions",
+        "operationId": "replace_exceptions_outlets__outlet_id__hour_exceptions_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExceptionsReplace"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/alert-contacts": {
+      "put": {
+        "tags": [
+          "outlets"
+        ],
+        "summary": "Replace Contacts",
+        "operationId": "replace_contacts_outlets__outlet_id__alert_contacts_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactsReplace"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutletDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
     "/team/members": {
       "get": {
         "tags": [
@@ -754,6 +1511,98 @@
         ],
         "title": "AcceptedInvitation"
       },
+      "AlertContact": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone"
+        ],
+        "title": "AlertContact"
+      },
+      "ContactsReplace": {
+        "properties": {
+          "alertContacts": {
+            "items": {
+              "$ref": "#/components/schemas/AlertContact"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Alertcontacts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "alertContacts"
+        ],
+        "title": "ContactsReplace"
+      },
+      "CountryInfo": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "currencyCode",
+          "timezone"
+        ],
+        "title": "CountryInfo"
+      },
+      "ExceptionsReplace": {
+        "properties": {
+          "exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/HourException"
+            },
+            "type": "array",
+            "maxItems": 400,
+            "title": "Exceptions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "exceptions"
+        ],
+        "title": "ExceptionsReplace"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -780,6 +1629,78 @@
           "status"
         ],
         "title": "HealthResponse"
+      },
+      "HourException": {
+        "properties": {
+          "onDate": {
+            "type": "string",
+            "format": "date",
+            "title": "Ondate"
+          },
+          "isClosed": {
+            "type": "boolean",
+            "title": "Isclosed"
+          },
+          "opensAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opensat"
+          },
+          "closesAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closesat"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "onDate",
+          "isClosed"
+        ],
+        "title": "HourException"
+      },
+      "HoursReplace": {
+        "properties": {
+          "hours": {
+            "items": {
+              "$ref": "#/components/schemas/OpeningInterval"
+            },
+            "type": "array",
+            "maxItems": 28,
+            "title": "Hours"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hours"
+        ],
+        "title": "HoursReplace"
       },
       "InvitationCreate": {
         "properties": {
@@ -1225,6 +2146,13 @@
             "type": "boolean",
             "title": "Alloutlets"
           },
+          "outletIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Outletids"
+          },
           "status": {
             "type": "string",
             "title": "Status"
@@ -1246,6 +2174,7 @@
           "roleName",
           "templateKey",
           "allOutlets",
+          "outletIds",
           "status",
           "createdAt"
         ],
@@ -1286,11 +2215,26 @@
               }
             ],
             "title": "Alloutlets"
+          },
+          "outletIds": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array",
+                "maxItems": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outletids"
           }
         },
         "type": "object",
         "title": "MemberUpdate",
-        "description": "Send only what changes. Outlet ids arrive with outlets in M2."
+        "description": "Send only what changes. ``outletIds`` limits the member to those\noutlets (and so turns ``allOutlets`` off); ``allOutlets: true`` lifts any\nlimit. Sending both ``outletIds`` and ``allOutlets: true`` is refused."
       },
       "MembershipItem": {
         "properties": {
@@ -1386,6 +2330,470 @@
         ],
         "title": "MerchantOut"
       },
+      "NameUpdate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "NameUpdate"
+      },
+      "OpeningInterval": {
+        "properties": {
+          "weekday": {
+            "type": "integer",
+            "maximum": 7,
+            "minimum": 1,
+            "title": "Weekday",
+            "description": "1 = Monday … 7 = Sunday"
+          },
+          "opensAt": {
+            "type": "string",
+            "format": "time",
+            "title": "Opensat"
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "time",
+            "title": "Closesat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "weekday",
+          "opensAt",
+          "closesAt"
+        ],
+        "title": "OpeningInterval"
+      },
+      "OrderSettings": {
+        "properties": {
+          "pageTitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pagetitle"
+          },
+          "slogan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slogan"
+          },
+          "primaryColor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primarycolor"
+          },
+          "hideStoreName": {
+            "type": "boolean",
+            "title": "Hidestorename"
+          },
+          "asapEnabled": {
+            "type": "boolean",
+            "title": "Asapenabled"
+          },
+          "scheduledEnabled": {
+            "type": "boolean",
+            "title": "Scheduledenabled"
+          },
+          "slotIntervalMinutes": {
+            "type": "integer",
+            "title": "Slotintervalminutes"
+          },
+          "maxScheduleDays": {
+            "type": "integer",
+            "title": "Maxscheduledays"
+          },
+          "tipsEnabled": {
+            "type": "boolean",
+            "title": "Tipsenabled"
+          },
+          "tipPresetsPercent": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tippresetspercent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pageTitle",
+          "slogan",
+          "primaryColor",
+          "hideStoreName",
+          "asapEnabled",
+          "scheduledEnabled",
+          "slotIntervalMinutes",
+          "maxScheduleDays",
+          "tipsEnabled",
+          "tipPresetsPercent"
+        ],
+        "title": "OrderSettings"
+      },
+      "OutletCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Name"
+          },
+          "addressText": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresstext"
+          },
+          "referenceNotes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Referencenotes"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 90,
+                "minimum": -90
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 180,
+                "minimum": -180
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          },
+          "pickupEnabled": {
+            "type": "boolean",
+            "title": "Pickupenabled",
+            "default": true
+          },
+          "deliveryEnabled": {
+            "type": "boolean",
+            "title": "Deliveryenabled",
+            "default": true
+          },
+          "prepTimeMinutes": {
+            "type": "integer",
+            "maximum": 600,
+            "minimum": 0,
+            "title": "Preptimeminutes",
+            "default": 20
+          },
+          "acceptAlertMinutes": {
+            "type": "integer",
+            "maximum": 119,
+            "minimum": 1,
+            "title": "Acceptalertminutes",
+            "default": 3
+          },
+          "expireUnacceptedMinutes": {
+            "type": "integer",
+            "maximum": 120,
+            "minimum": 2,
+            "title": "Expireunacceptedminutes",
+            "default": 15
+          },
+          "autoAccept": {
+            "type": "boolean",
+            "title": "Autoaccept",
+            "default": false
+          },
+          "deliveryFee": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Deliveryfee",
+            "default": "0"
+          },
+          "deliveryMinOrder": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Deliveryminorder",
+            "default": "0"
+          },
+          "deliveryEtaMinutes": {
+            "type": "integer",
+            "maximum": 600,
+            "minimum": 0,
+            "title": "Deliveryetaminutes",
+            "default": 40
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "OutletCreate"
+      },
+      "OutletDetail": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "addressText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresstext"
+          },
+          "referenceNotes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Referencenotes"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "isPublic": {
+            "type": "boolean",
+            "title": "Ispublic"
+          },
+          "pickupEnabled": {
+            "type": "boolean",
+            "title": "Pickupenabled"
+          },
+          "deliveryEnabled": {
+            "type": "boolean",
+            "title": "Deliveryenabled"
+          },
+          "isBusy": {
+            "type": "boolean",
+            "title": "Isbusy"
+          },
+          "prepTimeMinutes": {
+            "type": "integer",
+            "title": "Preptimeminutes"
+          },
+          "acceptAlertMinutes": {
+            "type": "integer",
+            "title": "Acceptalertminutes"
+          },
+          "expireUnacceptedMinutes": {
+            "type": "integer",
+            "title": "Expireunacceptedminutes"
+          },
+          "autoAccept": {
+            "type": "boolean",
+            "title": "Autoaccept"
+          },
+          "deliveryFee": {
+            "type": "string",
+            "title": "Deliveryfee"
+          },
+          "deliveryMinOrder": {
+            "type": "string",
+            "title": "Deliveryminorder"
+          },
+          "deliveryEtaMinutes": {
+            "type": "integer",
+            "title": "Deliveryetaminutes"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "archivedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Archivedat"
+          },
+          "hours": {
+            "items": {
+              "$ref": "#/components/schemas/OpeningInterval"
+            },
+            "type": "array",
+            "title": "Hours"
+          },
+          "exceptions": {
+            "items": {
+              "$ref": "#/components/schemas/HourException"
+            },
+            "type": "array",
+            "title": "Exceptions"
+          },
+          "alertContacts": {
+            "items": {
+              "$ref": "#/components/schemas/AlertContact"
+            },
+            "type": "array",
+            "title": "Alertcontacts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "addressText",
+          "referenceNotes",
+          "latitude",
+          "longitude",
+          "phone",
+          "timezone",
+          "isPublic",
+          "pickupEnabled",
+          "deliveryEnabled",
+          "isBusy",
+          "prepTimeMinutes",
+          "acceptAlertMinutes",
+          "expireUnacceptedMinutes",
+          "autoAccept",
+          "deliveryFee",
+          "deliveryMinOrder",
+          "deliveryEtaMinutes",
+          "id",
+          "archivedAt",
+          "hours",
+          "exceptions",
+          "alertContacts"
+        ],
+        "title": "OutletDetail"
+      },
       "OutletScopeOut": {
         "properties": {
           "all": {
@@ -1406,6 +2814,340 @@
           "ids"
         ],
         "title": "OutletScopeOut"
+      },
+      "OutletSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "addressText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresstext"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "isPublic": {
+            "type": "boolean",
+            "title": "Ispublic"
+          },
+          "pickupEnabled": {
+            "type": "boolean",
+            "title": "Pickupenabled"
+          },
+          "deliveryEnabled": {
+            "type": "boolean",
+            "title": "Deliveryenabled"
+          },
+          "isBusy": {
+            "type": "boolean",
+            "title": "Isbusy"
+          },
+          "archivedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Archivedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "addressText",
+          "phone",
+          "timezone",
+          "isPublic",
+          "pickupEnabled",
+          "deliveryEnabled",
+          "isBusy",
+          "archivedAt"
+        ],
+        "title": "OutletSummary"
+      },
+      "OutletUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "addressText": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresstext"
+          },
+          "referenceNotes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Referencenotes"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 90,
+                "minimum": -90
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 180,
+                "minimum": -180
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          },
+          "isPublic": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ispublic"
+          },
+          "pickupEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pickupenabled"
+          },
+          "deliveryEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryenabled"
+          },
+          "isBusy": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isbusy"
+          },
+          "prepTimeMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 600,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preptimeminutes"
+          },
+          "acceptAlertMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 119,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acceptalertminutes"
+          },
+          "expireUnacceptedMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 120,
+                "minimum": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expireunacceptedminutes"
+          },
+          "autoAccept": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Autoaccept"
+          },
+          "deliveryFee": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryfee"
+          },
+          "deliveryMinOrder": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryminorder"
+          },
+          "deliveryEtaMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 600,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryetaminutes"
+          }
+        },
+        "type": "object",
+        "title": "OutletUpdate",
+        "description": "Send only what changes. Optional text and the map pin may be null to\nclear. A new outlet starts private; ``isPublic`` is how it goes live."
+      },
+      "PaymentMethods": {
+        "properties": {
+          "cashOnDelivery": {
+            "type": "boolean",
+            "title": "Cashondelivery"
+          },
+          "cardOnDelivery": {
+            "type": "boolean",
+            "title": "Cardondelivery"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cashOnDelivery",
+          "cardOnDelivery"
+        ],
+        "title": "PaymentMethods"
       },
       "RoleOut": {
         "properties": {
@@ -1458,6 +3200,207 @@
         ],
         "title": "RoleOut"
       },
+      "SettingsUpdate": {
+        "properties": {
+          "pageTitle": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pagetitle"
+          },
+          "slogan": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slogan"
+          },
+          "primaryColor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primarycolor"
+          },
+          "hideStoreName": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hidestorename"
+          },
+          "asapEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asapenabled"
+          },
+          "scheduledEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheduledenabled"
+          },
+          "slotIntervalMinutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slotintervalminutes"
+          },
+          "maxScheduleDays": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 30,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxscheduledays"
+          },
+          "tipsEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipsenabled"
+          },
+          "tipPresetsPercent": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "maximum": 100,
+                      "minimum": 0
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array",
+                "maxItems": 5
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tippresetspercent"
+          }
+        },
+        "type": "object",
+        "title": "SettingsUpdate",
+        "description": "Send only the fields to change. Text fields may be null to clear."
+      },
+      "SlugChange": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug"
+        ],
+        "title": "SlugChange"
+      },
+      "StoreSetup": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "country": {
+            "$ref": "#/components/schemas/CountryInfo"
+          },
+          "tax": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaxInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/OrderSettings"
+          },
+          "paymentMethods": {
+            "$ref": "#/components/schemas/PaymentMethods"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "slug",
+          "status",
+          "timezone",
+          "country",
+          "tax",
+          "settings",
+          "paymentMethods"
+        ],
+        "title": "StoreSetup"
+      },
       "SwitchMerchantRequest": {
         "properties": {
           "merchantId": {
@@ -1499,6 +3442,31 @@
           "merchantId"
         ],
         "title": "SwitchMerchantResponse"
+      },
+      "TaxInfo": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "ratePercent": {
+            "type": "string",
+            "title": "Ratepercent"
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Effectivefrom"
+          }
+        },
+        "type": "object",
+        "required": [
+          "label",
+          "ratePercent",
+          "effectiveFrom"
+        ],
+        "title": "TaxInfo",
+        "description": "The tax in force for the merchant's country. Read-only."
       },
       "TokenResponse": {
         "properties": {
