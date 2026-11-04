@@ -27,10 +27,703 @@
           }
         }
       }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "description": "Sign in with email and password.\n\nThe access token is returned in the body; the refresh token is set as an\nhttpOnly cookie.",
+        "operationId": "login_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh",
+        "description": "Swap the refresh cookie for a new access token and a new cookie.",
+        "operationId": "refresh_auth_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "description": "End the login session; always succeeds.",
+        "operationId": "logout_auth_logout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/auth/switch-merchant": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Switch Merchant",
+        "description": "Get an access token bound to another merchant you belong to.",
+        "operationId": "switch_merchant_auth_switch_merchant_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwitchMerchantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SwitchMerchantResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/me": {
+      "get": {
+        "tags": [
+          "me"
+        ],
+        "summary": "Me",
+        "description": "Who is signed in, for which merchant, and what they may do.\n\nThe portal uses this to draw only what the person can use. The server\nstill checks every request itself.",
+        "operationId": "me_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/merchant/legal": {
+      "get": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Get Legal",
+        "operationId": "get_legal_merchant_legal_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalData"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "owner": "true"
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Update Legal",
+        "operationId": "update_legal_merchant_legal_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LegalUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalData"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "owner": "true"
+          }
+        ]
+      }
+    },
+    "/team/members": {
+      "get": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Members",
+        "operationId": "members_team_members_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MemberOut"
+                  },
+                  "type": "array",
+                  "title": "Response Members Team Members Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/team/roles": {
+      "get": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Roles",
+        "operationId": "roles_team_roles_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/app__team__schemas__RoleOut"
+                  },
+                  "type": "array",
+                  "title": "Response Roles Team Roles Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/team/members/{member_id}": {
+      "patch": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Update Member",
+        "operationId": "update_member_team_members__member_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "member_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Member Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "full"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Remove Member",
+        "operationId": "remove_member_team_members__member_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "member_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Member Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/team/invitations": {
+      "get": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Invitations",
+        "operationId": "invitations_team_invitations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/InvitationOut"
+                  },
+                  "type": "array",
+                  "title": "Response Invitations Team Invitations Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "view"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Create Invitation",
+        "description": "Invite someone. The response carries the token once; the portal builds\nthe link from it (an email is sent too once TASK-110 lands).",
+        "operationId": "create_invitation_team_invitations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvitationCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvitationCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/team/invitations/{invitation_id}": {
+      "delete": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Revoke Invitation",
+        "operationId": "revoke_invitation_team_invitations__invitation_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invitation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Invitation Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "team",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/team/invitations/accept": {
+      "post": {
+        "tags": [
+          "team"
+        ],
+        "summary": "Accept Invitation",
+        "description": "Public. Attempts are limited per address and per token, the same way\nas login, because an existing user proves themselves with a password.",
+        "operationId": "accept_invitation_team_invitations_accept_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptInvitation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedInvitation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AcceptInvitation": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 10,
+            "title": "Token"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Password"
+          },
+          "firstName": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstname"
+          },
+          "lastName": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastname"
+          },
+          "dni": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dni"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "password"
+        ],
+        "title": "AcceptInvitation"
+      },
+      "AcceptedInvitation": {
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "title": "Merchantid"
+          },
+          "merchantName": {
+            "type": "string",
+            "title": "Merchantname"
+          },
+          "merchantSlug": {
+            "type": "string",
+            "title": "Merchantslug"
+          },
+          "userCreated": {
+            "type": "boolean",
+            "title": "Usercreated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchantId",
+          "merchantName",
+          "merchantSlug",
+          "userCreated"
+        ],
+        "title": "AcceptedInvitation"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
       "HealthResponse": {
         "properties": {
           "status": {
@@ -44,6 +737,840 @@
           "status"
         ],
         "title": "HealthResponse"
+      },
+      "InvitationCreate": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "title": "Email"
+          },
+          "roleId": {
+            "type": "integer",
+            "title": "Roleid"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "roleId"
+        ],
+        "title": "InvitationCreate"
+      },
+      "InvitationCreated": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "roleId": {
+            "type": "integer",
+            "title": "Roleid"
+          },
+          "roleName": {
+            "type": "string",
+            "title": "Rolename"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiresat"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "token": {
+            "type": "string",
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "roleId",
+          "roleName",
+          "allOutlets",
+          "expiresAt",
+          "createdAt",
+          "token"
+        ],
+        "title": "InvitationCreated"
+      },
+      "InvitationOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "roleId": {
+            "type": "integer",
+            "title": "Roleid"
+          },
+          "roleName": {
+            "type": "string",
+            "title": "Rolename"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiresat"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "roleId",
+          "roleName",
+          "allOutlets",
+          "expiresAt",
+          "createdAt"
+        ],
+        "title": "InvitationOut"
+      },
+      "LegalData": {
+        "properties": {
+          "legalName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legalname"
+          },
+          "legalEntityType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legalentitytype"
+          },
+          "rtn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rtn"
+          },
+          "fiscalAddress": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiscaladdress"
+          }
+        },
+        "type": "object",
+        "required": [
+          "legalName",
+          "legalEntityType",
+          "rtn",
+          "fiscalAddress"
+        ],
+        "title": "LegalData"
+      },
+      "LegalUpdate": {
+        "properties": {
+          "legalName": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legalname"
+          },
+          "legalEntityType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legalentitytype"
+          },
+          "rtn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rtn"
+          },
+          "fiscalAddress": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiscaladdress"
+          }
+        },
+        "type": "object",
+        "title": "LegalUpdate",
+        "description": "Send only the fields to change; null clears a field."
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "MeResponse": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserOut"
+          },
+          "merchant": {
+            "$ref": "#/components/schemas/MerchantOut"
+          },
+          "memberId": {
+            "type": "integer",
+            "title": "Memberid"
+          },
+          "role": {
+            "$ref": "#/components/schemas/app__authz__routes__RoleOut"
+          },
+          "isOwner": {
+            "type": "boolean",
+            "title": "Isowner"
+          },
+          "levels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Levels"
+          },
+          "extras": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Extras"
+          },
+          "outlets": {
+            "$ref": "#/components/schemas/OutletScopeOut"
+          },
+          "dni": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dni"
+          },
+          "memberships": {
+            "items": {
+              "$ref": "#/components/schemas/MembershipItem"
+            },
+            "type": "array",
+            "title": "Memberships"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user",
+          "merchant",
+          "memberId",
+          "role",
+          "isOwner",
+          "levels",
+          "extras",
+          "outlets",
+          "dni",
+          "memberships"
+        ],
+        "title": "MeResponse"
+      },
+      "MemberOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "userId": {
+            "type": "integer",
+            "title": "Userid"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "firstName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstname"
+          },
+          "lastName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastname"
+          },
+          "roleId": {
+            "type": "integer",
+            "title": "Roleid"
+          },
+          "roleName": {
+            "type": "string",
+            "title": "Rolename"
+          },
+          "templateKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Templatekey"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "email",
+          "firstName",
+          "lastName",
+          "roleId",
+          "roleName",
+          "templateKey",
+          "allOutlets",
+          "status",
+          "createdAt"
+        ],
+        "title": "MemberOut"
+      },
+      "MemberUpdate": {
+        "properties": {
+          "roleId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roleid"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(active|suspended)$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "allOutlets": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alloutlets"
+          }
+        },
+        "type": "object",
+        "title": "MemberUpdate",
+        "description": "Send only what changes. Outlet ids arrive with outlets in M2."
+      },
+      "MembershipItem": {
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "title": "Memberid"
+          },
+          "merchantId": {
+            "type": "integer",
+            "title": "Merchantid"
+          },
+          "merchantName": {
+            "type": "string",
+            "title": "Merchantname"
+          },
+          "merchantSlug": {
+            "type": "string",
+            "title": "Merchantslug"
+          },
+          "merchantStatus": {
+            "type": "string",
+            "title": "Merchantstatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "memberId",
+          "merchantId",
+          "merchantName",
+          "merchantSlug",
+          "merchantStatus"
+        ],
+        "title": "MembershipItem"
+      },
+      "MembershipOut": {
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "title": "Memberid"
+          },
+          "merchantId": {
+            "type": "integer",
+            "title": "Merchantid"
+          },
+          "merchantName": {
+            "type": "string",
+            "title": "Merchantname"
+          },
+          "merchantSlug": {
+            "type": "string",
+            "title": "Merchantslug"
+          },
+          "merchantStatus": {
+            "type": "string",
+            "title": "Merchantstatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "memberId",
+          "merchantId",
+          "merchantName",
+          "merchantSlug",
+          "merchantStatus"
+        ],
+        "title": "MembershipOut"
+      },
+      "MerchantOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "status"
+        ],
+        "title": "MerchantOut"
+      },
+      "OutletScopeOut": {
+        "properties": {
+          "all": {
+            "type": "boolean",
+            "title": "All"
+          },
+          "ids": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "all",
+          "ids"
+        ],
+        "title": "OutletScopeOut"
+      },
+      "SwitchMerchantRequest": {
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Merchantid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchantId"
+        ],
+        "title": "SwitchMerchantRequest"
+      },
+      "SwitchMerchantResponse": {
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "tokenType": {
+            "type": "string",
+            "title": "Tokentype",
+            "default": "bearer"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "title": "Expiresin"
+          },
+          "merchantId": {
+            "type": "integer",
+            "title": "Merchantid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "accessToken",
+          "expiresIn",
+          "merchantId"
+        ],
+        "title": "SwitchMerchantResponse"
+      },
+      "TokenResponse": {
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "tokenType": {
+            "type": "string",
+            "title": "Tokentype",
+            "default": "bearer"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "title": "Expiresin"
+          },
+          "merchantId": {
+            "type": "integer",
+            "title": "Merchantid"
+          },
+          "memberships": {
+            "items": {
+              "$ref": "#/components/schemas/MembershipOut"
+            },
+            "type": "array",
+            "title": "Memberships"
+          }
+        },
+        "type": "object",
+        "required": [
+          "accessToken",
+          "expiresIn",
+          "merchantId",
+          "memberships"
+        ],
+        "title": "TokenResponse"
+      },
+      "UserOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "firstName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstname"
+          },
+          "lastName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastname"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "phone",
+          "firstName",
+          "lastName"
+        ],
+        "title": "UserOut"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "app__authz__routes__RoleOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "templateKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Templatekey"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "templateKey"
+        ],
+        "title": "RoleOut"
+      },
+      "app__team__schemas__RoleOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "templateKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Templatekey"
+          },
+          "isLocked": {
+            "type": "boolean",
+            "title": "Islocked"
+          },
+          "levels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Levels"
+          },
+          "extras": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Extras"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "templateKey",
+          "isLocked",
+          "levels",
+          "extras"
+        ],
+        "title": "RoleOut"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

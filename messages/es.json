@@ -9,7 +9,9 @@
     "apiOk": "El servicio está disponible",
     "apiChecking": "Verificando el servicio…",
     "apiDown": "No pudimos conectar con el servicio",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "welcome": "Hola, {name}",
+    "merchantLine": "{merchant} · {role}"
   },
   "errors": {
     "unknown": "Ocurrió un error inesperado. Inténtalo de nuevo.",
@@ -28,10 +30,59 @@
     },
     "auth": {
       "unauthenticated": "Inicia sesión para continuar.",
-      "forbidden": "No tienes permiso para hacer esto."
+      "forbidden": "No tienes permiso para hacer esto.",
+      "invalid_credentials": "El correo o la contraseña no son correctos.",
+      "no_membership": "Tu usuario no pertenece a ningún comercio activo. Pide a un dueño que te invite.",
+      "invalid_refresh_token": "Tu sesión terminó. Inicia sesión de nuevo.",
+      "csrf_header_required": "No pudimos validar la solicitud. Recarga la página.",
+      "invalid_token": "Tu sesión no es válida. Inicia sesión de nuevo.",
+      "token_expired": "Tu sesión venció. Inicia sesión de nuevo.",
+      "not_a_member": "No perteneces a ese comercio.",
+      "outlet_forbidden": "No tienes acceso a esa sucursal."
     },
     "server": {
-      "error": "Error del servidor. Inténtalo más tarde."
+      "error": "Error del servidor. Inténtalo más tarde.",
+      "database_unavailable": "El servicio no está disponible por ahora. Inténtalo más tarde.",
+      "auth_not_configured": "El inicio de sesión no está disponible por ahora."
+    },
+    "team": {
+      "owner_only": "Solo un dueño puede hacer esto con un dueño.",
+      "cannot_change_self": "No puedes cambiar tu propio rol o estado.",
+      "last_owner": "El comercio debe conservar al menos un dueño.",
+      "already_member": "Esa persona ya está en el equipo.",
+      "invitation_pending": "Ese correo ya tiene una invitación pendiente.",
+      "invitation_invalid": "Esta invitación ya no es válida. Pide una nueva.",
+      "invitation_not_found": "No encontramos esa invitación pendiente.",
+      "member_not_found": "No encontramos a ese miembro del equipo.",
+      "role_not_found": "Ese rol no existe.",
+      "invalid_email": "Revisa el correo ingresado.",
+      "dni_required": "Ingresa un DNI válido de 13 dígitos.",
+      "password_too_short": "La contraseña necesita al menos 10 caracteres."
+    }
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "subtitle": "Ingresa a tu portal de comercios.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Ingresar",
+    "submitting": "Ingresando…",
+    "emailRequired": "Ingresa tu correo.",
+    "emailInvalid": "Revisa el correo ingresado.",
+    "passwordRequired": "Ingresa tu contraseña."
+  },
+  "session": {
+    "loading": "Cargando tu sesión…"
+  },
+  "shell": {
+    "title": "Portal de comercios",
+    "navigation": "Navegación principal",
+    "openMenu": "Abrir menú",
+    "switchMerchant": "Cambiar de comercio",
+    "userMenu": "Menú de usuario",
+    "logout": "Cerrar sesión",
+    "nav": {
+      "home": "Inicio"
     }
   }
 }

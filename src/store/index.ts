@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "@/api/baseApi";
+import { sessionReducer } from "@/auth/sessionSlice";
 
 export function makeStore() {
   return configureStore({
-    reducer: { [baseApi.reducerPath]: baseApi.reducer },
+    reducer: {
+      [baseApi.reducerPath]: baseApi.reducer,
+      session: sessionReducer,
+    },
     middleware: (getDefault) => getDefault().concat(baseApi.middleware),
   });
 }

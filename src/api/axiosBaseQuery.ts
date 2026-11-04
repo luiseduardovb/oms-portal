@@ -8,19 +8,21 @@ export interface ApiRequest {
   method?: AxiosRequestConfig["method"];
   data?: AxiosRequestConfig["data"];
   params?: AxiosRequestConfig["params"];
+  headers?: Record<string, string>;
 }
 
 /** RTK Query base query that calls the API with axios and returns errors in
  * the API's own shape (code, message, ctx). */
 export const axiosBaseQuery =
   (): BaseQueryFn<ApiRequest, unknown, ApiError> =>
-  async ({ url, method = "GET", data, params }, { signal }) => {
+  async ({ url, method = "GET", data, params, headers }, { signal }) => {
     try {
       const response = await http.request({
         url,
         method,
         data,
         params,
+        headers,
         signal,
       });
       return { data: response.data };

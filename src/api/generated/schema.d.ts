@@ -24,10 +24,275 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Login
+         * @description Sign in with email and password.
+         *
+         *     The access token is returned in the body; the refresh token is set as an
+         *     httpOnly cookie.
+         */
+        post: operations["login_auth_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh
+         * @description Swap the refresh cookie for a new access token and a new cookie.
+         */
+        post: operations["refresh_auth_refresh_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Logout
+         * @description End the login session; always succeeds.
+         */
+        post: operations["logout_auth_logout_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/switch-merchant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Switch Merchant
+         * @description Get an access token bound to another merchant you belong to.
+         */
+        post: operations["switch_merchant_auth_switch_merchant_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Me
+         * @description Who is signed in, for which merchant, and what they may do.
+         *
+         *     The portal uses this to draw only what the person can use. The server
+         *     still checks every request itself.
+         */
+        get: operations["me_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/legal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Legal */
+        get: operations["get_legal_merchant_legal_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Legal */
+        patch: operations["update_legal_merchant_legal_patch"];
+        trace?: never;
+    };
+    "/team/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Members */
+        get: operations["members_team_members_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/team/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Roles */
+        get: operations["roles_team_roles_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/team/members/{member_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove Member */
+        delete: operations["remove_member_team_members__member_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Member */
+        patch: operations["update_member_team_members__member_id__patch"];
+        trace?: never;
+    };
+    "/team/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Invitations */
+        get: operations["invitations_team_invitations_get"];
+        put?: never;
+        /**
+         * Create Invitation
+         * @description Invite someone. The response carries the token once; the portal builds
+         *     the link from it (an email is sent too once TASK-110 lands).
+         */
+        post: operations["create_invitation_team_invitations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/team/invitations/{invitation_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Revoke Invitation */
+        delete: operations["revoke_invitation_team_invitations__invitation_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/team/invitations/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Accept Invitation
+         * @description Public. Attempts are limited per address and per token, the same way
+         *     as login, because an existing user proves themselves with a password.
+         */
+        post: operations["accept_invitation_team_invitations_accept_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AcceptInvitation */
+        AcceptInvitation: {
+            /** Token */
+            token: string;
+            /** Password */
+            password: string;
+            /** Firstname */
+            firstName?: string | null;
+            /** Lastname */
+            lastName?: string | null;
+            /** Dni */
+            dni?: string | null;
+        };
+        /** AcceptedInvitation */
+        AcceptedInvitation: {
+            /** Merchantid */
+            merchantId: number;
+            /** Merchantname */
+            merchantName: string;
+            /** Merchantslug */
+            merchantSlug: string;
+            /** Usercreated */
+            userCreated: boolean;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
         /** HealthResponse */
         HealthResponse: {
             /**
@@ -35,6 +300,290 @@ export interface components {
              * @constant
              */
             status: "ok";
+        };
+        /** InvitationCreate */
+        InvitationCreate: {
+            /** Email */
+            email: string;
+            /** Roleid */
+            roleId: number;
+            /**
+             * Alloutlets
+             * @default false
+             */
+            allOutlets: boolean;
+        };
+        /** InvitationCreated */
+        InvitationCreated: {
+            /** Id */
+            id: number;
+            /** Email */
+            email: string;
+            /** Roleid */
+            roleId: number;
+            /** Rolename */
+            roleName: string;
+            /** Alloutlets */
+            allOutlets: boolean;
+            /**
+             * Expiresat
+             * Format: date-time
+             */
+            expiresAt: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /** Token */
+            token: string;
+        };
+        /** InvitationOut */
+        InvitationOut: {
+            /** Id */
+            id: number;
+            /** Email */
+            email: string;
+            /** Roleid */
+            roleId: number;
+            /** Rolename */
+            roleName: string;
+            /** Alloutlets */
+            allOutlets: boolean;
+            /**
+             * Expiresat
+             * Format: date-time
+             */
+            expiresAt: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
+        /** LegalData */
+        LegalData: {
+            /** Legalname */
+            legalName: string | null;
+            /** Legalentitytype */
+            legalEntityType: string | null;
+            /** Rtn */
+            rtn: string | null;
+            /** Fiscaladdress */
+            fiscalAddress: string | null;
+        };
+        /**
+         * LegalUpdate
+         * @description Send only the fields to change; null clears a field.
+         */
+        LegalUpdate: {
+            /** Legalname */
+            legalName?: string | null;
+            /** Legalentitytype */
+            legalEntityType?: string | null;
+            /** Rtn */
+            rtn?: string | null;
+            /** Fiscaladdress */
+            fiscalAddress?: string | null;
+        };
+        /** LoginRequest */
+        LoginRequest: {
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
+        };
+        /** MeResponse */
+        MeResponse: {
+            user: components["schemas"]["UserOut"];
+            merchant: components["schemas"]["MerchantOut"];
+            /** Memberid */
+            memberId: number;
+            role: components["schemas"]["app__authz__routes__RoleOut"];
+            /** Isowner */
+            isOwner: boolean;
+            /** Levels */
+            levels: {
+                [key: string]: string;
+            };
+            /** Extras */
+            extras: string[];
+            outlets: components["schemas"]["OutletScopeOut"];
+            /** Dni */
+            dni: string | null;
+            /** Memberships */
+            memberships: components["schemas"]["MembershipItem"][];
+        };
+        /** MemberOut */
+        MemberOut: {
+            /** Id */
+            id: number;
+            /** Userid */
+            userId: number;
+            /** Email */
+            email: string | null;
+            /** Firstname */
+            firstName: string | null;
+            /** Lastname */
+            lastName: string | null;
+            /** Roleid */
+            roleId: number;
+            /** Rolename */
+            roleName: string;
+            /** Templatekey */
+            templateKey: string | null;
+            /** Alloutlets */
+            allOutlets: boolean;
+            /** Status */
+            status: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
+        /**
+         * MemberUpdate
+         * @description Send only what changes. Outlet ids arrive with outlets in M2.
+         */
+        MemberUpdate: {
+            /** Roleid */
+            roleId?: number | null;
+            /** Status */
+            status?: string | null;
+            /** Alloutlets */
+            allOutlets?: boolean | null;
+        };
+        /** MembershipItem */
+        MembershipItem: {
+            /** Memberid */
+            memberId: number;
+            /** Merchantid */
+            merchantId: number;
+            /** Merchantname */
+            merchantName: string;
+            /** Merchantslug */
+            merchantSlug: string;
+            /** Merchantstatus */
+            merchantStatus: string;
+        };
+        /** MembershipOut */
+        MembershipOut: {
+            /** Memberid */
+            memberId: number;
+            /** Merchantid */
+            merchantId: number;
+            /** Merchantname */
+            merchantName: string;
+            /** Merchantslug */
+            merchantSlug: string;
+            /** Merchantstatus */
+            merchantStatus: string;
+        };
+        /** MerchantOut */
+        MerchantOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Slug */
+            slug: string;
+            /** Status */
+            status: string;
+        };
+        /** OutletScopeOut */
+        OutletScopeOut: {
+            /** All */
+            all: boolean;
+            /** Ids */
+            ids: number[];
+        };
+        /** SwitchMerchantRequest */
+        SwitchMerchantRequest: {
+            /** Merchantid */
+            merchantId: number;
+        };
+        /** SwitchMerchantResponse */
+        SwitchMerchantResponse: {
+            /** Accesstoken */
+            accessToken: string;
+            /**
+             * Tokentype
+             * @default bearer
+             */
+            tokenType: string;
+            /** Expiresin */
+            expiresIn: number;
+            /** Merchantid */
+            merchantId: number;
+        };
+        /** TokenResponse */
+        TokenResponse: {
+            /** Accesstoken */
+            accessToken: string;
+            /**
+             * Tokentype
+             * @default bearer
+             */
+            tokenType: string;
+            /** Expiresin */
+            expiresIn: number;
+            /** Merchantid */
+            merchantId: number;
+            /** Memberships */
+            memberships: components["schemas"]["MembershipOut"][];
+        };
+        /** UserOut */
+        UserOut: {
+            /** Id */
+            id: number;
+            /** Email */
+            email: string | null;
+            /** Phone */
+            phone: string | null;
+            /** Firstname */
+            firstName: string | null;
+            /** Lastname */
+            lastName: string | null;
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
+        };
+        /** RoleOut */
+        app__authz__routes__RoleOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Templatekey */
+            templateKey: string | null;
+        };
+        /** RoleOut */
+        app__team__schemas__RoleOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Templatekey */
+            templateKey: string | null;
+            /** Islocked */
+            isLocked: boolean;
+            /** Levels */
+            levels: {
+                [key: string]: string;
+            };
+            /** Extras */
+            extras: string[];
         };
     };
     responses: never;
@@ -61,6 +610,406 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HealthResponse"];
+                };
+            };
+        };
+    };
+    login_auth_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    refresh_auth_refresh_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenResponse"];
+                };
+            };
+        };
+    };
+    logout_auth_logout_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    switch_merchant_auth_switch_merchant_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SwitchMerchantRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SwitchMerchantResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    me_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
+    get_legal_merchant_legal_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LegalData"];
+                };
+            };
+        };
+    };
+    update_legal_merchant_legal_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LegalUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LegalData"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    members_team_members_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MemberOut"][];
+                };
+            };
+        };
+    };
+    roles_team_roles_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["app__team__schemas__RoleOut"][];
+                };
+            };
+        };
+    };
+    remove_member_team_members__member_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                member_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_member_team_members__member_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                member_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MemberUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    invitations_team_invitations_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationOut"][];
+                };
+            };
+        };
+    };
+    create_invitation_team_invitations_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InvitationCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationCreated"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revoke_invitation_team_invitations__invitation_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invitation_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    accept_invitation_team_invitations_accept_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcceptInvitation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcceptedInvitation"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
