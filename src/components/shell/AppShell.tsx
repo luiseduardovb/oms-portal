@@ -1,5 +1,6 @@
 "use client";
 
+import CategoryIcon from "@mui/icons-material/Category";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -30,6 +31,7 @@ const DRAWER_WIDTH = 232;
 
 const ICONS: Record<string, ReactNode> = {
   home: <HomeIcon />,
+  catalog: <CategoryIcon />,
   team: <GroupIcon />,
   outlets: <StoreIcon />,
   setup: <SettingsIcon />,

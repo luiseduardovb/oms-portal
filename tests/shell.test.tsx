@@ -101,6 +101,7 @@ describe("AppShell", () => {
           name: "Grill Dos",
           slug: "grill-dos",
           status: "draft",
+          currencyCode: "HNL",
         };
         return {
           status: 200,

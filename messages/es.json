@@ -80,6 +80,43 @@
       "duplicate_exception": "Solo puede haber una excepción por fecha.",
       "exception_in_past": "Las excepciones deben ser de hoy en adelante.",
       "duplicate_contact": "Cada número se puede agregar una sola vez."
+    },
+    "catalog": {
+      "category_archived": "Esa categoría está archivada. Restáurala primero.",
+      "category_name_taken": "Otra categoría ya usa ese nombre.",
+      "category_not_found": "No encontramos esa categoría.",
+      "group_conflicts_overrides": "Ese grupo de opciones tiene valores propios que chocan con los de otro grupo del producto.",
+      "insufficient_stock": "No hay existencias suficientes para ese ajuste.",
+      "invalid_delta": "El ajuste debe ser un número entero distinto de cero.",
+      "invalid_order": "El orden enviado no coincide con los elementos actuales. Recarga la página.",
+      "invalid_selection": "La selección de opciones no es válida.",
+      "low_stock_needs_outlet": "Para ver poco stock, elige una sucursal.",
+      "option_archived": "Esa opción está archivada. Restáurala primero.",
+      "option_group_archived": "Ese grupo de opciones está archivado. Restáuralo primero.",
+      "option_group_name_taken": "Otro grupo de opciones ya usa ese nombre.",
+      "option_group_not_found": "No encontramos ese grupo de opciones.",
+      "option_name_taken": "Ya hay una opción con ese nombre en el grupo.",
+      "option_not_found": "No encontramos esa opción.",
+      "product_archived": "Ese producto está archivado. Restáuralo primero.",
+      "product_not_found": "No encontramos ese producto.",
+      "sku_taken": "Otro producto ya usa ese SKU.",
+      "stock_not_tracked": "Este producto no lleva control de cantidad en esa sucursal.",
+      "stock_quantity_not_allowed": "Solo se indica cantidad cuando se controla el stock.",
+      "stock_quantity_required": "Indica la cantidad en existencia.",
+      "stock_requires_full": "Tu rol solo puede marcar productos como agotados o disponibles.",
+      "stock_version_conflict": "Alguien más cambió el stock. Revisa los valores y vuelve a intentar.",
+      "too_many_defaults": "Hay más opciones marcadas por defecto de las permitidas.",
+      "too_many_option_groups": "Un producto admite pocos grupos de opciones. Quita alguno.",
+      "too_many_options": "Ese grupo tiene demasiadas opciones."
+    },
+    "media": {
+      "not_found": "No encontramos esa imagen.",
+      "not_ready": "La imagen todavía se está procesando.",
+      "not_uploaded": "No recibimos el archivo. Intenta subirlo de nuevo.",
+      "queue_unavailable": "No pudimos procesar la imagen ahora. Intenta de nuevo en un momento.",
+      "size_mismatch": "El archivo no coincide con el tamaño indicado. Intenta de nuevo.",
+      "too_large": "La imagen pesa demasiado. El máximo es 5 MB.",
+      "unsupported_type": "Usa una imagen JPEG, PNG o WebP."
     }
   },
   "login": {
@@ -107,7 +144,8 @@
       "home": "Inicio",
       "team": "Equipo",
       "setup": "Configuración",
-      "outlets": "Sucursales"
+      "outlets": "Sucursales",
+      "catalog": "Catálogo"
     }
   },
   "team": {
@@ -390,5 +428,146 @@
       "phoneInvalid": "Usa el formato internacional, por ejemplo +50499998888.",
       "duplicate": "Cada número se puede agregar una sola vez."
     }
+  },
+  "catalog": {
+    "title": "Catálogo",
+    "noAccess": "Tu rol no tiene acceso al catálogo.",
+    "back": "← Volver al catálogo",
+    "loading": "Cargando…",
+    "new": "Nuevo producto",
+    "search": "Nombre o SKU",
+    "category": "Categoría",
+    "allCategories": "Todas las categorías",
+    "outlet": "Sucursal",
+    "allOutlets": "Todas las sucursales",
+    "searchButton": "Buscar",
+    "showArchived": "Mostrar archivados",
+    "empty": "No hay productos que coincidan.",
+    "table": "Productos",
+    "name": "Producto",
+    "sku": "SKU",
+    "price": "Precio",
+    "categories": {
+      "title": "Categorías del producto",
+      "none": "Todavía no hay categorías.",
+      "max": "Un producto puede estar en hasta {max} categorías.",
+      "save": "Guardar categorías",
+      "saved": "Categorías guardadas."
+    },
+    "published": "Publicado",
+    "stock": {
+      "title": "Stock en {name}",
+      "status": "Control de stock",
+      "inStock": "Siempre disponible",
+      "outOfStock": "Agotado",
+      "tracked": "Llevar cantidad",
+      "quantity": "Cantidad",
+      "quantityInvalid": "Usa un número entero de 0 en adelante.",
+      "threshold": "Aviso de poco stock",
+      "thresholdHelp": "Opcional. Se avisa cuando la cantidad llega a este número.",
+      "thresholdInvalid": "Usa un número entero de 0 en adelante.",
+      "reason": "Motivo (opcional)",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "archived": "Archivado",
+    "restore": "Restaurar",
+    "publish": "Publicar {name}",
+    "range": "{from}–{to} de {count}",
+    "level": {
+      "in": "Disponible",
+      "out": "Agotado",
+      "low": "Poco stock: {quantity}",
+      "tracked": "{quantity} en stock"
+    },
+    "tabs": {
+      "data": "Datos",
+      "categories": "Categorías",
+      "availability": "Disponibilidad por sucursal"
+    },
+    "create": {
+      "title": "Nuevo producto",
+      "help": "Empieza con el nombre y el precio. Luego podrás agregar foto, categorías y disponibilidad.",
+      "name": "Nombre",
+      "nameRequired": "Ingresa el nombre del producto.",
+      "price": "Precio ({currency})",
+      "priceInvalid": "Usa un precio como 85 o 85.50.",
+      "cancel": "Cancelar",
+      "submit": "Crear producto"
+    },
+    "data": {
+      "archivedNote": "Este producto está archivado. Restáuralo para editarlo.",
+      "saved": "Cambios guardados.",
+      "name": "Nombre",
+      "nameRequired": "Ingresa el nombre del producto.",
+      "description": "Descripción",
+      "price": "Precio ({currency})",
+      "priceInvalid": "Usa un precio como 85 o 85.50.",
+      "taxIncluded": "El precio incluye impuesto",
+      "sku": "SKU",
+      "prep": "Tiempo de preparación (minutos)",
+      "prepInvalid": "Usa un número de minutos entre 0 y 600.",
+      "save": "Guardar",
+      "archive": "Archivar"
+    },
+    "photo": {
+      "title": "Foto",
+      "alt": "Foto del producto",
+      "none": "Sin foto",
+      "choose": "Elegir foto",
+      "replace": "Cambiar foto",
+      "remove": "Quitar foto",
+      "input": "Archivo de foto",
+      "uploading": "Subiendo foto",
+      "help": "JPEG, PNG o WebP, hasta 5 MB.",
+      "badType": "Usa una imagen JPEG, PNG o WebP.",
+      "tooBig": "La imagen pesa más de 5 MB.",
+      "failed": "No pudimos usar ese archivo como imagen.",
+      "slow": "La imagen tarda en procesarse. Recarga en un momento.",
+      "uploadFailed": "No pudimos subir la foto. Intenta de nuevo."
+    },
+    "availability": {
+      "table": "Disponibilidad por sucursal",
+      "none": "No hay sucursales disponibles.",
+      "outlet": "Sucursal",
+      "published": "Publicado",
+      "stock": "Stock",
+      "actions": "Acciones",
+      "publishAt": "Publicar en {name}",
+      "soldOutAt": "Agotado en {name}",
+      "setStock": "Stock",
+      "adjust": "Ajustar",
+      "movements": "Movimientos",
+      "level": {
+        "in": "Disponible",
+        "out": "Agotado",
+        "low": "Poco stock: {quantity}",
+        "tracked": "{quantity} en stock"
+      }
+    },
+    "adjust": {
+      "title": "Ajustar stock en {name}",
+      "help": "Usa un número positivo para sumar y uno negativo para restar.",
+      "delta": "Cambio",
+      "deltaInvalid": "Usa un número entero distinto de cero, por ejemplo 12 o -3.",
+      "reason": "Motivo",
+      "reasonRequired": "Indica el motivo del ajuste.",
+      "cancel": "Cancelar",
+      "save": "Ajustar"
+    },
+    "movements": {
+      "title": "Movimientos en {name}",
+      "table": "Movimientos de stock",
+      "empty": "Todavía no hay movimientos.",
+      "date": "Fecha",
+      "change": "Cambio",
+      "after": "Queda",
+      "reason": "Motivo",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "close": "Cerrar"
+    },
+    "colCategories": "Categorías",
+    "colStock": "Stock"
   }
 }
