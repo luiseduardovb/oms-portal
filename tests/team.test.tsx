@@ -59,6 +59,7 @@ function member(
     roleName: role.name,
     templateKey: role.templateKey,
     allOutlets: true,
+    outletIds: [] as number[],
     status,
     createdAt: "2026-11-01T00:00:00Z",
   };
@@ -94,6 +95,14 @@ function setup(
     if (call.url === "/team/members" && call.method === "GET")
       return { status: 200, data: MEMBERS };
     if (call.url === "/team/roles") return { status: 200, data: ROLES };
+    if (call.url === "/outlets" && call.method === "GET")
+      return {
+        status: 200,
+        data: [
+          { id: 1, name: "Centro" },
+          { id: 2, name: "Norte" },
+        ],
+      };
     if (call.url === "/team/invitations" && call.method === "GET")
       return { status: 200, data: INVITATIONS };
     return overrides(call);
@@ -132,6 +141,46 @@ describe("Team page", () => {
       expect(calls.find((c) => c.method === "PATCH")).toMatchObject({
         url: "/team/members/7",
         data: { status: "suspended" },
+      }),
+    );
+  });
+
+  it("limits a member to chosen outlets", async () => {
+    const { calls } = setup(ME, () => ({ status: 204 }));
+    const row = (await screen.findByText("Omar Prueba")).closest("tr")!;
+    expect(within(row).getByText("Todas")).toBeInTheDocument();
+    await userEvent.click(
+      within(row).getByRole("button", {
+        name: "Elegir sucursales de Omar Prueba",
+      }),
+    );
+    await userEvent.click(
+      await screen.findByLabelText("Solo algunas sucursales"),
+    );
+    await userEvent.click(await screen.findByLabelText("Norte"));
+    await userEvent.click(screen.getByRole("button", { name: "Guardar" }));
+    await waitFor(() =>
+      expect(calls.find((c) => c.method === "PATCH")).toMatchObject({
+        url: "/team/members/7",
+        data: { outletIds: [2] },
+      }),
+    );
+  });
+
+  it("gives a member every outlet again", async () => {
+    const { calls } = setup(ME, () => ({ status: 204 }));
+    const row = (await screen.findByText("Omar Prueba")).closest("tr")!;
+    await userEvent.click(
+      within(row).getByRole("button", {
+        name: "Elegir sucursales de Omar Prueba",
+      }),
+    );
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Guardar" }),
+    );
+    await waitFor(() =>
+      expect(calls.find((c) => c.method === "PATCH")).toMatchObject({
+        data: { allOutlets: true },
       }),
     );
   });

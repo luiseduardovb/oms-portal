@@ -22,6 +22,7 @@ import { useState } from "react";
 import type { ApiError } from "@/api/apiError";
 import type { Me } from "@/auth/authApi";
 import { useErrorMessage } from "@/lib/useErrorMessage";
+import { OutletsDialog } from "./OutletsDialog";
 import {
   useRemoveMemberMutation,
   useUpdateMemberMutation,
@@ -51,6 +52,7 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
   const [remove] = useRemoveMemberMutation();
   const [failure, setFailure] = useState<string | null>(null);
   const [removing, setRemoving] = useState<Member | null>(null);
+  const [choosing, setChoosing] = useState<Member | null>(null);
 
   const run = async (action: Promise<{ error?: unknown }>) => {
     const result = await action;
@@ -80,6 +82,7 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
               <TableCell>{t("name")}</TableCell>
               <TableCell>{t("email")}</TableCell>
               <TableCell>{t("role")}</TableCell>
+              <TableCell>{t("outlets")}</TableCell>
               <TableCell>{t("status")}</TableCell>
               {canManage && <TableCell align="right">{t("actions")}</TableCell>}
             </TableRow>
@@ -125,6 +128,11 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
                     )}
                   </TableCell>
                   <TableCell>
+                    {member.allOutlets
+                      ? t("allOutlets")
+                      : t("someOutlets", { count: member.outletIds.length })}
+                  </TableCell>
+                  <TableCell>
                     <Chip
                       size="small"
                       color={suspended ? "warning" : "success"}
@@ -156,6 +164,13 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
                           </Button>
                           <Button
                             size="small"
+                            aria-label={t("editOutlets", { name })}
+                            onClick={() => setChoosing(member)}
+                          >
+                            {t("outletsAction")}
+                          </Button>
+                          <Button
+                            size="small"
                             color="error"
                             onClick={() => setRemoving(member)}
                           >
@@ -171,6 +186,12 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <OutletsDialog
+        key={choosing?.id ?? "none"}
+        member={choosing}
+        name={choosing ? memberName(choosing) : ""}
+        onClose={() => setChoosing(null)}
+      />
       <Dialog open={removing !== null} onClose={() => setRemoving(null)}>
         <DialogTitle>{t("removeTitle")}</DialogTitle>
         <DialogContent>

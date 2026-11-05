@@ -106,7 +106,8 @@
     "nav": {
       "home": "Inicio",
       "team": "Equipo",
-      "setup": "Configuración"
+      "setup": "Configuración",
+      "outlets": "Sucursales"
     }
   },
   "team": {
@@ -134,7 +135,12 @@
       "removeTitle": "Quitar del equipo",
       "removeBody": "{name} perderá el acceso a este comercio. Puedes invitarle de nuevo más adelante.",
       "cancel": "Cancelar",
-      "confirmRemove": "Quitar"
+      "confirmRemove": "Quitar",
+      "outlets": "Sucursales",
+      "allOutlets": "Todas",
+      "someOutlets": "{count, plural, =0 {Ninguna} one {1 sucursal} other {# sucursales}}",
+      "outletsAction": "Sucursales",
+      "editOutlets": "Elegir sucursales de {name}"
     },
     "invitations": {
       "table": "Invitaciones pendientes",
@@ -161,6 +167,14 @@
       "whatsapp": "Compartir por WhatsApp",
       "whatsappText": "Te invito a unirte a nuestro equipo como {role}. Acepta la invitación aquí: {link}",
       "done": "Listo"
+    },
+    "outlets": {
+      "title": "Sucursales de {name}",
+      "all": "Todas las sucursales",
+      "some": "Solo algunas sucursales",
+      "none": "Todavía no hay sucursales. Crea una primero.",
+      "cancel": "Cancelar",
+      "save": "Guardar"
     }
   },
   "accept": {
@@ -247,6 +261,134 @@
       "tipPresetsHelp": "Separados por comas, de menor a mayor. Por ejemplo: 5, 10, 15.",
       "tipPresetsInvalid": "Usa hasta 5 porcentajes distintos entre 0 y 100, de menor a mayor.",
       "tipsNeedPresets": "Las propinas necesitan al menos un porcentaje sugerido."
+    }
+  },
+  "outlets": {
+    "title": "Sucursales",
+    "noAccess": "No tienes permiso para ver las sucursales.",
+    "loading": "Cargando…",
+    "back": "← Volver a sucursales",
+    "new": "Nueva sucursal",
+    "showArchived": "Mostrar archivadas",
+    "empty": "Todavía no tienes sucursales.",
+    "table": "Sucursales",
+    "name": "Nombre",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "status": "Estado",
+    "actions": "Acciones",
+    "public": "Pública",
+    "private": "Privada",
+    "busy": "Ocupada",
+    "archived": "Archivada",
+    "restore": "Restaurar",
+    "tabs": {
+      "data": "Datos",
+      "hours": "Horario",
+      "exceptions": "Excepciones",
+      "contacts": "Alertas"
+    },
+    "create": {
+      "title": "Nueva sucursal",
+      "help": "Empieza con el nombre. Después completas los demás datos, el horario y las alertas.",
+      "name": "Nombre de la sucursal",
+      "nameRequired": "Ingresa el nombre de la sucursal.",
+      "cancel": "Cancelar",
+      "submit": "Crear"
+    },
+    "data": {
+      "archivedNote": "Esta sucursal está archivada. Restáurala para editarla.",
+      "locationSection": "Ubicación",
+      "name": "Nombre",
+      "nameRequired": "Ingresa el nombre de la sucursal.",
+      "address": "Dirección",
+      "notes": "Indicaciones para llegar",
+      "phone": "Teléfono",
+      "phoneInvalid": "Usa el formato internacional, por ejemplo +50499998888.",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "pinBoth": "Ingresa latitud y longitud, o ninguna.",
+      "pinInvalid": "Revisa la latitud (−90 a 90) y la longitud (−180 a 180).",
+      "timezone": "Zona horaria",
+      "changeZone": "cambiar",
+      "timezoneInvalid": "Usa un nombre de zona horaria válido, por ejemplo America/Tegucigalpa.",
+      "ordersSection": "Pedidos",
+      "isPublic": "Sucursal pública (los clientes pueden pedir)",
+      "pickup": "Recoger en tienda",
+      "delivery": "Entrega a domicilio",
+      "busy": "Ocupada (pausa temporal de pedidos)",
+      "autoAccept": "Aceptar pedidos automáticamente",
+      "prep": "Tiempo de preparación (minutos)",
+      "alert": "Avisar si no se acepta en (minutos)",
+      "expire": "Vencer pedidos sin aceptar en (minutos)",
+      "numberInvalid": "Ingresa un número entero válido (hasta {max}).",
+      "alertBeforeExpire": "El aviso debe llegar antes de que el pedido venza.",
+      "deliverySection": "Entrega",
+      "fee": "Costo de envío",
+      "minOrder": "Pedido mínimo",
+      "eta": "Tiempo estimado de entrega (minutos)",
+      "moneyInvalid": "Ingresa un monto válido, por ejemplo 35 o 35.50.",
+      "missing": {
+        "address": "Falta la dirección.",
+        "hours": "Falta el horario de atención.",
+        "orderTypes": "Activa recoger en tienda o entrega a domicilio."
+      },
+      "archive": "Archivar sucursal",
+      "archiveTitle": "¿Archivar esta sucursal?",
+      "archiveText": "Dejará de ser pública y se quitará de las sucursales de todo el equipo. Podrás restaurarla después, pero tendrás que asignarla otra vez.",
+      "cancel": "Cancelar",
+      "confirmArchive": "Sí, archivar"
+    },
+    "hours": {
+      "help": "Puedes poner varios horarios por día, por ejemplo almuerzo y cena. Si cierra después de medianoche, se cuenta como el día siguiente.",
+      "day": {
+        "1": "Lunes",
+        "2": "Martes",
+        "3": "Miércoles",
+        "4": "Jueves",
+        "5": "Viernes",
+        "6": "Sábado",
+        "7": "Domingo"
+      },
+      "closed": "Cerrado",
+      "opens": "Abre",
+      "closes": "Cierra",
+      "nextDay": "cierra al día siguiente",
+      "add": "Agregar horario",
+      "remove": "Quitar horario",
+      "copy": "Copiar a otros días",
+      "copyTitle": "Copiar el horario del {day} a…",
+      "copyConfirm": "Copiar",
+      "cancel": "Cancelar",
+      "timeRequired": "Completa las horas del {day}.",
+      "sameTime": "En el {day}, la hora de apertura y la de cierre deben ser distintas.",
+      "overlap": "Los horarios del {a} y del {b} se traslapan."
+    },
+    "exceptions": {
+      "help": "Fechas en las que el horario es distinto: feriados, eventos o días cerrados.",
+      "empty": "No hay excepciones próximas.",
+      "date": "Fecha",
+      "closed": "Cerrado",
+      "opens": "Abre",
+      "closes": "Cierra",
+      "reason": "Motivo",
+      "add": "Agregar excepción",
+      "remove": "Quitar excepción",
+      "dateRequired": "Elige la fecha de cada excepción.",
+      "inPast": "Las excepciones deben ser de hoy en adelante.",
+      "duplicate": "Solo puede haber una excepción por fecha.",
+      "timesInvalid": "Revisa las horas del {date}: deben estar completas y ser distintas."
+    },
+    "contacts": {
+      "help": "Números de WhatsApp que reciben avisos cuando un pedido no se acepta a tiempo. Hasta 5.",
+      "empty": "Todavía no hay números de alerta.",
+      "phone": "Teléfono",
+      "label": "Nombre",
+      "active": "Activo",
+      "add": "Agregar número",
+      "remove": "Quitar número",
+      "phoneInvalid": "Usa el formato internacional, por ejemplo +50499998888.",
+      "duplicate": "Cada número se puede agregar una sola vez."
     }
   }
 }

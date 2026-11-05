@@ -11,6 +11,7 @@ export interface FakeCall {
   authorization: string | undefined;
   csrf: string | undefined;
   data: unknown;
+  params: Record<string, unknown> | undefined;
 }
 
 type Handler = (call: FakeCall) => { status: number; data?: unknown };
@@ -28,6 +29,7 @@ export function fakeApi(
       url: config.url ?? "",
       authorization: config.headers.get("Authorization") as string | undefined,
       csrf: config.headers.get("X-Requested-With") as string | undefined,
+      params: config.params as Record<string, unknown> | undefined,
       data:
         typeof config.data === "string" ? JSON.parse(config.data) : config.data,
     };
