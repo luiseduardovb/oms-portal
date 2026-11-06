@@ -36,6 +36,7 @@ import {
   useProductsQuery,
   useUpdateProductMutation,
 } from "@/catalog/catalogApi";
+import { CatalogNav } from "@/catalog/CatalogNav";
 import {
   currencySymbol,
   formatMoney,
@@ -109,6 +110,7 @@ export default function CatalogPage() {
           </Button>
         )}
       </Stack>
+      <CatalogNav />
       {error && <Alert severity="error">{errorMessage(error)}</Alert>}
       <Stack
         direction={{ xs: "column", md: "row" }}

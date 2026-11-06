@@ -22,9 +22,10 @@ import { currencySymbol } from "@/catalog/money";
 import { ProductAvailabilityTab } from "@/catalog/ProductAvailabilityTab";
 import { ProductCategoriesTab } from "@/catalog/ProductCategoriesTab";
 import { ProductDataTab } from "@/catalog/ProductDataTab";
+import { ProductOptionsTab } from "@/catalog/ProductOptionsTab";
 import { useErrorMessage } from "@/lib/useErrorMessage";
 
-type TabKey = "data" | "categories" | "availability";
+type TabKey = "data" | "categories" | "options" | "availability";
 
 export default function ProductPage() {
   const t = useTranslations("catalog");
@@ -88,6 +89,7 @@ export default function ProductPage() {
           >
             <Tab value="data" label={t("tabs.data")} />
             <Tab value="categories" label={t("tabs.categories")} />
+            <Tab value="options" label={t("tabs.options")} />
             <Tab value="availability" label={t("tabs.availability")} />
           </Tabs>
           {tab === "data" && (
@@ -101,6 +103,13 @@ export default function ProductPage() {
           {tab === "categories" && (
             <ProductCategoriesTab
               key={`cat-${data.archivedAt}`}
+              product={data}
+              canEdit={canEdit}
+            />
+          )}
+          {tab === "options" && (
+            <ProductOptionsTab
+              key={`opt-${data.archivedAt}`}
               product={data}
               canEdit={canEdit}
             />

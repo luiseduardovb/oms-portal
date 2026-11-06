@@ -13,6 +13,18 @@ export type StockMovement = Schemas["MovementOut"];
 export type MovementPage = Schemas["Paginated_MovementOut_"];
 export type Media = Schemas["MediaOut"];
 export type UploadCreated = Schemas["UploadCreated"];
+export type CategoryCreate = Schemas["CategoryCreate"];
+export type CategoryChanges = Schemas["CategoryUpdate"];
+export type OptionGroup = Schemas["OptionGroupOut"];
+export type OptionGroupCreate = Schemas["OptionGroupCreate"];
+export type OptionGroupChanges = Schemas["OptionGroupUpdate"];
+export type Option = Schemas["OptionOut"];
+export type OptionCreate = Schemas["OptionCreate"];
+export type OptionChanges = Schemas["OptionUpdate"];
+export type GroupLink = Schemas["ProductGroupLink"];
+export type ImportJob = Schemas["ImportJobOut"];
+export type ImportIssue = Schemas["ImportIssueOut"];
+export type ExportJob = Schemas["ExportJobOut"];
 
 export interface ProductFilters {
   page: number;
@@ -144,6 +156,172 @@ export const catalogApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Categories"],
     }),
+    createCategory: build.mutation<Category, CategoryCreate>({
+      query: (data) => ({ url: "/categories", method: "POST", data }),
+      invalidatesTags: ["Categories"],
+    }),
+    updateCategory: build.mutation<
+      Category,
+      { id: number; changes: CategoryChanges }
+    >({
+      query: ({ id, changes }) => ({
+        url: `/categories/${id}`,
+        method: "PATCH",
+        data: changes,
+      }),
+      invalidatesTags: ["Categories", "Products"],
+    }),
+    archiveCategory: build.mutation<Category, number>({
+      query: (id) => ({ url: `/categories/${id}/archive`, method: "POST" }),
+      invalidatesTags: ["Categories", "Products"],
+    }),
+    restoreCategory: build.mutation<Category, number>({
+      query: (id) => ({ url: `/categories/${id}/restore`, method: "POST" }),
+      invalidatesTags: ["Categories", "Products"],
+    }),
+    reorderCategories: build.mutation<unknown, number[]>({
+      query: (ids) => ({
+        url: "/categories/order",
+        method: "PUT",
+        data: { ids },
+      }),
+      invalidatesTags: ["Categories"],
+    }),
+    optionGroups: build.query<OptionGroup[], boolean | void>({
+      query: (includeArchived) => ({
+        url: "/option-groups",
+        params: includeArchived ? { includeArchived: true } : undefined,
+      }),
+      providesTags: ["OptionGroups"],
+    }),
+    createOptionGroup: build.mutation<OptionGroup, OptionGroupCreate>({
+      query: (data) => ({ url: "/option-groups", method: "POST", data }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    updateOptionGroup: build.mutation<
+      OptionGroup,
+      { id: number; changes: OptionGroupChanges }
+    >({
+      query: ({ id, changes }) => ({
+        url: `/option-groups/${id}`,
+        method: "PATCH",
+        data: changes,
+      }),
+      invalidatesTags: ["OptionGroups", "Products"],
+    }),
+    archiveOptionGroup: build.mutation<OptionGroup, number>({
+      query: (id) => ({
+        url: `/option-groups/${id}/archive`,
+        method: "POST",
+      }),
+      invalidatesTags: ["OptionGroups", "Products"],
+    }),
+    restoreOptionGroup: build.mutation<OptionGroup, number>({
+      query: (id) => ({
+        url: `/option-groups/${id}/restore`,
+        method: "POST",
+      }),
+      invalidatesTags: ["OptionGroups", "Products"],
+    }),
+    reorderOptionGroups: build.mutation<unknown, number[]>({
+      query: (ids) => ({
+        url: "/option-groups/order",
+        method: "PUT",
+        data: { ids },
+      }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    createOption: build.mutation<
+      OptionGroup,
+      { groupId: number; option: OptionCreate }
+    >({
+      query: ({ groupId, option }) => ({
+        url: `/option-groups/${groupId}/options`,
+        method: "POST",
+        data: option,
+      }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    updateOption: build.mutation<
+      OptionGroup,
+      { id: number; changes: OptionChanges }
+    >({
+      query: ({ id, changes }) => ({
+        url: `/options/${id}`,
+        method: "PATCH",
+        data: changes,
+      }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    archiveOption: build.mutation<OptionGroup, number>({
+      query: (id) => ({ url: `/options/${id}/archive`, method: "POST" }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    restoreOption: build.mutation<OptionGroup, number>({
+      query: (id) => ({ url: `/options/${id}/restore`, method: "POST" }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    reorderOptions: build.mutation<
+      OptionGroup,
+      { groupId: number; ids: number[] }
+    >({
+      query: ({ groupId, ids }) => ({
+        url: `/option-groups/${groupId}/options/order`,
+        method: "PUT",
+        data: { ids },
+      }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    setOptionAvailability: build.mutation<
+      OptionGroup,
+      { id: number; outletId: number; isAvailable: boolean }
+    >({
+      query: ({ id, outletId, isAvailable }) => ({
+        url: `/options/${id}/outlets/${outletId}`,
+        method: "PUT",
+        data: { isAvailable },
+      }),
+      invalidatesTags: ["OptionGroups"],
+    }),
+    setProductGroups: build.mutation<
+      Product,
+      { id: number; groups: GroupLink[] }
+    >({
+      query: ({ id, groups }) => ({
+        url: `/products/${id}/option-groups`,
+        method: "PUT",
+        data: { groups },
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        "Products",
+        "OptionGroups",
+        { type: "Product", id },
+      ],
+    }),
+    createImport: build.mutation<
+      Schemas["ImportCreated"],
+      { sizeBytes: number }
+    >({
+      query: ({ sizeBytes }) => ({
+        url: "/import-jobs",
+        method: "POST",
+        data: { kind: "catalog", sizeBytes },
+      }),
+    }),
+    completeImport: build.mutation<ImportJob, number>({
+      query: (id) => ({ url: `/import-jobs/${id}/complete`, method: "POST" }),
+    }),
+    applyImport: build.mutation<ImportJob, number>({
+      query: (id) => ({ url: `/import-jobs/${id}/apply`, method: "POST" }),
+      invalidatesTags: ["Products", "Categories"],
+    }),
+    createExport: build.mutation<ExportJob, void>({
+      query: () => ({
+        url: "/export-jobs",
+        method: "POST",
+        data: { kind: "catalog" },
+      }),
+    }),
     createUpload: build.mutation<
       UploadCreated,
       { contentType: string; sizeBytes: number }
@@ -169,6 +347,28 @@ export const {
   useAdjustStockMutation,
   useMovementsQuery,
   useCategoriesQuery,
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useArchiveCategoryMutation,
+  useRestoreCategoryMutation,
+  useReorderCategoriesMutation,
+  useOptionGroupsQuery,
+  useCreateOptionGroupMutation,
+  useUpdateOptionGroupMutation,
+  useArchiveOptionGroupMutation,
+  useRestoreOptionGroupMutation,
+  useReorderOptionGroupsMutation,
+  useCreateOptionMutation,
+  useUpdateOptionMutation,
+  useArchiveOptionMutation,
+  useRestoreOptionMutation,
+  useReorderOptionsMutation,
+  useSetOptionAvailabilityMutation,
+  useSetProductGroupsMutation,
+  useCreateImportMutation,
+  useCompleteImportMutation,
+  useApplyImportMutation,
+  useCreateExportMutation,
   useCreateUploadMutation,
   useCompleteUploadMutation,
 } = catalogApi;
