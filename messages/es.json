@@ -149,6 +149,17 @@
     },
     "transfer": {
       "queue_unavailable": "No pudimos iniciar el proceso ahora. Intenta de nuevo en un momento."
+    },
+    "orders": {
+      "not_found": "No encontramos ese pedido.",
+      "invalid_transition": "El pedido ya cambió de estado. Se actualizó la lista.",
+      "version_conflict": "El pedido cambió mientras lo veías. Se actualizó; revisa e inténtalo de nuevo.",
+      "invalid_date_range": "La fecha de inicio debe ser anterior a la de fin."
+    },
+    "events": {
+      "access_revoked": "Tu acceso a los pedidos cambió.",
+      "ticket_invalid": "No pudimos abrir la conexión en vivo. Reintentando…",
+      "unavailable": "La conexión en vivo no está disponible por ahora."
     }
   },
   "login": {
@@ -177,7 +188,8 @@
       "team": "Equipo",
       "setup": "Configuración",
       "outlets": "Sucursales",
-      "catalog": "Catálogo"
+      "catalog": "Catálogo",
+      "orders": "Pedidos"
     }
   },
   "team": {
@@ -786,5 +798,122 @@
         "more": "Se muestran {shown} de {total} errores."
       }
     }
+  },
+  "ordersPage": {
+    "title": "Pedidos",
+    "noAccess": "No tienes permiso para ver los pedidos.",
+    "tabs": {
+      "label": "Estado de los pedidos",
+      "all": "Todos",
+      "pending": "Pendientes",
+      "accepted": "Aceptados",
+      "ready": "Listos",
+      "dispatched": "Despachados",
+      "completed": "Completados",
+      "cancelled": "Cancelados",
+      "more": "Más"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "accepted": "Aceptado",
+      "ready": "Listo",
+      "dispatched": "Despachado",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    },
+    "outlet": "Sucursal",
+    "allOutlets": "Todas las sucursales",
+    "search": "Buscar por número, código o cliente",
+    "searchPhone": "Buscar por número, código, cliente o teléfono",
+    "filter": "Filtros",
+    "dateFrom": "Desde",
+    "dateTo": "Hasta",
+    "clearDates": "Quitar fechas",
+    "apply": "Aplicar",
+    "today": "Hoy",
+    "empty": "No hay pedidos con estos filtros.",
+    "loading": "Cargando pedidos…",
+    "pickup": "Para recoger",
+    "delivery": "A domicilio",
+    "asap": "Lo antes posible",
+    "scheduled": "Programado: {when}",
+    "items": "{count, plural, one {# artículo} other {# artículos}}",
+    "payment": {
+      "cash": "Efectivo",
+      "card": "Tarjeta",
+      "transfer": "Transferencia",
+      "other": "Otro",
+      "paid": "Pagado",
+      "unpaid": "Por cobrar"
+    },
+    "detail": {
+      "items": "Artículos",
+      "subtotal": "Subtotal",
+      "discount": "Descuento",
+      "deliveryFee": "Envío",
+      "tax": "Impuesto",
+      "tip": "Propina",
+      "total": "Total",
+      "amountDue": "Por cobrar",
+      "address": "Dirección de entrega",
+      "reference": "Referencia",
+      "contact": "Contacto",
+      "notes": "Notas del cliente",
+      "timeline": "Historial",
+      "by": "por {name}",
+      "customer": "Cliente",
+      "cashPayWith": "Paga con {amount}",
+      "loading": "Cargando el pedido…",
+      "driver": "Repartidor"
+    },
+    "copy": {
+      "address": "Copiar dirección",
+      "phone": "Copiar número",
+      "done": "Copiado"
+    },
+    "whatsapp": "Enviar por WhatsApp",
+    "actions": {
+      "accept": "Aceptar",
+      "ready": "Marcar listo",
+      "dispatch": "Despachar",
+      "complete": "Completar",
+      "cancel": "Cancelar pedido"
+    },
+    "dispatch": {
+      "title": "Despachar pedido",
+      "driverName": "Nombre del repartidor (opcional)",
+      "driverPhone": "Teléfono del repartidor (opcional)",
+      "confirm": "Despachar"
+    },
+    "cancel": {
+      "title": "Cancelar pedido",
+      "reason": "Motivo",
+      "note": "Nota",
+      "noteRequired": "Escribe una nota para este motivo.",
+      "confirm": "Cancelar pedido",
+      "back": "Volver",
+      "reasons": {
+        "out_of_stock": "Sin existencias",
+        "too_busy": "Demasiado ocupados",
+        "customer_request": "El cliente lo pidió",
+        "cannot_deliver": "No podemos entregar",
+        "other": "Otro"
+      }
+    },
+    "live": {
+      "connecting": "Conectando…",
+      "live": "En vivo",
+      "polling": "Actualizando cada pocos segundos",
+      "stopped": "Sin conexión en vivo",
+      "closedAccess": "Tu acceso cambió. Recarga la página.",
+      "closedReplaced": "Los pedidos están abiertos en otra ventana."
+    },
+    "sound": {
+      "enable": "Activar sonido",
+      "disable": "Silenciar",
+      "blocked": "El navegador bloqueó el sonido. Toca el botón para activarlo."
+    },
+    "stale": "El pedido cambió mientras lo veías. Se actualizó; revisa e inténtalo de nuevo.",
+    "map": "Ver mapa"
   }
 }

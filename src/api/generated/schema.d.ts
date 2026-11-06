@@ -1176,6 +1176,221 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Orders
+         * @description Orders, newest first. Repeat ``status`` to keep several statuses;
+         *     ``dateFrom`` and ``dateTo`` are days at the outlet, and with
+         *     ``openAnyDate`` they only limit completed and cancelled orders; ``q``
+         *     is an order number, the start of a public code, part of the customer's
+         *     name, or (with ``view_customer_phone``) part of the phone.
+         */
+        get: operations["list_orders_orders_get"];
+        put?: never;
+        /**
+         * Create Order
+         * @description Place an order on behalf of a customer (phone order, test).
+         */
+        post: operations["create_order_orders_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/counts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Count Orders
+         * @description The tab counts: orders per status for the same filters as the list,
+         *     ignoring its ``status`` filter.
+         */
+        get: operations["count_orders_orders_counts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/{order_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Order */
+        get: operations["get_order_orders__order_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/{order_id}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Accept Order */
+        post: operations["accept_order_orders__order_id__accept_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/{order_id}/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ready Order */
+        post: operations["ready_order_orders__order_id__ready_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/{order_id}/dispatch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Dispatch Order */
+        post: operations["dispatch_order_orders__order_id__dispatch_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/{order_id}/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Complete Order */
+        post: operations["complete_order_orders__order_id__complete_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/{order_id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel Order */
+        post: operations["cancel_order_orders__order_id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events/ticket": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create Ticket
+         * @description A one-use ticket (30 seconds) to open the event stream.
+         */
+        post: operations["create_ticket_events_ticket_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stream
+         * @description Server-sent events for the live orders board.
+         *
+         *     Reconnect with a new ticket and ``after`` set to the last event id seen.
+         */
+        get: operations["stream_events_stream_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Poll
+         * @description The same events as the stream, for screens that cannot use it.
+         *
+         *     Without ``after`` this only returns the current cursor.
+         */
+        get: operations["poll_events_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/local-storage/{key}": {
         parameters: {
             query?: never;
@@ -1248,6 +1463,18 @@ export interface components {
         AvailabilityBody: {
             /** Isavailable */
             isAvailable: boolean;
+        };
+        /** CancelBody */
+        CancelBody: {
+            /** Version */
+            version?: number | null;
+            /**
+             * Reasoncode
+             * @enum {string}
+             */
+            reasonCode: "out_of_stock" | "too_busy" | "customer_request" | "cannot_deliver" | "other";
+            /** Note */
+            note?: string | null;
         };
         /** CategoryCreate */
         CategoryCreate: {
@@ -1324,6 +1551,39 @@ export interface components {
             currencyCode: string;
             /** Timezone */
             timezone: string;
+        };
+        /** DispatchBody */
+        DispatchBody: {
+            /** Version */
+            version?: number | null;
+            /** Drivername */
+            driverName?: string | null;
+            /** Driverphone */
+            driverPhone?: string | null;
+        };
+        /** EventOut */
+        EventOut: {
+            /** Id */
+            id: number;
+            /** Type */
+            type: string;
+            /** Outletid */
+            outletId: number;
+            /** Createdat */
+            createdAt: string;
+            /** Payload */
+            payload: {
+                [key: string]: unknown;
+            };
+        };
+        /** EventsOut */
+        EventsOut: {
+            /** Events */
+            events: components["schemas"]["EventOut"][];
+            /** Cursor */
+            cursor: number;
+            /** Hasmore */
+            hasMore: boolean;
         };
         /** ExceptionsReplace */
         ExceptionsReplace: {
@@ -1848,6 +2108,235 @@ export interface components {
             /** Isdefault */
             isDefault?: boolean | null;
         };
+        /**
+         * OrderCountsOut
+         * @description How many orders are in each status for the same filters as the list
+         *     (the status filter itself is ignored).
+         */
+        OrderCountsOut: {
+            /** Pending */
+            pending: number;
+            /** Accepted */
+            accepted: number;
+            /** Ready */
+            ready: number;
+            /** Dispatched */
+            dispatched: number;
+            /** Completed */
+            completed: number;
+            /** Cancelled */
+            cancelled: number;
+            /** All */
+            all: number;
+        };
+        /**
+         * OrderHistoryOut
+         * @description One step of the status timeline.
+         */
+        OrderHistoryOut: {
+            /** Status */
+            status: string;
+            /** Fromstatus */
+            fromStatus: string | null;
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+            /** Actortype */
+            actorType: string;
+            /** Actorname */
+            actorName: string | null;
+            /** Reason */
+            reason: string | null;
+        };
+        /**
+         * OrderIn
+         * @description An order entered by staff (a phone order, or a test).
+         */
+        OrderIn: {
+            /** Outletid */
+            outletId: number;
+            /**
+             * Fulfillmenttype
+             * @enum {string}
+             */
+            fulfillmentType: "delivery" | "pickup";
+            /** Lines */
+            lines: components["schemas"]["OrderLineIn"][];
+            /** Customername */
+            customerName: string;
+            /** Customerphone */
+            customerPhone: string;
+            /** Customernotes */
+            customerNotes?: string | null;
+            /** Deliveryaddresstext */
+            deliveryAddressText?: string | null;
+            /** Deliveryreference */
+            deliveryReference?: string | null;
+            /** Deliverylat */
+            deliveryLat?: number | null;
+            /** Deliverylng */
+            deliveryLng?: number | null;
+            /** Scheduledfor */
+            scheduledFor?: string | null;
+            /**
+             * Paymentmethod
+             * @enum {string}
+             */
+            paymentMethod: "cash" | "card";
+            /** Cashpaywith */
+            cashPayWith?: number | string | null;
+            /**
+             * Tipamount
+             * @default 0
+             */
+            tipAmount: number | string;
+        };
+        /** OrderLineIn */
+        OrderLineIn: {
+            /** Productid */
+            productId: number;
+            /** Quantity */
+            quantity: number;
+            /** Optionids */
+            optionIds?: number[];
+            /** Notes */
+            notes?: string | null;
+        };
+        /** OrderLineOptionOut */
+        OrderLineOptionOut: {
+            /** Optionid */
+            optionId: number;
+            /** Groupname */
+            groupName: string;
+            /** Optionname */
+            optionName: string;
+            /** Pricedelta */
+            priceDelta: string;
+        };
+        /** OrderLineOut */
+        OrderLineOut: {
+            /** Id */
+            id: number;
+            /** Productid */
+            productId: number;
+            /** Productname */
+            productName: string;
+            /** Sku */
+            sku: string | null;
+            /** Quantity */
+            quantity: number;
+            /** Unitprice */
+            unitPrice: string;
+            /** Priceincludestax */
+            priceIncludesTax: boolean;
+            /** Optionsperunit */
+            optionsPerUnit: string;
+            /** Lineamount */
+            lineAmount: string;
+            /** Notes */
+            notes: string | null;
+            /** Options */
+            options: components["schemas"]["OrderLineOptionOut"][];
+            /** Imageurl */
+            imageUrl?: string | null;
+        };
+        /** OrderOut */
+        OrderOut: {
+            /** Id */
+            id: number;
+            /** Ordernumber */
+            orderNumber: number;
+            /** Publiccode */
+            publicCode: string;
+            /** Status */
+            status: string;
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Source */
+            source: string;
+            /** Outletid */
+            outletId: number;
+            /** Outletname */
+            outletName: string;
+            /**
+             * Placedat
+             * Format: date-time
+             */
+            placedAt: string;
+            /** Scheduledfor */
+            scheduledFor: string | null;
+            /**
+             * Expiresat
+             * Format: date-time
+             */
+            expiresAt: string;
+            /** Acceptedat */
+            acceptedAt: string | null;
+            /** Readyat */
+            readyAt: string | null;
+            /** Dispatchedat */
+            dispatchedAt: string | null;
+            /** Completedat */
+            completedAt: string | null;
+            /** Cancelledat */
+            cancelledAt: string | null;
+            /** Businessdate */
+            businessDate: string | null;
+            /** Cancelreasoncode */
+            cancelReasonCode: string | null;
+            /** Cancelreasonnote */
+            cancelReasonNote: string | null;
+            /** Drivername */
+            driverName: string | null;
+            /** Driverphone */
+            driverPhone: string | null;
+            /** Version */
+            version: number;
+            /** Customername */
+            customerName: string;
+            /** Customerphone */
+            customerPhone: string | null;
+            /** Customernotes */
+            customerNotes: string | null;
+            /** Deliveryaddresstext */
+            deliveryAddressText: string | null;
+            /** Deliveryreference */
+            deliveryReference: string | null;
+            /** Currencycode */
+            currencyCode: string;
+            /** Taxlabel */
+            taxLabel: string;
+            /** Taxrate */
+            taxRate: string;
+            /** Itemstotal */
+            itemsTotal: string;
+            /** Discounttotal */
+            discountTotal: string;
+            /** Deliveryfee */
+            deliveryFee: string;
+            /** Taxincluded */
+            taxIncluded: string;
+            /** Taxadded */
+            taxAdded: string;
+            /** Total */
+            total: string;
+            /** Tipamount */
+            tipAmount: string;
+            /** Amountdue */
+            amountDue: string;
+            /** Paymentmethod */
+            paymentMethod: string;
+            /** Paymentstatus */
+            paymentStatus: string;
+            /** Cashpaywith */
+            cashPayWith: string | null;
+            /** Lines */
+            lines: components["schemas"]["OrderLineOut"][];
+            /** History */
+            history: components["schemas"]["OrderHistoryOut"][];
+        };
         /** OrderSettings */
         OrderSettings: {
             /** Pagetitle */
@@ -1870,6 +2359,70 @@ export interface components {
             tipsEnabled: boolean;
             /** Tippresetspercent */
             tipPresetsPercent: string[];
+        };
+        /**
+         * OrderSummaryOut
+         * @description One row of the orders list; the full order is ``GET /orders/{id}``.
+         */
+        OrderSummaryOut: {
+            /** Id */
+            id: number;
+            /** Ordernumber */
+            orderNumber: number;
+            /** Publiccode */
+            publicCode: string;
+            /** Status */
+            status: string;
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Source */
+            source: string;
+            /** Outletid */
+            outletId: number;
+            /** Outletname */
+            outletName: string;
+            /**
+             * Placedat
+             * Format: date-time
+             */
+            placedAt: string;
+            /** Scheduledfor */
+            scheduledFor: string | null;
+            /**
+             * Expiresat
+             * Format: date-time
+             */
+            expiresAt: string;
+            /** Acceptedat */
+            acceptedAt: string | null;
+            /** Readyat */
+            readyAt: string | null;
+            /** Dispatchedat */
+            dispatchedAt: string | null;
+            /** Completedat */
+            completedAt: string | null;
+            /** Cancelledat */
+            cancelledAt: string | null;
+            /** Cancelreasoncode */
+            cancelReasonCode: string | null;
+            /** Version */
+            version: number;
+            /** Customername */
+            customerName: string;
+            /** Customerphone */
+            customerPhone: string | null;
+            /** Itemcount */
+            itemCount: number;
+            /** Currencycode */
+            currencyCode: string;
+            /** Total */
+            total: string;
+            /** Amountdue */
+            amountDue: string;
+            /** Paymentmethod */
+            paymentMethod: string;
+            /** Paymentstatus */
+            paymentStatus: string;
         };
         /** OutletCreate */
         OutletCreate: {
@@ -2074,6 +2627,19 @@ export interface components {
             totalCount: number;
             /** Results */
             results: components["schemas"]["MovementOut"][];
+        };
+        /** Paginated[OrderSummaryOut] */
+        Paginated_OrderSummaryOut_: {
+            /** Page */
+            page: number;
+            /** Itemsperpage */
+            itemsPerPage: number;
+            /** Totalpages */
+            totalPages: number;
+            /** Totalcount */
+            totalCount: number;
+            /** Results */
+            results: components["schemas"]["OrderSummaryOut"][];
         };
         /** Paginated[ProductOut] */
         Paginated_ProductOut_: {
@@ -2361,6 +2927,13 @@ export interface components {
              */
             effectiveFrom: string;
         };
+        /** TicketOut */
+        TicketOut: {
+            /** Ticket */
+            ticket: string;
+            /** Expiresinseconds */
+            expiresInSeconds: number;
+        };
         /** TokenResponse */
         TokenResponse: {
             /** Accesstoken */
@@ -2376,6 +2949,15 @@ export interface components {
             merchantId: number;
             /** Memberships */
             memberships: components["schemas"]["MembershipOut"][];
+        };
+        /**
+         * TransitionBody
+         * @description Send ``version`` (as last read) to be refused when the order changed
+         *     meanwhile.
+         */
+        TransitionBody: {
+            /** Version */
+            version?: number | null;
         };
         /** UploadCreated */
         UploadCreated: {
@@ -4748,6 +5330,402 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["OptionGroupOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_orders_orders_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                itemsPerPage?: number;
+                status?: ("pending" | "accepted" | "ready" | "dispatched" | "completed" | "cancelled")[] | null;
+                outletId?: number | null;
+                dateFrom?: string | null;
+                dateTo?: string | null;
+                openAnyDate?: boolean;
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Paginated_OrderSummaryOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_order_orders_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OrderIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    count_orders_orders_counts_get: {
+        parameters: {
+            query?: {
+                outletId?: number | null;
+                dateFrom?: string | null;
+                dateTo?: string | null;
+                openAnyDate?: boolean;
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderCountsOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_order_orders__order_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    accept_order_orders__order_id__accept_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TransitionBody"] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ready_order_orders__order_id__ready_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TransitionBody"] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    dispatch_order_orders__order_id__dispatch_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DispatchBody"] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    complete_order_orders__order_id__complete_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TransitionBody"] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancel_order_orders__order_id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_ticket_events_ticket_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketOut"];
+                };
+            };
+        };
+    };
+    stream_events_stream_get: {
+        parameters: {
+            query: {
+                ticket: string;
+                after?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    poll_events_get: {
+        parameters: {
+            query?: {
+                after?: number | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventsOut"];
                 };
             };
             /** @description Validation Error */

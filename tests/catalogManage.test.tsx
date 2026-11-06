@@ -642,7 +642,7 @@ describe("Producto: pestaña Opciones", () => {
     const table = await screen.findByRole("table", {
       name: "Grupos de opciones del producto",
     });
-    expect(within(table).getByText("Tamaño")).toBeInTheDocument();
+    expect(await within(table).findByText("Tamaño")).toBeInTheDocument();
     await userEvent.type(screen.getByLabelText("Máximo propio de Tamaño"), "1");
     await userEvent.click(screen.getByLabelText("Agregar grupo"));
     await userEvent.click(

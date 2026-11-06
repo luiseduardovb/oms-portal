@@ -12,6 +12,7 @@ export interface NavItem {
  * screens are built: Orders, Product Catalog, Marketing, Analytics, Setup. */
 export const NAV_ITEMS: NavItem[] = [
   { key: "home", href: "/" },
+  { key: "orders", href: "/orders", area: "orders" },
   { key: "catalog", href: "/catalog", area: "catalog" },
   { key: "team", href: "/team", area: "team" },
   { key: "outlets", href: "/outlets", area: "setup" },
