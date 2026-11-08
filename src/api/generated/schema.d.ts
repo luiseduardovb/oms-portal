@@ -2359,6 +2359,18 @@ export interface components {
             tipsEnabled: boolean;
             /** Tippresetspercent */
             tipPresetsPercent: string[];
+            /** Contactphone */
+            contactPhone: string | null;
+            /** Contactwhatsapp */
+            contactWhatsapp: string | null;
+            /** Contactemail */
+            contactEmail: string | null;
+            /** Instagramurl */
+            instagramUrl: string | null;
+            /** Facebookurl */
+            facebookUrl: string | null;
+            /** Websiteurl */
+            websiteUrl: string | null;
         };
         /**
          * OrderSummaryOut
@@ -2849,6 +2861,18 @@ export interface components {
             logoMediaId?: number | null;
             /** Covermediaid */
             coverMediaId?: number | null;
+            /** Contactphone */
+            contactPhone?: string | null;
+            /** Contactwhatsapp */
+            contactWhatsapp?: string | null;
+            /** Contactemail */
+            contactEmail?: string | null;
+            /** Instagramurl */
+            instagramUrl?: string | null;
+            /** Facebookurl */
+            facebookUrl?: string | null;
+            /** Websiteurl */
+            websiteUrl?: string | null;
         };
         /** SlugChange */
         SlugChange: {

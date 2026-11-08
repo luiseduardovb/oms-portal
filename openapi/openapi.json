@@ -6912,7 +6912,7 @@
             "maximum": 7.0,
             "minimum": 1.0,
             "title": "Weekday",
-            "description": "1 = Monday \u2026 7 = Sunday"
+            "description": "1 = Monday … 7 = Sunday"
           },
           "opensAt": {
             "type": "string",
@@ -8084,6 +8084,72 @@
             },
             "type": "array",
             "title": "Tippresetspercent"
+          },
+          "contactPhone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactphone"
+          },
+          "contactWhatsapp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactwhatsapp"
+          },
+          "contactEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactemail"
+          },
+          "instagramUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instagramurl"
+          },
+          "facebookUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Facebookurl"
+          },
+          "websiteUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Websiteurl"
           }
         },
         "type": "object",
@@ -8097,7 +8163,13 @@
           "slotIntervalMinutes",
           "maxScheduleDays",
           "tipsEnabled",
-          "tipPresetsPercent"
+          "tipPresetsPercent",
+          "contactPhone",
+          "contactWhatsapp",
+          "contactEmail",
+          "instagramUrl",
+          "facebookUrl",
+          "websiteUrl"
         ],
         "title": "OrderSettings"
       },
@@ -9840,6 +9912,82 @@
               }
             ],
             "title": "Covermediaid"
+          },
+          "contactPhone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\+[0-9]{8,15}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactphone"
+          },
+          "contactWhatsapp": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\+[0-9]{8,15}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactwhatsapp"
+          },
+          "contactEmail": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 254,
+                "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactemail"
+          },
+          "instagramUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300,
+                "pattern": "^https://\\S+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instagramurl"
+          },
+          "facebookUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300,
+                "pattern": "^https://\\S+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Facebookurl"
+          },
+          "websiteUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300,
+                "pattern": "^https://\\S+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Websiteurl"
           }
         },
         "type": "object",

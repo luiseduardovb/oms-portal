@@ -43,6 +43,12 @@ const SETUP = {
     maxScheduleDays: 7,
     tipsEnabled: false,
     tipPresetsPercent: [],
+    contactPhone: null,
+    contactWhatsapp: null,
+    contactEmail: null,
+    instagramUrl: null,
+    facebookUrl: null,
+    websiteUrl: null,
   },
   paymentMethods: { cashOnDelivery: true, cardOnDelivery: true },
 };
@@ -300,6 +306,44 @@ describe("Pedidos", () => {
       screen.getByText("Activa pedidos inmediatos, programados o ambos."),
     ).toBeVisible();
     expect(screen.getByText(/Usa hasta 5 porcentajes distintos/)).toBeVisible();
+    expect(writes(calls)).toEqual([]);
+  });
+
+  it("saves the contact links", async () => {
+    const { calls } = await open();
+    await userEvent.type(screen.getByLabelText("Teléfono"), "+504 2222-1111");
+    await userEvent.type(screen.getByLabelText("WhatsApp"), "+50499998888");
+    await userEvent.type(screen.getByLabelText("Correo"), "hola@cafe.hn");
+    await userEvent.type(
+      screen.getByLabelText("Instagram"),
+      "https://instagram.com/cafe",
+    );
+    await save();
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        data: {
+          contactPhone: "+50422221111",
+          contactWhatsapp: "+50499998888",
+          contactEmail: "hola@cafe.hn",
+          instagramUrl: "https://instagram.com/cafe",
+          facebookUrl: null,
+          websiteUrl: null,
+        },
+      }),
+    );
+  });
+
+  it("checks the contact links before sending", async () => {
+    const { calls } = await open();
+    await userEvent.type(screen.getByLabelText("Teléfono"), "22221111");
+    await userEvent.type(screen.getByLabelText("Correo"), "no-es-correo");
+    await userEvent.type(screen.getByLabelText("Sitio web"), "http://cafe.hn");
+    await save();
+    expect(await screen.findByText(/Usa el código de país/)).toBeVisible();
+    expect(screen.getByText("Ingresa un correo válido.")).toBeVisible();
+    expect(
+      screen.getByText("Usa un enlace que empiece con https://"),
+    ).toBeVisible();
     expect(writes(calls)).toEqual([]);
   });
 

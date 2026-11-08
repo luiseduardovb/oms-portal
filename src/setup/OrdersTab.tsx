@@ -19,6 +19,12 @@ import { formatTipPresets, parseTipPresets } from "./tips";
 
 const INTERVALS = [10, 15, 20, 30, 60];
 const COLOR = /^#[0-9A-Fa-f]{6}$/;
+const PHONE = /^\+[0-9]{8,15}$/;
+const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const LINK = /^https:\/\/\S+$/;
+
+// "+504 2222-1111" is fine to type; the server keeps digits only.
+const cleanPhone = (value: string) => value.trim().replace(/[\s\-().]/g, "");
 
 interface Props {
   setup: StoreSetup;
@@ -42,6 +48,12 @@ export function OrdersTab({ setup, canEdit }: Props) {
   const [days, setDays] = useState(String(s.maxScheduleDays));
   const [tips, setTips] = useState(s.tipsEnabled);
   const [presets, setPresets] = useState(formatTipPresets(s.tipPresetsPercent));
+  const [phone, setPhone] = useState(s.contactPhone ?? "");
+  const [whatsapp, setWhatsapp] = useState(s.contactWhatsapp ?? "");
+  const [email, setEmail] = useState(s.contactEmail ?? "");
+  const [instagram, setInstagram] = useState(s.instagramUrl ?? "");
+  const [facebook, setFacebook] = useState(s.facebookUrl ?? "");
+  const [website, setWebsite] = useState(s.websiteUrl ?? "");
   const [problems, setProblems] = useState<Record<string, string>>({});
 
   const submit = async () => {
@@ -57,6 +69,22 @@ export function OrdersTab({ setup, canEdit }: Props) {
     const parsed = parseTipPresets(presets);
     if (parsed === null) found.presets = t("tipPresetsInvalid");
     else if (tips && parsed.length === 0) found.presets = t("tipsNeedPresets");
+    const phoneValue = cleanPhone(phone);
+    const whatsappValue = cleanPhone(whatsapp);
+    if (phoneValue !== "" && !PHONE.test(phoneValue))
+      found.phone = t("phoneInvalid");
+    if (whatsappValue !== "" && !PHONE.test(whatsappValue))
+      found.whatsapp = t("phoneInvalid");
+    if (email.trim() !== "" && !EMAIL.test(email.trim()))
+      found.email = t("emailInvalid");
+    for (const [key, value] of [
+      ["instagram", instagram],
+      ["facebook", facebook],
+      ["website", website],
+    ] as const) {
+      if (value.trim() !== "" && !LINK.test(value.trim()))
+        found[key] = t("linkInvalid");
+    }
     setProblems(found);
     if (Object.keys(found).length > 0 || parsed === null) return;
     await save({
@@ -70,6 +98,12 @@ export function OrdersTab({ setup, canEdit }: Props) {
       maxScheduleDays: dayCount,
       tipsEnabled: tips,
       tipPresetsPercent: parsed,
+      contactPhone: phoneValue || null,
+      contactWhatsapp: whatsappValue || null,
+      contactEmail: email.trim() || null,
+      instagramUrl: instagram.trim() || null,
+      facebookUrl: facebook.trim() || null,
+      websiteUrl: website.trim() || null,
     });
   };
 
@@ -138,6 +172,70 @@ export function OrdersTab({ setup, canEdit }: Props) {
             />
           </Stack>
           {toggle(t("hideStoreName"), hideName, setHideName)}
+        </Stack>
+      </Paper>
+      <Paper variant="outlined" sx={{ p: 3 }}>
+        <Stack spacing={2}>
+          <Typography variant="h6" component="h2">
+            {t("contactSection")}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {t("contactHelp")}
+          </Typography>
+          <TextField
+            label={t("contactPhone")}
+            value={phone}
+            placeholder="+504 2222-1111"
+            disabled={!canEdit}
+            error={Boolean(problems.phone)}
+            helperText={problems.phone}
+            onChange={(event) => setPhone(event.target.value)}
+          />
+          <TextField
+            label={t("contactWhatsapp")}
+            value={whatsapp}
+            placeholder="+504 9999-8888"
+            disabled={!canEdit}
+            error={Boolean(problems.whatsapp)}
+            helperText={problems.whatsapp}
+            onChange={(event) => setWhatsapp(event.target.value)}
+          />
+          <TextField
+            label={t("contactEmail")}
+            value={email}
+            placeholder="hola@minegocio.com"
+            disabled={!canEdit}
+            error={Boolean(problems.email)}
+            helperText={problems.email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <TextField
+            label={t("instagramUrl")}
+            value={instagram}
+            placeholder="https://instagram.com/minegocio"
+            disabled={!canEdit}
+            error={Boolean(problems.instagram)}
+            helperText={problems.instagram}
+            onChange={(event) => setInstagram(event.target.value)}
+          />
+          <TextField
+            label={t("facebookUrl")}
+            value={facebook}
+            placeholder="https://facebook.com/minegocio"
+            disabled={!canEdit}
+            error={Boolean(problems.facebook)}
+            helperText={problems.facebook}
+            onChange={(event) => setFacebook(event.target.value)}
+          />
+          <TextField
+            label={t("websiteUrl")}
+            value={website}
+            placeholder="https://minegocio.com"
+            disabled={!canEdit}
+            error={Boolean(problems.website)}
+            helperText={problems.website}
+            onChange={(event) => setWebsite(event.target.value)}
+          />
         </Stack>
       </Paper>
       <Paper variant="outlined" sx={{ p: 3 }}>
