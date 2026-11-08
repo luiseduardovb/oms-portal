@@ -4958,6 +4958,102 @@
         ]
       }
     },
+    "/public/stores/{slug}": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Get Store",
+        "description": "A live store: look, contact links, order settings and branches.",
+        "operationId": "get_store_public_stores__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicStore"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/stores/{slug}/outlets/{outlet_id}/menu": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Get Menu",
+        "description": "The menu one branch offers: published, not archived, with choices.",
+        "operationId": "get_menu_public_stores__slug__outlets__outlet_id__menu_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicMenu"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/local-storage/{key}": {
       "put": {
         "tags": [
@@ -9696,6 +9792,687 @@
         "type": "object",
         "title": "ProductUpdate",
         "description": "Send only the fields to change. Description, image, SKU and prep time\nmay be null."
+      },
+      "PublicCategory": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "picture": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicPicture"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/PublicProduct"
+            },
+            "type": "array",
+            "title": "Products"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "picture",
+          "products"
+        ],
+        "title": "PublicCategory"
+      },
+      "PublicInterval": {
+        "properties": {
+          "opensAt": {
+            "type": "string",
+            "format": "time",
+            "title": "Opensat"
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "time",
+            "title": "Closesat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "opensAt",
+          "closesAt"
+        ],
+        "title": "PublicInterval"
+      },
+      "PublicMenu": {
+        "properties": {
+          "outletId": {
+            "type": "integer",
+            "title": "Outletid"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/PublicCategory"
+            },
+            "type": "array",
+            "title": "Categories"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outletId",
+          "currencyCode",
+          "categories"
+        ],
+        "title": "PublicMenu"
+      },
+      "PublicOption": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "priceDelta": {
+            "type": "string",
+            "title": "Pricedelta"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "title": "Isdefault"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "priceDelta",
+          "isDefault"
+        ],
+        "title": "PublicOption"
+      },
+      "PublicOptionGroup": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "selectionType": {
+            "type": "string",
+            "title": "Selectiontype"
+          },
+          "isRequired": {
+            "type": "boolean",
+            "title": "Isrequired"
+          },
+          "minSelect": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Minselect"
+          },
+          "maxSelect": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Maxselect"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOption"
+            },
+            "type": "array",
+            "title": "Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "selectionType",
+          "isRequired",
+          "minSelect",
+          "maxSelect",
+          "options"
+        ],
+        "title": "PublicOptionGroup"
+      },
+      "PublicOutlet": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "addressText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresstext"
+          },
+          "referenceNotes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Referencenotes"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "pickupEnabled": {
+            "type": "boolean",
+            "title": "Pickupenabled"
+          },
+          "deliveryEnabled": {
+            "type": "boolean",
+            "title": "Deliveryenabled"
+          },
+          "isBusy": {
+            "type": "boolean",
+            "title": "Isbusy"
+          },
+          "prepTimeMinutes": {
+            "type": "integer",
+            "title": "Preptimeminutes"
+          },
+          "deliveryFee": {
+            "type": "string",
+            "title": "Deliveryfee"
+          },
+          "deliveryMinOrder": {
+            "type": "string",
+            "title": "Deliveryminorder"
+          },
+          "deliveryEtaMinutes": {
+            "type": "integer",
+            "title": "Deliveryetaminutes"
+          },
+          "isOpenNow": {
+            "type": "boolean",
+            "title": "Isopennow"
+          },
+          "todayHours": {
+            "items": {
+              "$ref": "#/components/schemas/PublicInterval"
+            },
+            "type": "array",
+            "title": "Todayhours"
+          },
+          "hours": {
+            "items": {
+              "$ref": "#/components/schemas/PublicWeekday"
+            },
+            "type": "array",
+            "title": "Hours"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "addressText",
+          "referenceNotes",
+          "latitude",
+          "longitude",
+          "phone",
+          "timezone",
+          "pickupEnabled",
+          "deliveryEnabled",
+          "isBusy",
+          "prepTimeMinutes",
+          "deliveryFee",
+          "deliveryMinOrder",
+          "deliveryEtaMinutes",
+          "isOpenNow",
+          "todayHours",
+          "hours"
+        ],
+        "title": "PublicOutlet"
+      },
+      "PublicPaymentMethods": {
+        "properties": {
+          "cashOnDelivery": {
+            "type": "boolean",
+            "title": "Cashondelivery"
+          },
+          "cardOnDelivery": {
+            "type": "boolean",
+            "title": "Cardondelivery"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cashOnDelivery",
+          "cardOnDelivery"
+        ],
+        "title": "PublicPaymentMethods"
+      },
+      "PublicPicture": {
+        "properties": {
+          "largeUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Largeurl"
+          },
+          "thumbUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thumburl"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          }
+        },
+        "type": "object",
+        "required": [
+          "largeUrl",
+          "thumbUrl",
+          "width",
+          "height"
+        ],
+        "title": "PublicPicture"
+      },
+      "PublicProduct": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "picture": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicPicture"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "price": {
+            "type": "string",
+            "title": "Price"
+          },
+          "priceIncludesTax": {
+            "type": "boolean",
+            "title": "Priceincludestax"
+          },
+          "isSoldOut": {
+            "type": "boolean",
+            "title": "Issoldout"
+          },
+          "optionGroups": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOptionGroup"
+            },
+            "type": "array",
+            "title": "Optiongroups"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "picture",
+          "price",
+          "priceIncludesTax",
+          "isSoldOut",
+          "optionGroups"
+        ],
+        "title": "PublicProduct"
+      },
+      "PublicStore": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "pageTitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pagetitle"
+          },
+          "slogan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slogan"
+          },
+          "primaryColor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primarycolor"
+          },
+          "hideStoreName": {
+            "type": "boolean",
+            "title": "Hidestorename"
+          },
+          "logo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicPicture"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cover": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicPicture"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "contactPhone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactphone"
+          },
+          "contactWhatsapp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactwhatsapp"
+          },
+          "contactEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contactemail"
+          },
+          "instagramUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instagramurl"
+          },
+          "facebookUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Facebookurl"
+          },
+          "websiteUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Websiteurl"
+          },
+          "asapEnabled": {
+            "type": "boolean",
+            "title": "Asapenabled"
+          },
+          "scheduledEnabled": {
+            "type": "boolean",
+            "title": "Scheduledenabled"
+          },
+          "slotIntervalMinutes": {
+            "type": "integer",
+            "title": "Slotintervalminutes"
+          },
+          "maxScheduleDays": {
+            "type": "integer",
+            "title": "Maxscheduledays"
+          },
+          "tipsEnabled": {
+            "type": "boolean",
+            "title": "Tipsenabled"
+          },
+          "tipPresetsPercent": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tippresetspercent"
+          },
+          "paymentMethods": {
+            "$ref": "#/components/schemas/PublicPaymentMethods"
+          },
+          "outlets": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOutlet"
+            },
+            "type": "array",
+            "title": "Outlets"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "slug",
+          "currencyCode",
+          "timezone",
+          "pageTitle",
+          "slogan",
+          "primaryColor",
+          "hideStoreName",
+          "logo",
+          "cover",
+          "contactPhone",
+          "contactWhatsapp",
+          "contactEmail",
+          "instagramUrl",
+          "facebookUrl",
+          "websiteUrl",
+          "asapEnabled",
+          "scheduledEnabled",
+          "slotIntervalMinutes",
+          "maxScheduleDays",
+          "tipsEnabled",
+          "tipPresetsPercent",
+          "paymentMethods",
+          "outlets"
+        ],
+        "title": "PublicStore"
+      },
+      "PublicWeekday": {
+        "properties": {
+          "weekday": {
+            "type": "integer",
+            "title": "Weekday"
+          },
+          "opensAt": {
+            "type": "string",
+            "format": "time",
+            "title": "Opensat"
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "time",
+            "title": "Closesat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "weekday",
+          "opensAt",
+          "closesAt"
+        ],
+        "title": "PublicWeekday"
       },
       "PublishBody": {
         "properties": {

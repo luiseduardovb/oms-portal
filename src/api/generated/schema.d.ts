@@ -1391,6 +1391,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Store
+         * @description A live store: look, contact links, order settings and branches.
+         */
+        get: operations["get_store_public_stores__slug__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/stores/{slug}/outlets/{outlet_id}/menu": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Menu
+         * @description The menu one branch offers: published, not archived, with choices.
+         */
+        get: operations["get_menu_public_stores__slug__outlets__outlet_id__menu_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/local-storage/{key}": {
         parameters: {
             query?: never;
@@ -2809,6 +2849,206 @@ export interface components {
             prepTimeMinutes?: number | null;
             /** Ispublished */
             isPublished?: boolean | null;
+        };
+        /** PublicCategory */
+        PublicCategory: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string | null;
+            picture: components["schemas"]["PublicPicture"] | null;
+            /** Products */
+            products: components["schemas"]["PublicProduct"][];
+        };
+        /** PublicInterval */
+        PublicInterval: {
+            /**
+             * Opensat
+             * Format: time
+             */
+            opensAt: string;
+            /**
+             * Closesat
+             * Format: time
+             */
+            closesAt: string;
+        };
+        /** PublicMenu */
+        PublicMenu: {
+            /** Outletid */
+            outletId: number;
+            /** Currencycode */
+            currencyCode: string;
+            /** Categories */
+            categories: components["schemas"]["PublicCategory"][];
+        };
+        /** PublicOption */
+        PublicOption: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Pricedelta */
+            priceDelta: string;
+            /** Isdefault */
+            isDefault: boolean;
+        };
+        /** PublicOptionGroup */
+        PublicOptionGroup: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Selectiontype */
+            selectionType: string;
+            /** Isrequired */
+            isRequired: boolean;
+            /** Minselect */
+            minSelect: number;
+            /** Maxselect */
+            maxSelect: number;
+            /** Options */
+            options: components["schemas"]["PublicOption"][];
+        };
+        /** PublicOutlet */
+        PublicOutlet: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Addresstext */
+            addressText: string | null;
+            /** Referencenotes */
+            referenceNotes: string | null;
+            /** Latitude */
+            latitude: string | null;
+            /** Longitude */
+            longitude: string | null;
+            /** Phone */
+            phone: string | null;
+            /** Timezone */
+            timezone: string;
+            /** Pickupenabled */
+            pickupEnabled: boolean;
+            /** Deliveryenabled */
+            deliveryEnabled: boolean;
+            /** Isbusy */
+            isBusy: boolean;
+            /** Preptimeminutes */
+            prepTimeMinutes: number;
+            /** Deliveryfee */
+            deliveryFee: string;
+            /** Deliveryminorder */
+            deliveryMinOrder: string;
+            /** Deliveryetaminutes */
+            deliveryEtaMinutes: number;
+            /** Isopennow */
+            isOpenNow: boolean;
+            /** Todayhours */
+            todayHours: components["schemas"]["PublicInterval"][];
+            /** Hours */
+            hours: components["schemas"]["PublicWeekday"][];
+        };
+        /** PublicPaymentMethods */
+        PublicPaymentMethods: {
+            /** Cashondelivery */
+            cashOnDelivery: boolean;
+            /** Cardondelivery */
+            cardOnDelivery: boolean;
+        };
+        /** PublicPicture */
+        PublicPicture: {
+            /** Largeurl */
+            largeUrl: string | null;
+            /** Thumburl */
+            thumbUrl: string | null;
+            /** Width */
+            width: number | null;
+            /** Height */
+            height: number | null;
+        };
+        /** PublicProduct */
+        PublicProduct: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string | null;
+            picture: components["schemas"]["PublicPicture"] | null;
+            /** Price */
+            price: string;
+            /** Priceincludestax */
+            priceIncludesTax: boolean;
+            /** Issoldout */
+            isSoldOut: boolean;
+            /** Optiongroups */
+            optionGroups: components["schemas"]["PublicOptionGroup"][];
+        };
+        /** PublicStore */
+        PublicStore: {
+            /** Name */
+            name: string;
+            /** Slug */
+            slug: string;
+            /** Currencycode */
+            currencyCode: string;
+            /** Timezone */
+            timezone: string;
+            /** Pagetitle */
+            pageTitle: string | null;
+            /** Slogan */
+            slogan: string | null;
+            /** Primarycolor */
+            primaryColor: string | null;
+            /** Hidestorename */
+            hideStoreName: boolean;
+            logo: components["schemas"]["PublicPicture"] | null;
+            cover: components["schemas"]["PublicPicture"] | null;
+            /** Contactphone */
+            contactPhone: string | null;
+            /** Contactwhatsapp */
+            contactWhatsapp: string | null;
+            /** Contactemail */
+            contactEmail: string | null;
+            /** Instagramurl */
+            instagramUrl: string | null;
+            /** Facebookurl */
+            facebookUrl: string | null;
+            /** Websiteurl */
+            websiteUrl: string | null;
+            /** Asapenabled */
+            asapEnabled: boolean;
+            /** Scheduledenabled */
+            scheduledEnabled: boolean;
+            /** Slotintervalminutes */
+            slotIntervalMinutes: number;
+            /** Maxscheduledays */
+            maxScheduleDays: number;
+            /** Tipsenabled */
+            tipsEnabled: boolean;
+            /** Tippresetspercent */
+            tipPresetsPercent: string[];
+            paymentMethods: components["schemas"]["PublicPaymentMethods"];
+            /** Outlets */
+            outlets: components["schemas"]["PublicOutlet"][];
+        };
+        /** PublicWeekday */
+        PublicWeekday: {
+            /** Weekday */
+            weekday: number;
+            /**
+             * Opensat
+             * Format: time
+             */
+            opensAt: string;
+            /**
+             * Closesat
+             * Format: time
+             */
+            closesAt: string;
         };
         /** PublishBody */
         PublishBody: {
@@ -5750,6 +5990,69 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["EventsOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_store_public_stores__slug__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicStore"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_menu_public_stores__slug__outlets__outlet_id__menu_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicMenu"];
                 };
             };
             /** @description Validation Error */

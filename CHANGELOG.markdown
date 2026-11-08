@@ -6,6 +6,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-802: OpenAPI snapshot and types refreshed for the public storefront API.
 - TASK-801: "Contacto y redes" section in Setup (phone, WhatsApp, email, Instagram, Facebook, website) with checks before saving. OpenAPI snapshot and types refreshed.
 - TASK-001: Local repository initialised (no commits yet).
 - TASK-002: README and documentation pointer to `oms-be/docs`.
