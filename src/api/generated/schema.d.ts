@@ -1471,6 +1471,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/orders/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Track Order
+         * @description Follow an order by its public code. Poll this; the ETag lets an
+         *     unchanged order answer 304.
+         */
+        get: operations["track_order_public_orders__code__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/orders/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Order Statuses
+         * @description Status of up to 20 orders by code, for a "my orders" list. Unknown
+         *     codes are left out.
+         */
+        post: operations["order_statuses_public_orders_status_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/local-storage/{key}": {
         parameters: {
             query?: never;
@@ -3077,6 +3119,56 @@ export interface components {
             /** Pricedelta */
             priceDelta: string;
         };
+        /** PublicOrderStatus */
+        PublicOrderStatus: {
+            /** Publiccode */
+            publicCode: string;
+            /** Ordernumber */
+            orderNumber: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "pending" | "accepted" | "ready" | "dispatched" | "completed" | "cancelled";
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Outletname */
+            outletName: string;
+            /**
+             * Placedat
+             * Format: date-time
+             */
+            placedAt: string;
+            /** Scheduledfor */
+            scheduledFor: string | null;
+            /** Currencycode */
+            currencyCode: string;
+            /** Total */
+            total: string;
+        };
+        /** PublicOrderStatusIn */
+        PublicOrderStatusIn: {
+            /** Codes */
+            codes: string[];
+        };
+        /** PublicOrderStatuses */
+        PublicOrderStatuses: {
+            /** Orders */
+            orders: components["schemas"]["PublicOrderStatus"][];
+        };
+        /** PublicOrderStep */
+        PublicOrderStep: {
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "pending" | "accepted" | "ready" | "dispatched" | "completed" | "cancelled";
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+        };
         /** PublicOutlet */
         PublicOutlet: {
             /** Id */
@@ -3261,6 +3353,70 @@ export interface components {
             paymentMethods: components["schemas"]["PublicPaymentMethods"];
             /** Outlets */
             outlets: components["schemas"]["PublicOutlet"][];
+        };
+        /**
+         * PublicTracking
+         * @description An order as its customer follows it.
+         */
+        PublicTracking: {
+            /** Publiccode */
+            publicCode: string;
+            /** Ordernumber */
+            orderNumber: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "pending" | "accepted" | "ready" | "dispatched" | "completed" | "cancelled";
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Outletname */
+            outletName: string;
+            /**
+             * Placedat
+             * Format: date-time
+             */
+            placedAt: string;
+            /** Scheduledfor */
+            scheduledFor: string | null;
+            /** Customername */
+            customerName: string;
+            /** Deliveryaddresstext */
+            deliveryAddressText: string | null;
+            /** Currencycode */
+            currencyCode: string;
+            /** Itemstotal */
+            itemsTotal: string;
+            /** Discounttotal */
+            discountTotal: string;
+            /** Deliveryfee */
+            deliveryFee: string;
+            /** Taxincluded */
+            taxIncluded: string;
+            /** Taxadded */
+            taxAdded: string;
+            /** Total */
+            total: string;
+            /** Tipamount */
+            tipAmount: string;
+            /** Amountdue */
+            amountDue: string;
+            /** Paymentmethod */
+            paymentMethod: string;
+            /** Cashpaywith */
+            cashPayWith: string | null;
+            /** Lines */
+            lines: components["schemas"]["PublicOrderLine"][];
+            /** Timeline */
+            timeline: components["schemas"]["PublicOrderStep"][];
+            /** Cancelreason */
+            cancelReason: string | null;
+            /** Outletphone */
+            outletPhone: string | null;
+            /** Outletaddress */
+            outletAddress: string | null;
+            /** Driverfirstname */
+            driverFirstName: string | null;
         };
         /** PublicWeekday */
         PublicWeekday: {
@@ -6353,6 +6509,77 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicOrder"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    track_order_public_orders__code__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicTracking"];
+                };
+            };
+            /** @description Unchanged since the given ETag. */
+            304: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    order_statuses_public_orders_status_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicOrderStatusIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicOrderStatuses"];
                 };
             };
             /** @description Validation Error */

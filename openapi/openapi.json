@@ -5172,6 +5172,94 @@
         }
       }
     },
+    "/public/orders/{code}": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Track Order",
+        "description": "Follow an order by its public code. Poll this; the ETag lets an\nunchanged order answer 304.",
+        "operationId": "track_order_public_orders__code__get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicTracking"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Unchanged since the given ETag."
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/orders/status": {
+      "post": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Order Statuses",
+        "description": "Status of up to 20 orders by code, for a \"my orders\" list. Unknown\ncodes are left out.",
+        "operationId": "order_statuses_public_orders_status_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicOrderStatusIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicOrderStatuses"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/local-storage/{key}": {
       "put": {
         "tags": [
@@ -10476,6 +10564,138 @@
         ],
         "title": "PublicOrderOption"
       },
+      "PublicOrderStatus": {
+        "properties": {
+          "publicCode": {
+            "type": "string",
+            "title": "Publiccode"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "title": "Ordernumber"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "ready",
+              "dispatched",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "title": "Fulfillmenttype"
+          },
+          "outletName": {
+            "type": "string",
+            "title": "Outletname"
+          },
+          "placedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Placedat"
+          },
+          "scheduledFor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheduledfor"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "publicCode",
+          "orderNumber",
+          "status",
+          "fulfillmentType",
+          "outletName",
+          "placedAt",
+          "scheduledFor",
+          "currencyCode",
+          "total"
+        ],
+        "title": "PublicOrderStatus"
+      },
+      "PublicOrderStatusIn": {
+        "properties": {
+          "codes": {
+            "items": {
+              "type": "string",
+              "pattern": "^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{8}$"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Codes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codes"
+        ],
+        "title": "PublicOrderStatusIn"
+      },
+      "PublicOrderStatuses": {
+        "properties": {
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOrderStatus"
+            },
+            "type": "array",
+            "title": "Orders"
+          }
+        },
+        "type": "object",
+        "required": [
+          "orders"
+        ],
+        "title": "PublicOrderStatuses"
+      },
+      "PublicOrderStep": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "ready",
+              "dispatched",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "at"
+        ],
+        "title": "PublicOrderStep"
+      },
       "PublicOutlet": {
         "properties": {
           "id": {
@@ -11115,6 +11335,210 @@
           "outlets"
         ],
         "title": "PublicStore"
+      },
+      "PublicTracking": {
+        "properties": {
+          "publicCode": {
+            "type": "string",
+            "title": "Publiccode"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "title": "Ordernumber"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "ready",
+              "dispatched",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "title": "Fulfillmenttype"
+          },
+          "outletName": {
+            "type": "string",
+            "title": "Outletname"
+          },
+          "placedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Placedat"
+          },
+          "scheduledFor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheduledfor"
+          },
+          "customerName": {
+            "type": "string",
+            "title": "Customername"
+          },
+          "deliveryAddressText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryaddresstext"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "itemsTotal": {
+            "type": "string",
+            "title": "Itemstotal"
+          },
+          "discountTotal": {
+            "type": "string",
+            "title": "Discounttotal"
+          },
+          "deliveryFee": {
+            "type": "string",
+            "title": "Deliveryfee"
+          },
+          "taxIncluded": {
+            "type": "string",
+            "title": "Taxincluded"
+          },
+          "taxAdded": {
+            "type": "string",
+            "title": "Taxadded"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          },
+          "tipAmount": {
+            "type": "string",
+            "title": "Tipamount"
+          },
+          "amountDue": {
+            "type": "string",
+            "title": "Amountdue"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "title": "Paymentmethod"
+          },
+          "cashPayWith": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cashpaywith"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOrderLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOrderStep"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "cancelReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancelreason"
+          },
+          "outletPhone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outletphone"
+          },
+          "outletAddress": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outletaddress"
+          },
+          "driverFirstName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Driverfirstname"
+          }
+        },
+        "type": "object",
+        "required": [
+          "publicCode",
+          "orderNumber",
+          "status",
+          "fulfillmentType",
+          "outletName",
+          "placedAt",
+          "scheduledFor",
+          "customerName",
+          "deliveryAddressText",
+          "currencyCode",
+          "itemsTotal",
+          "discountTotal",
+          "deliveryFee",
+          "taxIncluded",
+          "taxAdded",
+          "total",
+          "tipAmount",
+          "amountDue",
+          "paymentMethod",
+          "cashPayWith",
+          "lines",
+          "timeline",
+          "cancelReason",
+          "outletPhone",
+          "outletAddress",
+          "driverFirstName"
+        ],
+        "title": "PublicTracking",
+        "description": "An order as its customer follows it."
       },
       "PublicWeekday": {
         "properties": {
