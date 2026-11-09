@@ -5054,6 +5054,124 @@
         }
       }
     },
+    "/public/stores/{slug}/quote": {
+      "post": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Quote",
+        "description": "Price a cart without saving anything.",
+        "operationId": "quote_public_stores__slug__quote_post",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicQuoteIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicQuote"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/stores/{slug}/orders": {
+      "post": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Place Order",
+        "description": "Guest checkout. Prices come from the store, never from the request.",
+        "operationId": "place_order_public_stores__slug__orders_post",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{8,64}$",
+              "description": "A fresh value per checkout; a repeat with the same value returns the same order.",
+              "title": "Idempotency-Key"
+            },
+            "description": "A fresh value per checkout; a repeat with the same value returns the same order."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicOrderIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicOrder"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/local-storage/{key}": {
       "put": {
         "tags": [
@@ -9964,6 +10082,400 @@
         ],
         "title": "PublicOptionGroup"
       },
+      "PublicOrder": {
+        "properties": {
+          "publicCode": {
+            "type": "string",
+            "title": "Publiccode"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "title": "Ordernumber"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "ready",
+              "dispatched",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "title": "Fulfillmenttype"
+          },
+          "outletName": {
+            "type": "string",
+            "title": "Outletname"
+          },
+          "placedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Placedat"
+          },
+          "scheduledFor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheduledfor"
+          },
+          "customerName": {
+            "type": "string",
+            "title": "Customername"
+          },
+          "deliveryAddressText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryaddresstext"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "itemsTotal": {
+            "type": "string",
+            "title": "Itemstotal"
+          },
+          "discountTotal": {
+            "type": "string",
+            "title": "Discounttotal"
+          },
+          "deliveryFee": {
+            "type": "string",
+            "title": "Deliveryfee"
+          },
+          "taxIncluded": {
+            "type": "string",
+            "title": "Taxincluded"
+          },
+          "taxAdded": {
+            "type": "string",
+            "title": "Taxadded"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          },
+          "tipAmount": {
+            "type": "string",
+            "title": "Tipamount"
+          },
+          "amountDue": {
+            "type": "string",
+            "title": "Amountdue"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "title": "Paymentmethod"
+          },
+          "cashPayWith": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cashpaywith"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOrderLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          }
+        },
+        "type": "object",
+        "required": [
+          "publicCode",
+          "orderNumber",
+          "status",
+          "fulfillmentType",
+          "outletName",
+          "placedAt",
+          "scheduledFor",
+          "customerName",
+          "deliveryAddressText",
+          "currencyCode",
+          "itemsTotal",
+          "discountTotal",
+          "deliveryFee",
+          "taxIncluded",
+          "taxAdded",
+          "total",
+          "tipAmount",
+          "amountDue",
+          "paymentMethod",
+          "cashPayWith",
+          "lines"
+        ],
+        "title": "PublicOrder",
+        "description": "What the customer sees of an order: no internal fields."
+      },
+      "PublicOrderIn": {
+        "properties": {
+          "outletId": {
+            "type": "integer",
+            "title": "Outletid"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "enum": [
+              "delivery",
+              "pickup"
+            ],
+            "title": "Fulfillmenttype"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/OrderLineIn"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Lines"
+          },
+          "customerName": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Customername"
+          },
+          "customerPhone": {
+            "type": "string",
+            "title": "Customerphone"
+          },
+          "customerNotes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customernotes"
+          },
+          "deliveryAddressText": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryaddresstext"
+          },
+          "deliveryReference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryreference"
+          },
+          "deliveryLat": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 90.0,
+                "minimum": -90.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverylat"
+          },
+          "deliveryLng": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 180.0,
+                "minimum": -180.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverylng"
+          },
+          "scheduledFor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheduledfor"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "cash",
+              "card"
+            ],
+            "title": "Paymentmethod"
+          },
+          "cashPayWith": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cashpaywith"
+          },
+          "tipAmount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Tipamount",
+            "default": "0"
+          },
+          "customerEmail": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 254,
+                "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customeremail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outletId",
+          "fulfillmentType",
+          "lines",
+          "customerName",
+          "customerPhone",
+          "paymentMethod"
+        ],
+        "title": "PublicOrderIn",
+        "description": "A guest checkout: the staff order plus an optional email."
+      },
+      "PublicOrderLine": {
+        "properties": {
+          "productName": {
+            "type": "string",
+            "title": "Productname"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "unitPrice": {
+            "type": "string",
+            "title": "Unitprice"
+          },
+          "optionsPerUnit": {
+            "type": "string",
+            "title": "Optionsperunit"
+          },
+          "lineAmount": {
+            "type": "string",
+            "title": "Lineamount"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/PublicOrderOption"
+            },
+            "type": "array",
+            "title": "Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productName",
+          "quantity",
+          "unitPrice",
+          "optionsPerUnit",
+          "lineAmount",
+          "notes",
+          "options"
+        ],
+        "title": "PublicOrderLine"
+      },
+      "PublicOrderOption": {
+        "properties": {
+          "groupName": {
+            "type": "string",
+            "title": "Groupname"
+          },
+          "optionName": {
+            "type": "string",
+            "title": "Optionname"
+          },
+          "priceDelta": {
+            "type": "string",
+            "title": "Pricedelta"
+          }
+        },
+        "type": "object",
+        "required": [
+          "groupName",
+          "optionName",
+          "priceDelta"
+        ],
+        "title": "PublicOrderOption"
+      },
       "PublicOutlet": {
         "properties": {
           "id": {
@@ -10240,6 +10752,161 @@
           "optionGroups"
         ],
         "title": "PublicProduct"
+      },
+      "PublicQuote": {
+        "properties": {
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/PublicQuoteLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "itemsTotal": {
+            "type": "string",
+            "title": "Itemstotal"
+          },
+          "discountTotal": {
+            "type": "string",
+            "title": "Discounttotal"
+          },
+          "deliveryFee": {
+            "type": "string",
+            "title": "Deliveryfee"
+          },
+          "taxIncluded": {
+            "type": "string",
+            "title": "Taxincluded"
+          },
+          "taxAdded": {
+            "type": "string",
+            "title": "Taxadded"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          },
+          "tipAmount": {
+            "type": "string",
+            "title": "Tipamount"
+          },
+          "amountDue": {
+            "type": "string",
+            "title": "Amountdue"
+          },
+          "minimumOrder": {
+            "type": "string",
+            "title": "Minimumorder"
+          },
+          "minimumMet": {
+            "type": "boolean",
+            "title": "Minimummet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "currencyCode",
+          "lines",
+          "itemsTotal",
+          "discountTotal",
+          "deliveryFee",
+          "taxIncluded",
+          "taxAdded",
+          "total",
+          "tipAmount",
+          "amountDue",
+          "minimumOrder",
+          "minimumMet"
+        ],
+        "title": "PublicQuote"
+      },
+      "PublicQuoteIn": {
+        "properties": {
+          "outletId": {
+            "type": "integer",
+            "title": "Outletid"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "enum": [
+              "delivery",
+              "pickup"
+            ],
+            "title": "Fulfillmenttype"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/OrderLineIn"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Lines"
+          },
+          "tipAmount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Tipamount",
+            "default": "0"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outletId",
+          "fulfillmentType",
+          "lines"
+        ],
+        "title": "PublicQuoteIn",
+        "description": "A cart to price. Nothing is saved."
+      },
+      "PublicQuoteLine": {
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "title": "Productid"
+          },
+          "productName": {
+            "type": "string",
+            "title": "Productname"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "unitPrice": {
+            "type": "string",
+            "title": "Unitprice"
+          },
+          "optionsPerUnit": {
+            "type": "string",
+            "title": "Optionsperunit"
+          },
+          "lineAmount": {
+            "type": "string",
+            "title": "Lineamount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productId",
+          "productName",
+          "quantity",
+          "unitPrice",
+          "optionsPerUnit",
+          "lineAmount"
+        ],
+        "title": "PublicQuoteLine"
       },
       "PublicStore": {
         "properties": {

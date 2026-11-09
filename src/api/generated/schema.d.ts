@@ -1431,6 +1431,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}/quote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Quote
+         * @description Price a cart without saving anything.
+         */
+        post: operations["quote_public_stores__slug__quote_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/stores/{slug}/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Place Order
+         * @description Guest checkout. Prices come from the store, never from the request.
+         */
+        post: operations["place_order_public_stores__slug__orders_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/local-storage/{key}": {
         parameters: {
             query?: never;
@@ -2912,6 +2952,131 @@ export interface components {
             /** Options */
             options: components["schemas"]["PublicOption"][];
         };
+        /**
+         * PublicOrder
+         * @description What the customer sees of an order: no internal fields.
+         */
+        PublicOrder: {
+            /** Publiccode */
+            publicCode: string;
+            /** Ordernumber */
+            orderNumber: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "pending" | "accepted" | "ready" | "dispatched" | "completed" | "cancelled";
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Outletname */
+            outletName: string;
+            /**
+             * Placedat
+             * Format: date-time
+             */
+            placedAt: string;
+            /** Scheduledfor */
+            scheduledFor: string | null;
+            /** Customername */
+            customerName: string;
+            /** Deliveryaddresstext */
+            deliveryAddressText: string | null;
+            /** Currencycode */
+            currencyCode: string;
+            /** Itemstotal */
+            itemsTotal: string;
+            /** Discounttotal */
+            discountTotal: string;
+            /** Deliveryfee */
+            deliveryFee: string;
+            /** Taxincluded */
+            taxIncluded: string;
+            /** Taxadded */
+            taxAdded: string;
+            /** Total */
+            total: string;
+            /** Tipamount */
+            tipAmount: string;
+            /** Amountdue */
+            amountDue: string;
+            /** Paymentmethod */
+            paymentMethod: string;
+            /** Cashpaywith */
+            cashPayWith: string | null;
+            /** Lines */
+            lines: components["schemas"]["PublicOrderLine"][];
+        };
+        /**
+         * PublicOrderIn
+         * @description A guest checkout: the staff order plus an optional email.
+         */
+        PublicOrderIn: {
+            /** Outletid */
+            outletId: number;
+            /**
+             * Fulfillmenttype
+             * @enum {string}
+             */
+            fulfillmentType: "delivery" | "pickup";
+            /** Lines */
+            lines: components["schemas"]["OrderLineIn"][];
+            /** Customername */
+            customerName: string;
+            /** Customerphone */
+            customerPhone: string;
+            /** Customernotes */
+            customerNotes?: string | null;
+            /** Deliveryaddresstext */
+            deliveryAddressText?: string | null;
+            /** Deliveryreference */
+            deliveryReference?: string | null;
+            /** Deliverylat */
+            deliveryLat?: number | null;
+            /** Deliverylng */
+            deliveryLng?: number | null;
+            /** Scheduledfor */
+            scheduledFor?: string | null;
+            /**
+             * Paymentmethod
+             * @enum {string}
+             */
+            paymentMethod: "cash" | "card";
+            /** Cashpaywith */
+            cashPayWith?: number | string | null;
+            /**
+             * Tipamount
+             * @default 0
+             */
+            tipAmount: number | string;
+            /** Customeremail */
+            customerEmail?: string | null;
+        };
+        /** PublicOrderLine */
+        PublicOrderLine: {
+            /** Productname */
+            productName: string;
+            /** Quantity */
+            quantity: number;
+            /** Unitprice */
+            unitPrice: string;
+            /** Optionsperunit */
+            optionsPerUnit: string;
+            /** Lineamount */
+            lineAmount: string;
+            /** Notes */
+            notes: string | null;
+            /** Options */
+            options: components["schemas"]["PublicOrderOption"][];
+        };
+        /** PublicOrderOption */
+        PublicOrderOption: {
+            /** Groupname */
+            groupName: string;
+            /** Optionname */
+            optionName: string;
+            /** Pricedelta */
+            priceDelta: string;
+        };
         /** PublicOutlet */
         PublicOutlet: {
             /** Id */
@@ -2986,6 +3151,68 @@ export interface components {
             isSoldOut: boolean;
             /** Optiongroups */
             optionGroups: components["schemas"]["PublicOptionGroup"][];
+        };
+        /** PublicQuote */
+        PublicQuote: {
+            /** Currencycode */
+            currencyCode: string;
+            /** Lines */
+            lines: components["schemas"]["PublicQuoteLine"][];
+            /** Itemstotal */
+            itemsTotal: string;
+            /** Discounttotal */
+            discountTotal: string;
+            /** Deliveryfee */
+            deliveryFee: string;
+            /** Taxincluded */
+            taxIncluded: string;
+            /** Taxadded */
+            taxAdded: string;
+            /** Total */
+            total: string;
+            /** Tipamount */
+            tipAmount: string;
+            /** Amountdue */
+            amountDue: string;
+            /** Minimumorder */
+            minimumOrder: string;
+            /** Minimummet */
+            minimumMet: boolean;
+        };
+        /**
+         * PublicQuoteIn
+         * @description A cart to price. Nothing is saved.
+         */
+        PublicQuoteIn: {
+            /** Outletid */
+            outletId: number;
+            /**
+             * Fulfillmenttype
+             * @enum {string}
+             */
+            fulfillmentType: "delivery" | "pickup";
+            /** Lines */
+            lines: components["schemas"]["OrderLineIn"][];
+            /**
+             * Tipamount
+             * @default 0
+             */
+            tipAmount: number | string;
+        };
+        /** PublicQuoteLine */
+        PublicQuoteLine: {
+            /** Productid */
+            productId: number;
+            /** Productname */
+            productName: string;
+            /** Quantity */
+            quantity: number;
+            /** Unitprice */
+            unitPrice: string;
+            /** Optionsperunit */
+            optionsPerUnit: string;
+            /** Lineamount */
+            lineAmount: string;
         };
         /** PublicStore */
         PublicStore: {
@@ -6053,6 +6280,79 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicMenu"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    quote_public_stores__slug__quote_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicQuoteIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicQuote"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    place_order_public_stores__slug__orders_post: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description A fresh value per checkout; a repeat with the same value returns the same order. */
+                "Idempotency-Key": string;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicOrderIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicOrder"];
                 };
             };
             /** @description Validation Error */
