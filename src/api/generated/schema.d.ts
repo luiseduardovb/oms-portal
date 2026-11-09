@@ -3237,6 +3237,11 @@ export interface components {
             picture: components["schemas"]["PublicPicture"] | null;
             /** Price */
             price: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
             /** Priceincludestax */
             priceIncludesTax: boolean;
             /** Issoldout */

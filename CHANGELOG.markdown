@@ -6,6 +6,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-806: OpenAPI snapshot and types refreshed (public menu `createdAt`).
 - TASK-804: OpenAPI snapshot and types refreshed for public order tracking.
 - TASK-803: OpenAPI snapshot and types refreshed for the storefront quote and checkout.
 - TASK-802: OpenAPI snapshot and types refreshed for the public storefront API.
