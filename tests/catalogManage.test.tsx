@@ -208,15 +208,14 @@ describe("Catalog sections", () => {
 describe("Categorías", () => {
   it("lists categories and asks for archived ones on request", async () => {
     const { calls } = open(<CategoriesPage />);
-    const table = await screen.findByRole("table", { name: "Categorías" });
-    expect(within(table).getByText("Desayunos")).toBeInTheDocument();
-    expect(within(table).queryByText("Viejas")).toBeNull();
+    const grid = await screen.findByRole("list", { name: "Categorías" });
+    expect(within(grid).getByText("Desayunos")).toBeInTheDocument();
+    expect(within(grid).queryByText("Viejas")).toBeNull();
     await userEvent.click(screen.getByLabelText("Mostrar archivadas"));
-    const row = (await screen.findByText("Viejas")).closest("tr")!;
-    expect(within(row).getByText("Archivada")).toBeInTheDocument();
-    expect(
-      within(row).getByRole("button", { name: "Restaurar Viejas" }),
-    ).toBeInTheDocument();
+    const card = (await screen.findByText("Viejas")).closest(
+      "[role=listitem]",
+    ) as HTMLElement;
+    expect(within(card).getByText("Archivada")).toBeInTheDocument();
     expect(calls.filter((c) => c.url === "/categories").at(-1)?.params).toEqual(
       {
         includeArchived: true,
@@ -264,6 +263,21 @@ describe("Categorías", () => {
       await screen.findByText("Otra categoría ya usa ese nombre."),
     ).toBeInTheDocument();
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("shows categories as list rows with the product count", async () => {
+    window.localStorage.setItem("oms.catalog.view", "list");
+    open(<CategoriesPage />);
+    const list = await screen.findByRole("list", { name: "Categorías" });
+    const row = within(list)
+      .getByText("Desayunos")
+      .closest("[role=listitem]") as HTMLElement;
+    expect(within(row).getByText("Productos")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Lista" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    window.localStorage.removeItem("oms.catalog.view");
   });
 
   it("renames a category", async () => {
@@ -326,8 +340,9 @@ describe("Categorías", () => {
       }),
     );
     await userEvent.click(
-      screen.getByRole("button", { name: "Archivar Bebidas" }),
+      screen.getByRole("button", { name: "Más acciones de Bebidas" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Archivar" }));
     await waitFor(() =>
       expect(writes(calls).at(-1)).toMatchObject({
         method: "POST",
@@ -336,8 +351,9 @@ describe("Categorías", () => {
     );
     await userEvent.click(screen.getByLabelText("Mostrar archivadas"));
     await userEvent.click(
-      await screen.findByRole("button", { name: "Restaurar Viejas" }),
+      await screen.findByRole("button", { name: "Más acciones de Viejas" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Restaurar" }));
     await waitFor(() =>
       expect(writes(calls).at(-1)).toMatchObject({
         url: "/categories/3/restore",
@@ -354,7 +370,7 @@ describe("Categorías", () => {
       screen.queryByRole("button", { name: "Nueva categoría" }),
     ).toBeNull();
     expect(
-      screen.queryByRole("button", { name: "Archivar Bebidas" }),
+      screen.queryByRole("button", { name: "Más acciones de Bebidas" }),
     ).toBeNull();
   });
 

@@ -693,7 +693,11 @@
       "archive": "Archivar",
       "archiveAria": "Archivar {name}",
       "restore": "Restaurar",
-      "restoreAria": "Restaurar {name}"
+      "restoreAria": "Restaurar {name}",
+      "live": "Publicada",
+      "hidden": "Oculta",
+      "more": "Más acciones de {name}",
+      "status": "Estado"
     },
     "categoryDialog": {
       "newTitle": "Nueva categoría",
@@ -848,7 +852,23 @@
         "problem": "Problema",
         "more": "Se muestran {shown} de {total} errores."
       }
-    }
+    },
+    "view": {
+      "label": "Vista",
+      "grid": "Cuadrícula",
+      "list": "Lista"
+    },
+    "live": "Publicado",
+    "hidden": "Oculto",
+    "more": "Más acciones de {name}",
+    "stat": {
+      "price": "Precio",
+      "category": "Categoría",
+      "stock": "Stock",
+      "none": "Sin categoría"
+    },
+    "edit": "Editar {name}",
+    "editButton": "Editar"
   },
   "ordersPage": {
     "title": "Pedidos",

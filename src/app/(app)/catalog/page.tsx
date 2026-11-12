@@ -2,9 +2,8 @@
 
 import AddIcon from "@mui/icons-material/Add";
 import Alert from "@mui/material/Alert";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,13 +13,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
@@ -37,6 +30,15 @@ import {
   useUpdateProductMutation,
 } from "@/catalog/catalogApi";
 import { CatalogNav } from "@/catalog/CatalogNav";
+import {
+  ItemCard,
+  ItemGrid,
+  ItemList,
+  ItemRow,
+  useViewMode,
+  ViewToggle,
+  type Tone,
+} from "@/catalog/CatalogView";
 import {
   currencySymbol,
   formatMoney,
@@ -60,6 +62,7 @@ export default function CatalogPage() {
   const [showArchived, setShowArchived] = useState(false);
   const [page, setPage] = useState(1);
   const [creating, setCreating] = useState(false);
+  const [view, setView] = useViewMode();
   const products = useProductsQuery(
     {
       page,
@@ -176,6 +179,7 @@ export default function CatalogPage() {
         <Button type="submit" variant="outlined">
           {t("searchButton")}
         </Button>
+        <ViewToggle value={view} onChange={setView} />
         <FormControlLabel
           control={
             <Switch
@@ -193,99 +197,99 @@ export default function CatalogPage() {
         <Typography color="text.secondary">{t("empty")}</Typography>
       )}
       {data && data.results.length > 0 && (
-        <TableContainer>
-          <Table size="small" aria-label={t("table")}>
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>{t("name")}</TableCell>
-                <TableCell>{t("sku")}</TableCell>
-                <TableCell align="right">{t("price")}</TableCell>
-                <TableCell>{t("colCategories")}</TableCell>
-                <TableCell>{t("published")}</TableCell>
-                {outletId !== "" && <TableCell>{t("colStock")}</TableCell>}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.results.map((product) => {
-                const here = product.outlets.find(
-                  (o) => o.outletId === outletId,
-                );
-                const level = here ? stockLevel(here) : "in";
-                return (
-                  <TableRow key={product.id}>
-                    <TableCell width={56}>
-                      <Avatar
-                        variant="rounded"
-                        src={product.image?.thumbUrl ?? undefined}
-                        alt=""
-                        sx={{ width: 40, height: 40 }}
-                      >
-                        {product.name.slice(0, 1)}
-                      </Avatar>
-                    </TableCell>
-                    <TableCell>
-                      <Link href={`/catalog/${product.id}`}>
-                        {product.name}
-                      </Link>
-                      {product.archivedAt && (
-                        <Chip
-                          size="small"
-                          sx={{ ml: 1 }}
-                          label={t("archived")}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell>{product.sku}</TableCell>
-                    <TableCell align="right">
-                      {formatMoney(product.basePrice, currency)}
-                    </TableCell>
-                    <TableCell>
-                      {product.categories.map((c) => c.name).join(", ")}
-                    </TableCell>
-                    <TableCell>
-                      <Switch
-                        checked={product.isPublished}
-                        disabled={
-                          !canEdit ||
-                          product.archivedAt !== null ||
-                          updating.isLoading
-                        }
-                        slotProps={{
-                          input: {
-                            "aria-label": t("publish", { name: product.name }),
-                          },
-                        }}
-                        onChange={(event) =>
-                          update({
-                            id: product.id,
-                            changes: { isPublished: event.target.checked },
-                          })
-                        }
-                      />
-                    </TableCell>
-                    {outletId !== "" && (
-                      <TableCell>
-                        <Chip
-                          size="small"
-                          color={
-                            level === "out"
-                              ? "error"
-                              : level === "low"
-                                ? "warning"
-                                : "default"
-                          }
-                          label={t(`level.${level}`, {
-                            quantity: here?.quantity ?? 0,
-                          })}
-                        />
-                      </TableCell>
-                    )}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+        <Box>
+          {(() => {
+            const items = data.results.map((product) => {
+              const here = product.outlets.find((o) => o.outletId === outletId);
+              const level = here ? stockLevel(here) : "in";
+              const archived = product.archivedAt !== null;
+              const stats = [
+                {
+                  label: t("stat.price"),
+                  value: formatMoney(product.basePrice, currency),
+                },
+                outletId !== ""
+                  ? {
+                      label: t("stat.stock"),
+                      value: t(`level.${level}`, {
+                        quantity: here?.quantity ?? 0,
+                      }),
+                    }
+                  : {
+                      label: t("stat.category"),
+                      value:
+                        product.categories.map((c) => c.name).join(", ") ||
+                        t("stat.none"),
+                    },
+              ];
+              const tone: Tone = archived
+                ? "default"
+                : product.isPublished
+                  ? "success"
+                  : "warning";
+              const shared = {
+                name: product.name,
+                href: `/catalog/${product.id}`,
+                image: product.image?.thumbUrl ?? null,
+                stats,
+                muted: archived,
+                status: {
+                  label: archived
+                    ? t("archived")
+                    : product.isPublished
+                      ? t("live")
+                      : t("hidden"),
+                  tone,
+                },
+                actions: (
+                  <>
+                    <Switch
+                      size="small"
+                      checked={product.isPublished}
+                      disabled={!canEdit || archived || updating.isLoading}
+                      slotProps={{
+                        input: {
+                          "aria-label": t("publish", { name: product.name }),
+                        },
+                      }}
+                      onChange={(event) =>
+                        update({
+                          id: product.id,
+                          changes: { isPublished: event.target.checked },
+                        })
+                      }
+                    />
+                    <Button
+                      size="small"
+                      component={Link}
+                      href={`/catalog/${product.id}`}
+                      aria-label={t("edit", { name: product.name })}
+                    >
+                      {t("editButton")}
+                    </Button>
+                  </>
+                ),
+              };
+              return { id: product.id, shared, sku: product.sku };
+            });
+            return view === "grid" ? (
+              <ItemGrid label={t("table")}>
+                {items.map((i) => (
+                  <ItemCard key={i.id} {...i.shared} />
+                ))}
+              </ItemGrid>
+            ) : (
+              <ItemList label={t("table")}>
+                {items.map((i) => (
+                  <ItemRow
+                    key={i.id}
+                    {...i.shared}
+                    subtitle={i.sku ?? undefined}
+                  />
+                ))}
+              </ItemList>
+            );
+          })()}
           <TablePagination
             component="div"
             count={data.totalCount}
@@ -297,7 +301,7 @@ export default function CatalogPage() {
               t("range", { from, to, count })
             }
           />
-        </TableContainer>
+        </Box>
       )}
       <NewProductDialog
         open={creating}

@@ -165,18 +165,42 @@ describe("catalog helpers", () => {
 describe("Catálogo list", () => {
   it("lists products with price in the merchant currency", async () => {
     open(<CatalogPage />);
-    const table = await screen.findByRole("table", { name: "Productos" });
-    const row = within(table).getByText("Baleada").closest("tr")!;
-    expect(within(row).getByText("BAL-1")).toBeInTheDocument();
-    expect(within(row).getByText("Desayunos")).toBeInTheDocument();
-    expect(within(row).getByText(/^L\s85\.00$/)).toBeInTheDocument();
-    expect(within(table).getByText(/^L\s30\.50$/)).toBeInTheDocument();
-    expect(within(table).queryByText("Stock")).toBeNull();
+    const grid = await screen.findByRole("list", { name: "Productos" });
+    const card = within(grid).getByText("Baleada").closest("[role=listitem]")!;
+    expect(
+      within(card as HTMLElement).getByText("Desayunos"),
+    ).toBeInTheDocument();
+    expect(
+      within(card as HTMLElement).getByText(/^L\s85\.00$/),
+    ).toBeInTheDocument();
+    expect(
+      within(card as HTMLElement).getByText("Publicado"),
+    ).toBeInTheDocument();
+    expect(within(grid).getByText(/^L\s30\.50$/)).toBeInTheDocument();
+    expect(within(grid).queryByText("Stock")).toBeNull();
+  });
+
+  it("switches to a list with the SKU and remembers the choice", async () => {
+    window.localStorage.removeItem("oms.catalog.view");
+    open(<CatalogPage />);
+    await screen.findByRole("list", { name: "Productos" });
+    await userEvent.click(screen.getByRole("button", { name: "Lista" }));
+    const row = (await screen.findByText("BAL-1")).closest("[role=listitem]")!;
+    expect(
+      within(row as HTMLElement).getByText(/^L\s85\.00$/),
+    ).toBeInTheDocument();
+    expect(window.localStorage.getItem("oms.catalog.view")).toBe("list");
+    expect(screen.getByRole("button", { name: "Lista" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Cuadrícula" }));
+    expect(screen.queryByText("BAL-1")).toBeNull();
   });
 
   it("shows low stock for the chosen outlet and filters on the server", async () => {
     const { calls } = open(<CatalogPage />);
-    await screen.findByRole("table", { name: "Productos" });
+    await screen.findByRole("list", { name: "Productos" });
     await userEvent.click(screen.getByLabelText("Sucursal"));
     await userEvent.click(
       await screen.findByRole("option", { name: "Centro" }),
@@ -197,7 +221,7 @@ describe("Catálogo list", () => {
 
   it("asks for archived products on request", async () => {
     const { calls } = open(<CatalogPage />);
-    await screen.findByRole("table", { name: "Productos" });
+    await screen.findByRole("list", { name: "Productos" });
     await userEvent.click(screen.getByLabelText("Mostrar archivados"));
     await waitFor(() =>
       expect(

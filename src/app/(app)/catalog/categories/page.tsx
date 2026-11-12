@@ -3,9 +3,9 @@
 import AddIcon from "@mui/icons-material/Add";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -13,14 +13,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useTranslations } from "next-intl";
@@ -38,6 +34,15 @@ import {
   type Category,
 } from "@/catalog/catalogApi";
 import { CatalogNav } from "@/catalog/CatalogNav";
+import {
+  ItemCard,
+  ItemGrid,
+  ItemList,
+  ItemRow,
+  useViewMode,
+  ViewToggle,
+  type Tone,
+} from "@/catalog/CatalogView";
 import { moveId } from "@/catalog/reorder";
 import { useErrorMessage } from "@/lib/useErrorMessage";
 
@@ -54,6 +59,11 @@ export default function CategoriesPage() {
   const [archive, archiving] = useArchiveCategoryMutation();
   const [restore, restoring] = useRestoreCategoryMutation();
   const [reorder, reordering] = useReorderCategoriesMutation();
+  const [view, setView] = useViewMode();
+  const [menu, setMenu] = useState<{
+    anchor: HTMLElement;
+    category: Category;
+  } | null>(null);
   const [editing, setEditing] = useState<Category | "new" | null>(null);
 
   if (!me) return null;
@@ -101,129 +111,70 @@ export default function CategoriesPage() {
       </Stack>
       <CatalogNav />
       {error && <Alert severity="error">{errorMessage(error)}</Alert>}
-      <FormControlLabel
-        control={
-          <Switch
-            checked={showArchived}
-            onChange={(event) => setShowArchived(event.target.checked)}
-          />
-        }
-        label={t("showArchived")}
-      />
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ alignItems: "center", justifyContent: "space-between" }}
+      >
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showArchived}
+              onChange={(event) => setShowArchived(event.target.checked)}
+            />
+          }
+          label={t("showArchived")}
+        />
+        <ViewToggle value={view} onChange={setView} />
+      </Stack>
       {categories.isLoading && <CircularProgress aria-label={t("loading")} />}
       {categories.data && rows.length === 0 && (
         <Typography color="text.secondary">{t("empty")}</Typography>
       )}
       {rows.length > 0 && (
-        <TableContainer>
-          <Table size="small" aria-label={t("table")}>
-            <TableHead>
-              <TableRow>
-                <TableCell>{t("name")}</TableCell>
-                <TableCell align="right">{t("products")}</TableCell>
-                <TableCell>{t("published")}</TableCell>
-                {canEdit && <TableCell align="right">{t("actions")}</TableCell>}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((category) => {
-                const archived = category.archivedAt !== null;
-                const at = activeIds.indexOf(category.id);
-                return (
-                  <TableRow key={category.id}>
-                    <TableCell>
-                      {category.name}
-                      {archived && (
-                        <Chip
-                          size="small"
-                          sx={{ ml: 1 }}
-                          label={t("archived")}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell align="right">{category.productCount}</TableCell>
-                    <TableCell>
-                      <Switch
-                        checked={category.isPublished}
-                        disabled={!canEdit || archived || busy}
-                        slotProps={{
-                          input: {
-                            "aria-label": t("publish", {
-                              name: category.name,
-                            }),
-                          },
-                        }}
-                        onChange={(event) =>
-                          update({
-                            id: category.id,
-                            changes: { isPublished: event.target.checked },
-                          })
-                        }
-                      />
-                    </TableCell>
-                    {canEdit && (
-                      <TableCell align="right">
-                        {!archived && (
-                          <>
-                            <IconButton
-                              size="small"
-                              aria-label={t("moveUp", { name: category.name })}
-                              disabled={busy || at <= 0}
-                              onClick={() => move(category.id, -1)}
-                            >
-                              <ArrowUpwardIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              aria-label={t("moveDown", {
-                                name: category.name,
-                              })}
-                              disabled={busy || at === activeIds.length - 1}
-                              onClick={() => move(category.id, 1)}
-                            >
-                              <ArrowDownwardIcon fontSize="small" />
-                            </IconButton>
-                            <Button
-                              size="small"
-                              aria-label={t("rename", { name: category.name })}
-                              onClick={() => setEditing(category)}
-                            >
-                              {t("edit")}
-                            </Button>
-                            <Button
-                              size="small"
-                              color="error"
-                              aria-label={t("archiveAria", {
-                                name: category.name,
-                              })}
-                              disabled={busy}
-                              onClick={() => archive(category.id)}
-                            >
-                              {t("archive")}
-                            </Button>
-                          </>
-                        )}
-                        {archived && (
-                          <Button
-                            size="small"
-                            aria-label={t("restoreAria", {
-                              name: category.name,
-                            })}
-                            disabled={busy}
-                            onClick={() => restore(category.id)}
-                          >
-                            {t("restore")}
-                          </Button>
-                        )}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <CategoryItems
+          rows={rows}
+          view={view}
+          label={t("table")}
+          canEdit={canEdit}
+          busy={busy}
+          activeIds={activeIds}
+          onMove={move}
+          onEdit={setEditing}
+          onMenu={(anchor, category) => setMenu({ anchor, category })}
+          onPublish={(category, isPublished) =>
+            update({ id: category.id, changes: { isPublished } })
+          }
+        />
       )}
+      <Menu
+        open={menu !== null}
+        anchorEl={menu?.anchor}
+        onClose={() => setMenu(null)}
+      >
+        {menu && menu.category.archivedAt === null && (
+          <MenuItem
+            disabled={busy}
+            onClick={() => {
+              archive(menu.category.id);
+              setMenu(null);
+            }}
+          >
+            {t("archive")}
+          </MenuItem>
+        )}
+        {menu && menu.category.archivedAt !== null && (
+          <MenuItem
+            disabled={busy}
+            onClick={() => {
+              restore(menu.category.id);
+              setMenu(null);
+            }}
+          >
+            {t("restore")}
+          </MenuItem>
+        )}
+      </Menu>
       {editing !== null && (
         <CategoryDialog
           category={editing === "new" ? null : editing}
@@ -304,5 +255,117 @@ function CategoryDialog({
         </Button>
       </DialogActions>
     </Dialog>
+  );
+}
+
+function CategoryItems({
+  rows,
+  view,
+  label,
+  canEdit,
+  busy,
+  activeIds,
+  onMove,
+  onEdit,
+  onMenu,
+  onPublish,
+}: {
+  rows: Category[];
+  view: "grid" | "list";
+  label: string;
+  canEdit: boolean;
+  busy: boolean;
+  activeIds: number[];
+  onMove: (id: number, direction: -1 | 1) => void;
+  onEdit: (category: Category) => void;
+  onMenu: (anchor: HTMLElement, category: Category) => void;
+  onPublish: (category: Category, isPublished: boolean) => void;
+}) {
+  const t = useTranslations("catalog.categoryPage");
+  const items = rows.map((category) => {
+    const archived = category.archivedAt !== null;
+    const at = activeIds.indexOf(category.id);
+    const tone: Tone = archived
+      ? "default"
+      : category.isPublished
+        ? "success"
+        : "warning";
+    return {
+      id: category.id,
+      name: category.name,
+      image: category.image?.thumbUrl ?? null,
+      muted: archived,
+      stats: [{ label: t("products"), value: category.productCount }],
+      status: {
+        label: archived
+          ? t("archived")
+          : category.isPublished
+            ? t("live")
+            : t("hidden"),
+        tone,
+      },
+      actions: (
+        <>
+          <Switch
+            size="small"
+            checked={category.isPublished}
+            disabled={!canEdit || archived || busy}
+            slotProps={{
+              input: { "aria-label": t("publish", { name: category.name }) },
+            }}
+            onChange={(event) => onPublish(category, event.target.checked)}
+          />
+          {canEdit && !archived && (
+            <>
+              <IconButton
+                size="small"
+                aria-label={t("moveUp", { name: category.name })}
+                disabled={busy || at <= 0}
+                onClick={() => onMove(category.id, -1)}
+              >
+                <ArrowUpwardIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                aria-label={t("moveDown", { name: category.name })}
+                disabled={busy || at === activeIds.length - 1}
+                onClick={() => onMove(category.id, 1)}
+              >
+                <ArrowDownwardIcon fontSize="small" />
+              </IconButton>
+              <Button
+                size="small"
+                aria-label={t("rename", { name: category.name })}
+                onClick={() => onEdit(category)}
+              >
+                {t("edit")}
+              </Button>
+            </>
+          )}
+          {canEdit && (
+            <IconButton
+              size="small"
+              aria-label={t("more", { name: category.name })}
+              onClick={(event) => onMenu(event.currentTarget, category)}
+            >
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          )}
+        </>
+      ),
+    };
+  });
+  return view === "grid" ? (
+    <ItemGrid label={label}>
+      {items.map((item) => (
+        <ItemCard key={item.id} {...item} />
+      ))}
+    </ItemGrid>
+  ) : (
+    <ItemList label={label}>
+      {items.map((item) => (
+        <ItemRow key={item.id} {...item} />
+      ))}
+    </ItemList>
   );
 }
