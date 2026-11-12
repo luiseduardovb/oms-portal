@@ -2409,6 +2409,16 @@ export interface components {
             minSelect?: number | null;
             /** Maxselect */
             maxSelect?: number | null;
+            /**
+             * Allowquantity
+             * @default false
+             */
+            allowQuantity: boolean;
+            /**
+             * Maxperoption
+             * @default 3
+             */
+            maxPerOption: number;
         };
         /** OptionGroupOut */
         OptionGroupOut: {
@@ -2424,6 +2434,10 @@ export interface components {
             minSelect: number;
             /** Maxselect */
             maxSelect: number;
+            /** Allowquantity */
+            allowQuantity: boolean;
+            /** Maxperoption */
+            maxPerOption: number;
             /** Sortorder */
             sortOrder: number;
             /** Archivedat */
@@ -2446,6 +2460,10 @@ export interface components {
             minSelect?: number | null;
             /** Maxselect */
             maxSelect?: number | null;
+            /** Allowquantity */
+            allowQuantity?: boolean | null;
+            /** Maxperoption */
+            maxPerOption?: number | null;
         };
         /** OptionOut */
         OptionOut: {
@@ -2567,8 +2585,8 @@ export interface components {
             productId: number;
             /** Quantity */
             quantity: number;
-            /** Optionids */
-            optionIds?: number[];
+            /** Options */
+            options?: components["schemas"]["OrderOptionIn"][];
             /** Notes */
             notes?: string | null;
         };
@@ -2580,6 +2598,8 @@ export interface components {
             groupName: string;
             /** Optionname */
             optionName: string;
+            /** Quantity */
+            quantity: number;
             /** Pricedelta */
             priceDelta: string;
         };
@@ -2609,6 +2629,16 @@ export interface components {
             options: components["schemas"]["OrderLineOptionOut"][];
             /** Imageurl */
             imageUrl?: string | null;
+        };
+        /** OrderOptionIn */
+        OrderOptionIn: {
+            /** Optionid */
+            optionId: number;
+            /**
+             * Quantity
+             * @default 1
+             */
+            quantity: number;
         };
         /** OrderOut */
         OrderOut: {
@@ -3258,6 +3288,10 @@ export interface components {
             minSelect: number;
             /** Maxselect */
             maxSelect: number;
+            /** Allowquantity */
+            allowQuantity: boolean;
+            /** Maxperoption */
+            maxPerOption: number;
             /** Options */
             options: components["schemas"]["PublicOption"][];
         };
@@ -3383,6 +3417,8 @@ export interface components {
             groupName: string;
             /** Optionname */
             optionName: string;
+            /** Quantity */
+            quantity: number;
             /** Pricedelta */
             priceDelta: string;
         };

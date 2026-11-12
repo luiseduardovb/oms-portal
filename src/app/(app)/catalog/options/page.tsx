@@ -120,7 +120,10 @@ export default function OptionGroupsPage() {
   const ruleOf = (g: OptionGroup) =>
     g.selectionType === "single"
       ? t("single")
-      : t("multiple", { min: g.minSelect, max: g.maxSelect });
+      : t("multiple", { min: g.minSelect, max: g.maxSelect }) +
+        (g.allowQuantity
+          ? ` · ${t("quantitiesUpTo", { count: g.maxPerOption })}`
+          : "");
 
   const items = shown.map((group) => {
     const archived = group.archivedAt !== null;

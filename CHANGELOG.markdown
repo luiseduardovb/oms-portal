@@ -6,6 +6,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-815: option group dialog has "Permitir cantidades" and "Máximo por opción" (multiple-choice groups only), the group card and panel show "Cantidades hasta N", and order detail shows "2× Queso".
 - TASK-831 (step A): portal shell follows the Zyda panel: white top bar with the business switcher, "Ver tienda" and the user menu; grouped sidebar (Pedidos, Catálogo, Configuración, Equipo); Setup split into Información del negocio, Marca, Diseño de la tienda, Gestión de pedidos, Métodos de pago and Enlaces web, each with a page frame and a sticky save bar; the dashboard opens on the orders.
 - TASK-831 (step B, Catálogo): Products and Categories keep their own pages but are shown as Ordable-style cards (name, large photo, small stat blocks, status pill) or as modern soft-card list rows, switched with a Cuadrícula/Lista icon toggle that is remembered in the browser (grid by default). Filters, paging, publish switch, reordering and archive/restore (now in a ⋮ menu on categories) are kept; two cards per row on a phone.
 - TASK-831 (step B, Grupos de opciones): option groups use the same grid/list cards and rows; a search box finds groups by group or option name (accent-insensitive); clicking a group opens a side panel with its options (search for long groups, add, edit, reorder, availability, archive/restore, and "Guardar y agregar otra" for adding many in a row). The catalog tab row is removed because the sidebar already lists the four screens.

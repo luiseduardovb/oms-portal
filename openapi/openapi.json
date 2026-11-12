@@ -7952,6 +7952,18 @@
               }
             ],
             "title": "Maxselect"
+          },
+          "allowQuantity": {
+            "type": "boolean",
+            "title": "Allowquantity",
+            "default": false
+          },
+          "maxPerOption": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "title": "Maxperoption",
+            "default": 3
           }
         },
         "type": "object",
@@ -7986,6 +7998,14 @@
           "maxSelect": {
             "type": "integer",
             "title": "Maxselect"
+          },
+          "allowQuantity": {
+            "type": "boolean",
+            "title": "Allowquantity"
+          },
+          "maxPerOption": {
+            "type": "integer",
+            "title": "Maxperoption"
           },
           "sortOrder": {
             "type": "integer",
@@ -8023,6 +8043,8 @@
           "isRequired",
           "minSelect",
           "maxSelect",
+          "allowQuantity",
+          "maxPerOption",
           "sortOrder",
           "archivedAt",
           "productCount",
@@ -8086,6 +8108,30 @@
               }
             ],
             "title": "Maxselect"
+          },
+          "allowQuantity": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allowquantity"
+          },
+          "maxPerOption": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 10,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxperoption"
           }
         },
         "type": "object",
@@ -8466,13 +8512,13 @@
             "minimum": 1,
             "title": "Quantity"
           },
-          "optionIds": {
+          "options": {
             "items": {
-              "type": "integer"
+              "$ref": "#/components/schemas/OrderOptionIn"
             },
             "type": "array",
             "maxItems": 50,
-            "title": "Optionids"
+            "title": "Options"
           },
           "notes": {
             "anyOf": [
@@ -8508,6 +8554,10 @@
             "type": "string",
             "title": "Optionname"
           },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
           "priceDelta": {
             "type": "string",
             "title": "Pricedelta"
@@ -8518,6 +8568,7 @@
           "optionId",
           "groupName",
           "optionName",
+          "quantity",
           "priceDelta"
         ],
         "title": "OrderLineOptionOut"
@@ -8612,6 +8663,26 @@
           "options"
         ],
         "title": "OrderLineOut"
+      },
+      "OrderOptionIn": {
+        "properties": {
+          "optionId": {
+            "type": "integer",
+            "title": "Optionid"
+          },
+          "quantity": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "title": "Quantity",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "optionId"
+        ],
+        "title": "OrderOptionIn"
       },
       "OrderOut": {
         "properties": {
@@ -10852,6 +10923,15 @@
             "minimum": 1,
             "title": "Maxselect"
           },
+          "allowQuantity": {
+            "type": "boolean",
+            "title": "Allowquantity"
+          },
+          "maxPerOption": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Maxperoption"
+          },
           "options": {
             "items": {
               "$ref": "#/components/schemas/PublicOption"
@@ -10868,6 +10948,8 @@
           "isRequired",
           "minSelect",
           "maxSelect",
+          "allowQuantity",
+          "maxPerOption",
           "options"
         ],
         "title": "PublicOptionGroup"
@@ -11253,6 +11335,10 @@
             "type": "string",
             "title": "Optionname"
           },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
           "priceDelta": {
             "type": "string",
             "title": "Pricedelta"
@@ -11262,6 +11348,7 @@
         "required": [
           "groupName",
           "optionName",
+          "quantity",
           "priceDelta"
         ],
         "title": "PublicOrderOption"

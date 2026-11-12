@@ -195,7 +195,13 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
                   </Typography>
                   {line.options.length > 0 && (
                     <Typography variant="caption" color="text.secondary">
-                      {line.options.map((o) => o.optionName).join(", ")}
+                      {line.options
+                        .map((o) =>
+                          o.quantity > 1
+                            ? `${o.quantity}× ${o.optionName}`
+                            : o.optionName,
+                        )
+                        .join(", ")}
                     </Typography>
                   )}
                   {line.notes && (

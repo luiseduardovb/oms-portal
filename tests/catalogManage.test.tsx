@@ -515,6 +515,30 @@ describe("Opciones", () => {
     );
   });
 
+  it("lets a multiple-choice group allow quantities", async () => {
+    const { calls } = open(<OptionGroupsPage />, MANAGER, () => ({
+      status: 201,
+      data: EXTRAS,
+    }));
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Nuevo grupo" }),
+    );
+    await userEvent.type(screen.getByLabelText("Nombre"), "Quesos");
+    await userEvent.click(screen.getByLabelText("Tipo de selección"));
+    await userEvent.click(
+      await screen.findByRole("option", { name: "Elegir varias opciones" }),
+    );
+    await userEvent.click(screen.getByLabelText(/Permitir cantidades/));
+    await userEvent.clear(screen.getByLabelText("Máximo por opción"));
+    await userEvent.type(screen.getByLabelText("Máximo por opción"), "5");
+    await userEvent.click(screen.getByRole("button", { name: "Guardar" }));
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        data: { allowQuantity: true, maxPerOption: 5 },
+      }),
+    );
+  });
+
   it("explains a group change that conflicts with a product", async () => {
     open(<OptionGroupsPage />, MANAGER, () =>
       apiError(422, "catalog.group_conflicts_overrides"),

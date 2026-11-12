@@ -48,6 +48,8 @@ export function GroupDialog({
   );
   const [min, setMin] = useState(String(group?.minSelect ?? 0));
   const [max, setMax] = useState(String(group?.maxSelect ?? 3));
+  const [quantities, setQuantities] = useState(group?.allowQuantity ?? false);
+  const [perOption, setPerOption] = useState(String(group?.maxPerOption ?? 3));
   const [problems, setProblems] = useState<Record<string, string>>({});
   const error = (creating.error ?? updating.error) as ApiError | undefined;
   const single = type === "single";
@@ -66,7 +68,17 @@ export function GroupDialog({
       }
       minSelect = Number(min);
       maxSelect = Number(max);
+      if (
+        quantities &&
+        (!WHOLE.test(perOption.trim()) ||
+          Number(perOption) < 1 ||
+          Number(perOption) > 10)
+      ) {
+        found.perOption = t("perOptionInvalid");
+      }
     }
+    const allowQuantity = !single && quantities;
+    const maxPerOption = allowQuantity ? Number(perOption) : 3;
     setProblems(found);
     if (Object.keys(found).length > 0) return;
     const result = group
@@ -77,6 +89,8 @@ export function GroupDialog({
             selectionType: type as "single" | "multiple",
             minSelect,
             maxSelect,
+            allowQuantity,
+            maxPerOption,
           },
         })
       : await create({
@@ -84,6 +98,8 @@ export function GroupDialog({
           selectionType: type as "single" | "multiple",
           minSelect,
           maxSelect,
+          allowQuantity,
+          maxPerOption,
         });
     if ("data" in result && result.data) onClose();
   };
@@ -137,6 +153,24 @@ export function GroupDialog({
                 helperText={problems.max}
                 onChange={(event) => setMax(event.target.value)}
               />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={quantities}
+                    onChange={(event) => setQuantities(event.target.checked)}
+                  />
+                }
+                label={t("quantities")}
+              />
+              {quantities && (
+                <TextField
+                  label={t("perOption")}
+                  value={perOption}
+                  error={"perOption" in problems}
+                  helperText={problems.perOption ?? t("perOptionHelp")}
+                  onChange={(event) => setPerOption(event.target.value)}
+                />
+              )}
             </>
           )}
         </Stack>
