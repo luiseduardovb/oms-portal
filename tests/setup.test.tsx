@@ -46,6 +46,7 @@ const SETUP = {
     menuProducts: "list",
     menuTabs: true,
     menuCollapsible: false,
+    showRecommendations: true,
     asapEnabled: true,
     scheduledEnabled: false,
     slotIntervalMinutes: 30,
@@ -500,6 +501,21 @@ describe("Diseño", () => {
           menuTabs: false,
           menuCollapsible: false,
         },
+      }),
+    );
+  });
+
+  it("turns recommendations off", async () => {
+    const { calls } = await open();
+    const toggle = screen.getByLabelText("Mostrar recomendaciones");
+    expect(toggle).toBeChecked();
+    await userEvent.click(toggle);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Guardar cambios" }),
+    );
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        data: { showRecommendations: false },
       }),
     );
   });

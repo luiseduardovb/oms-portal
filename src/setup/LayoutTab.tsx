@@ -247,6 +247,9 @@ export function LayoutTab({ setup, canEdit }: Props) {
   const [collapsible, setCollapsible] = useState(
     setup.settings.menuCollapsible,
   );
+  const [recommend, setRecommend] = useState(
+    setup.settings.showRecommendations,
+  );
   const flags = `${tabs ? 1 : 0}-${collapsible ? 1 : 0}`;
   const previewUrl = STOREFRONT
     ? `${STOREFRONT.replace("{slug}", setup.slug)}/?preview=${home}-${products}-${flags}`
@@ -255,7 +258,8 @@ export function LayoutTab({ setup, canEdit }: Props) {
     home !== setup.settings.menuHome ||
     products !== setup.settings.menuProducts ||
     tabs !== setup.settings.menuTabs ||
-    collapsible !== setup.settings.menuCollapsible;
+    collapsible !== setup.settings.menuCollapsible ||
+    recommend !== setup.settings.showRecommendations;
   // Tabs and collapsing belong to stacked sections; a carousel has its own
   // "View all" instead of collapsing.
   const tabsOff = !canEdit || home === "tiles";
@@ -389,6 +393,23 @@ export function LayoutTab({ setup, canEdit }: Props) {
           <Typography variant="caption" color="text.secondary">
             {t("collapsibleHelp")}
           </Typography>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={recommend}
+                disabled={!canEdit}
+                onChange={(event) => {
+                  reset();
+                  setRecommend(event.target.checked);
+                }}
+              />
+            }
+            label={t("recommendations")}
+            sx={{ display: "flex", mt: 1 }}
+          />
+          <Typography variant="caption" color="text.secondary">
+            {t("recommendationsHelp")}
+          </Typography>
         </Box>
         {error && (
           <Alert severity="error">{errorMessage(error as ApiError)}</Alert>
@@ -405,6 +426,7 @@ export function LayoutTab({ setup, canEdit }: Props) {
                   menuProducts: products,
                   menuTabs: tabs,
                   menuCollapsible: collapsible,
+                  showRecommendations: recommend,
                 })
               }
             >

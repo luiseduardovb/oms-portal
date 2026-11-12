@@ -5054,6 +5054,73 @@
         }
       }
     },
+    "/public/stores/{slug}/outlets/{outlet_id}/recommendations": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Get Recommendations",
+        "description": "Product ids that go with these products (or the best sellers).",
+        "operationId": "get_recommendations_public_stores__slug__outlets__outlet_id__recommendations_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          },
+          {
+            "name": "productIds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "maxItems": 50,
+              "default": [],
+              "title": "Productids"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicRecommendations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/public/stores/{slug}/quote": {
       "post": {
         "tags": [
@@ -9098,6 +9165,10 @@
             "type": "boolean",
             "title": "Menucollapsible"
           },
+          "showRecommendations": {
+            "type": "boolean",
+            "title": "Showrecommendations"
+          },
           "asapEnabled": {
             "type": "boolean",
             "title": "Asapenabled"
@@ -9202,6 +9273,7 @@
           "menuProducts",
           "menuTabs",
           "menuCollapsible",
+          "showRecommendations",
           "asapEnabled",
           "scheduledEnabled",
           "slotIntervalMinutes",
@@ -11923,6 +11995,31 @@
         ],
         "title": "PublicQuoteLine"
       },
+      "PublicRecommendations": {
+        "properties": {
+          "boughtWith": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Boughtwith"
+          },
+          "alsoLike": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Alsolike"
+          }
+        },
+        "type": "object",
+        "required": [
+          "boughtWith",
+          "alsoLike"
+        ],
+        "title": "PublicRecommendations",
+        "description": "Product ids, best first; the menu holds the product details."
+      },
       "PublicStore": {
         "properties": {
           "name": {
@@ -12002,6 +12099,10 @@
           "menuCollapsible": {
             "type": "boolean",
             "title": "Menucollapsible"
+          },
+          "showRecommendations": {
+            "type": "boolean",
+            "title": "Showrecommendations"
           },
           "logo": {
             "anyOf": [
@@ -12141,6 +12242,7 @@
           "menuProducts",
           "menuTabs",
           "menuCollapsible",
+          "showRecommendations",
           "logo",
           "cover",
           "contactPhone",
@@ -12621,6 +12723,17 @@
               }
             ],
             "title": "Menucollapsible"
+          },
+          "showRecommendations": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Showrecommendations"
           },
           "asapEnabled": {
             "anyOf": [

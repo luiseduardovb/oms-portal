@@ -1431,6 +1431,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}/outlets/{outlet_id}/recommendations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Recommendations
+         * @description Product ids that go with these products (or the best sellers).
+         */
+        get: operations["get_recommendations_public_stores__slug__outlets__outlet_id__recommendations_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public/stores/{slug}/quote": {
         parameters: {
             query?: never;
@@ -2759,6 +2779,8 @@ export interface components {
             menuTabs: boolean;
             /** Menucollapsible */
             menuCollapsible: boolean;
+            /** Showrecommendations */
+            showRecommendations: boolean;
             /** Asapenabled */
             asapEnabled: boolean;
             /** Scheduledenabled */
@@ -3614,6 +3636,16 @@ export interface components {
             /** Lineamount */
             lineAmount: string;
         };
+        /**
+         * PublicRecommendations
+         * @description Product ids, best first; the menu holds the product details.
+         */
+        PublicRecommendations: {
+            /** Boughtwith */
+            boughtWith: number[];
+            /** Alsolike */
+            alsoLike: number[];
+        };
         /** PublicStore */
         PublicStore: {
             /** Name */
@@ -3646,6 +3678,8 @@ export interface components {
             menuTabs: boolean;
             /** Menucollapsible */
             menuCollapsible: boolean;
+            /** Showrecommendations */
+            showRecommendations: boolean;
             logo: components["schemas"]["PublicPicture"] | null;
             cover: components["schemas"]["PublicPicture"] | null;
             /** Contactphone */
@@ -3819,6 +3853,8 @@ export interface components {
             menuTabs?: boolean | null;
             /** Menucollapsible */
             menuCollapsible?: boolean | null;
+            /** Showrecommendations */
+            showRecommendations?: boolean | null;
             /** Asapenabled */
             asapEnabled?: boolean | null;
             /** Scheduledenabled */
@@ -6805,6 +6841,40 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicMenu"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_recommendations_public_stores__slug__outlets__outlet_id__recommendations_get: {
+        parameters: {
+            query?: {
+                productIds?: number[];
+            };
+            header?: never;
+            path: {
+                slug: string;
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicRecommendations"];
                 };
             };
             /** @description Validation Error */
