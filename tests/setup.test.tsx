@@ -6,7 +6,12 @@ import { sessionStarted } from "@/auth/sessionSlice";
 import { setAccessToken } from "@/auth/tokenStore";
 import { formatTipPresets, parseTipPresets } from "@/setup/tips";
 import { makeStore } from "@/store";
-import SetupPage from "../src/app/(app)/setup/page";
+import BrandingPage from "../src/app/(app)/setup/branding/page";
+import BusinessPage from "../src/app/(app)/setup/business/page";
+import LayoutPage from "../src/app/(app)/setup/layout/page";
+import LinksPage from "../src/app/(app)/setup/links/page";
+import OrdersPage from "../src/app/(app)/setup/orders/page";
+import PaymentsPage from "../src/app/(app)/setup/payments/page";
 import { apiError, fakeApi, ME } from "./fakeApi";
 import { renderWithProviders } from "./render";
 
@@ -61,12 +66,22 @@ const MANAGER = { ...ME, levels: { ...ME.levels, setup: "full" } };
 const OWNER = { ...MANAGER, isOwner: true };
 const VIEWER = { ...ME, levels: { ...ME.levels, setup: "view" } };
 
+const PAGES = {
+  business: BusinessPage,
+  branding: BrandingPage,
+  layout: LayoutPage,
+  links: LinksPage,
+  orders: OrdersPage,
+  payments: PaymentsPage,
+};
+
 function setup(
   me: object = MANAGER,
   overrides: Parameters<typeof fakeApi>[1] = () => ({
     status: 200,
     data: SETUP,
   }),
+  page: keyof typeof PAGES = "business",
 ) {
   const store = makeStore();
   store.dispatch(sessionStarted());
@@ -77,11 +92,12 @@ function setup(
       return { status: 200, data: SETUP };
     return overrides(call);
   });
-  renderWithProviders(<SetupPage />, store);
+  const Page = PAGES[page];
+  renderWithProviders(<Page />, store);
   return api;
 }
 
-const writes = (calls: { method: string }[]) =>
+const writes = <T extends { method: string }>(calls: T[]) =>
   calls.filter((c) => c.method !== "GET");
 
 afterEach(() => setAccessToken(null));
@@ -114,7 +130,11 @@ describe("Configuración", () => {
     expect(
       screen.queryByRole("button", { name: "Guardar cambios" }),
     ).toBeNull();
-    await userEvent.click(screen.getByRole("tab", { name: "Pagos" }));
+    expect(writes(calls)).toEqual([]);
+  });
+
+  it("is read-only for payments with view access", async () => {
+    const { calls } = setup(VIEWER, undefined, "payments");
     expect(await screen.findByLabelText("Efectivo al recibir")).toBeDisabled();
     expect(writes(calls)).toEqual([]);
   });
@@ -221,8 +241,7 @@ describe("Configuración", () => {
 
 describe("Pagos", () => {
   it("keeps at least one payment method on", async () => {
-    const { calls } = setup();
-    await userEvent.click(await screen.findByRole("tab", { name: "Pagos" }));
+    const { calls } = setup(MANAGER, undefined, "payments");
     await userEvent.click(await screen.findByLabelText("Efectivo al recibir"));
     await userEvent.click(screen.getByLabelText("Tarjeta al recibir"));
     await userEvent.click(
@@ -235,8 +254,7 @@ describe("Pagos", () => {
   });
 
   it("saves the methods", async () => {
-    const { calls } = setup();
-    await userEvent.click(await screen.findByRole("tab", { name: "Pagos" }));
+    const { calls } = setup(MANAGER, undefined, "payments");
     await userEvent.click(await screen.findByLabelText("Tarjeta al recibir"));
     await userEvent.click(
       screen.getByRole("button", { name: "Guardar cambios" }),
@@ -252,20 +270,54 @@ describe("Pagos", () => {
   });
 });
 
-describe("Pedidos", () => {
-  async function open(me: object = MANAGER) {
-    const api = setup(me);
-    await userEvent.click(await screen.findByRole("tab", { name: "Pedidos" }));
-    await screen.findByLabelText("Título de la página");
+const save = () =>
+  userEvent.click(screen.getByRole("button", { name: "Guardar cambios" }));
+
+describe("Marca", () => {
+  it("saves the branding", async () => {
+    const { calls } = setup(MANAGER, undefined, "branding");
+    await userEvent.type(
+      await screen.findByLabelText("Título de la página"),
+      "Café",
+    );
+    await userEvent.type(screen.getByLabelText("Color principal"), "#1a73e8");
+    await save();
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        method: "PATCH",
+        url: "/merchant/settings",
+        data: {
+          pageTitle: "Café",
+          slogan: null,
+          primaryColor: "#1a73e8",
+          hideStoreName: false,
+        },
+      }),
+    );
+    expect(writes(calls)[0]?.data).not.toHaveProperty("tipsEnabled");
+  });
+
+  it("checks the colour before sending", async () => {
+    const { calls } = setup(MANAGER, undefined, "branding");
+    await userEvent.type(
+      await screen.findByLabelText("Color principal"),
+      "azul",
+    );
+    await save();
+    expect(await screen.findByText("Usa un color como #1A73E8.")).toBeVisible();
+    expect(writes(calls)).toEqual([]);
+  });
+});
+
+describe("Gestión de pedidos", () => {
+  async function open() {
+    const api = setup(MANAGER, undefined, "orders");
+    await screen.findByLabelText("Días por adelantado");
     return api;
   }
-  const save = () =>
-    userEvent.click(screen.getByRole("button", { name: "Guardar cambios" }));
 
   it("saves the order settings", async () => {
     const { calls } = await open();
-    await userEvent.type(screen.getByLabelText("Título de la página"), "Café");
-    await userEvent.type(screen.getByLabelText("Color principal"), "#1a73e8");
     await userEvent.click(screen.getByLabelText("Permitir propinas"));
     await userEvent.type(
       screen.getByLabelText("Porcentajes sugeridos"),
@@ -277,10 +329,6 @@ describe("Pedidos", () => {
         method: "PATCH",
         url: "/merchant/settings",
         data: {
-          pageTitle: "Café",
-          slogan: null,
-          primaryColor: "#1a73e8",
-          hideStoreName: false,
           asapEnabled: true,
           scheduledEnabled: false,
           slotIntervalMinutes: 30,
@@ -290,11 +338,11 @@ describe("Pedidos", () => {
         },
       }),
     );
+    expect(writes(calls)[0]?.data).not.toHaveProperty("pageTitle");
   });
 
   it("checks the form before sending anything", async () => {
     const { calls } = await open();
-    await userEvent.type(screen.getByLabelText("Color principal"), "azul");
     const days = screen.getByLabelText("Días por adelantado");
     await userEvent.clear(days);
     await userEvent.type(days, "31");
@@ -304,14 +352,35 @@ describe("Pedidos", () => {
       "10, 5",
     );
     await save();
-    expect(await screen.findByText("Usa un color como #1A73E8.")).toBeVisible();
-    expect(screen.getByText("Ingresa un número de 1 a 30.")).toBeVisible();
+    expect(
+      await screen.findByText("Ingresa un número de 1 a 30."),
+    ).toBeVisible();
     expect(
       screen.getByText("Activa pedidos inmediatos, programados o ambos."),
     ).toBeVisible();
     expect(screen.getByText(/Usa hasta 5 porcentajes distintos/)).toBeVisible();
     expect(writes(calls)).toEqual([]);
   });
+
+  it("asks for percentages when tips are on", async () => {
+    const { calls } = await open();
+    await userEvent.click(screen.getByLabelText("Permitir propinas"));
+    await save();
+    expect(
+      await screen.findByText(
+        "Las propinas necesitan al menos un porcentaje sugerido.",
+      ),
+    ).toBeVisible();
+    expect(writes(calls)).toEqual([]);
+  });
+});
+
+describe("Enlaces web", () => {
+  async function open() {
+    const api = setup(MANAGER, undefined, "links");
+    await screen.findByLabelText("Teléfono");
+    return api;
+  }
 
   it("saves the contact links", async () => {
     const { calls } = await open();
@@ -350,18 +419,6 @@ describe("Pedidos", () => {
     ).toBeVisible();
     expect(writes(calls)).toEqual([]);
   });
-
-  it("asks for percentages when tips are on", async () => {
-    const { calls } = await open();
-    await userEvent.click(screen.getByLabelText("Permitir propinas"));
-    await save();
-    expect(
-      await screen.findByText(
-        "Las propinas necesitan al menos un porcentaje sugerido.",
-      ),
-    ).toBeVisible();
-    expect(writes(calls)).toEqual([]);
-  });
 });
 
 describe("tip percentages", () => {
@@ -392,8 +449,7 @@ describe("tip percentages", () => {
 
 describe("Diseño", () => {
   async function open(me: object = MANAGER) {
-    const api = setup(me);
-    await userEvent.click(await screen.findByRole("tab", { name: "Diseño" }));
+    const api = setup(me, undefined, "layout");
     await screen.findByText("Diseño del inicio");
     return api;
   }

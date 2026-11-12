@@ -6,6 +6,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-831 (step A): portal shell follows the Zyda panel: white top bar with the business switcher, "Ver tienda" and the user menu; grouped sidebar (Pedidos, Catálogo, Configuración, Equipo); Setup split into Información del negocio, Marca, Diseño de la tienda, Gestión de pedidos, Métodos de pago and Enlaces web, each with a page frame and a sticky save bar; the dashboard opens on the orders.
 - TASK-814: Setup > Diseño tab: pick the home layout (sections or tiles) and the product layout (list, grid or carousel) from phone wireframes, plus switches for category tabs and collapsible categories, with a live preview of the real storefront (set `NEXT_PUBLIC_STOREFRONT_URL`); OpenAPI snapshot and types refreshed.
 - TASK-806: OpenAPI snapshot and types refreshed (public menu `createdAt`).
 - TASK-804: OpenAPI snapshot and types refreshed for public order tracking.

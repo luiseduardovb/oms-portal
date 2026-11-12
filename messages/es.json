@@ -189,8 +189,19 @@
       "setup": "Configuración",
       "outlets": "Sucursales",
       "catalog": "Catálogo",
-      "orders": "Pedidos"
-    }
+      "orders": "Pedidos",
+      "catalogProducts": "Productos",
+      "catalogCategories": "Categorías",
+      "catalogOptions": "Grupos de opciones",
+      "catalogImport": "Importar y exportar",
+      "setupBusiness": "Información del negocio",
+      "setupBranding": "Marca",
+      "setupLayout": "Diseño de la tienda",
+      "setupOrders": "Gestión de pedidos",
+      "setupPayments": "Métodos de pago",
+      "setupLinks": "Enlaces web"
+    },
+    "visitStore": "Ver tienda"
   },
   "team": {
     "title": "Equipo",
@@ -288,12 +299,6 @@
     "saved": "Cambios guardados.",
     "save": "Guardar cambios",
     "saving": "Guardando…",
-    "tabs": {
-      "store": "Tienda",
-      "payments": "Pagos",
-      "orders": "Pedidos",
-      "layout": "Diseño"
-    },
     "store": {
       "nameSection": "Datos del negocio",
       "name": "Nombre del negocio",
@@ -381,6 +386,14 @@
       "tabsHelp": "Una barra fija para saltar entre categorías. Solo con el inicio en secciones.",
       "collapsible": "Categorías plegables",
       "collapsibleHelp": "Cada categoría se puede ocultar o mostrar. No aplica a carrusel ni a mosaicos."
+    },
+    "pages": {
+      "business": "Información del negocio",
+      "branding": "Marca",
+      "layout": "Diseño de la tienda",
+      "orders": "Gestión de pedidos",
+      "payments": "Métodos de pago",
+      "links": "Enlaces web"
     }
   },
   "outlets": {

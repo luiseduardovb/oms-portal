@@ -2,7 +2,10 @@
 
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { can } from "@/auth/permissions";
 import { useMe } from "@/auth/useSession";
 import { ApiStatus } from "@/components/ApiStatus";
 import { displayName } from "@/components/shell/UserMenu";
@@ -10,6 +13,13 @@ import { displayName } from "@/components/shell/UserMenu";
 export default function HomePage() {
   const t = useTranslations("home");
   const { data: me } = useMe();
+  const router = useRouter();
+  // As in Zyda, the dashboard opens on the orders.
+  const toOrders = me ? can(me.levels, "orders", "view") : false;
+  useEffect(() => {
+    if (toOrders) router.replace("/orders");
+  }, [toOrders, router]);
+  if (toOrders) return null;
   return (
     <Stack spacing={4} sx={{ maxWidth: 640 }}>
       <Stack spacing={1}>

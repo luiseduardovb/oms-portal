@@ -62,6 +62,11 @@ describe("RequireAuth", () => {
   });
 });
 
+const FULL = {
+  ...ME,
+  levels: { orders: "full", team: "full", setup: "full", catalog: "full" },
+};
+
 describe("AppShell", () => {
   function signedIn() {
     const store = makeStore();
@@ -76,8 +81,37 @@ describe("AppShell", () => {
     expect(
       await screen.findByRole("button", { name: "Cambiar de comercio" }),
     ).toHaveTextContent("Café Uno");
-    expect(screen.getByRole("link", { name: "Inicio" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Pedidos" })).toBeInTheDocument();
     expect(screen.getByText("contenido")).toBeInTheDocument();
+  });
+
+  it("groups the setup pages and opens the group of the current page", async () => {
+    pathname = "/setup/layout";
+    fakeApi(http, () => ({ status: 200, data: FULL }));
+    renderWithProviders(<AppShell>x</AppShell>, signedIn());
+    const layout = await screen.findByRole("link", {
+      name: "Diseño de la tienda",
+    });
+    expect(layout).toHaveAttribute("href", "/setup/layout");
+    expect(layout).toHaveClass("Mui-selected");
+    expect(
+      screen.getByRole("link", { name: "Información del negocio" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Categorías" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens a group when it is clicked", async () => {
+    pathname = "/orders";
+    fakeApi(http, () => ({ status: 200, data: FULL }));
+    renderWithProviders(<AppShell>x</AppShell>, signedIn());
+    await userEvent.click(
+      await screen.findByRole("link", { name: "Catálogo" }),
+    );
+    expect(
+      await screen.findByRole("link", { name: "Categorías" }),
+    ).toHaveAttribute("href", "/catalog/categories");
   });
 
   it("shows a plain name when there is only one merchant", async () => {

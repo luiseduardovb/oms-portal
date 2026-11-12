@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { ApiError } from "@/api/apiError";
+import { StickySave } from "@/components/PageFrame";
 import { useErrorMessage } from "@/lib/useErrorMessage";
 import { useUpdateSettingsMutation, type StoreSetup } from "./setupApi";
 
@@ -394,7 +395,7 @@ export function LayoutTab({ setup, canEdit }: Props) {
         )}
         {isSuccess && <Alert severity="success">{t("saved")}</Alert>}
         {canEdit && (
-          <Box>
+          <StickySave>
             <Button
               variant="contained"
               disabled={isLoading || !dirty}
@@ -409,7 +410,7 @@ export function LayoutTab({ setup, canEdit }: Props) {
             >
               {t("save")}
             </Button>
-          </Box>
+          </StickySave>
         )}
       </Stack>
       <Box
