@@ -176,7 +176,9 @@ export function OptionDialog({
   const [problems, setProblems] = useState<Record<string, string>>({});
   const error = (creating.error ?? updating.error) as ApiError | undefined;
 
-  const submit = async () => {
+  const [round, setRound] = useState(0);
+
+  const submit = async (another = false) => {
     const found: Record<string, string> = {};
     if (name.trim() === "") found.name = t("nameRequired");
     if (!SIGNED_MONEY.test(price.trim())) found.price = t("priceInvalid");
@@ -195,7 +197,16 @@ export function OptionDialog({
           groupId,
           option: { name: name.trim(), priceDelta: price.trim(), isDefault },
         });
-    if ("data" in result && result.data) onClose();
+    if (!("data" in result && result.data)) return;
+    if (another) {
+      setName("");
+      setPrice("0");
+      setIsDefault(false);
+      setProblems({});
+      setRound((n) => n + 1);
+    } else {
+      onClose();
+    }
   };
 
   return (
@@ -208,6 +219,7 @@ export function OptionDialog({
             label={t("name")}
             value={name}
             autoFocus
+            key={round}
             error={"name" in problems}
             helperText={problems.name}
             onChange={(event) => setName(event.target.value)}
@@ -232,10 +244,18 @@ export function OptionDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>{t("cancel")}</Button>
+        {!option && (
+          <Button
+            disabled={creating.isLoading || updating.isLoading}
+            onClick={() => submit(true)}
+          >
+            {t("saveAnother")}
+          </Button>
+        )}
         <Button
           variant="contained"
           disabled={creating.isLoading || updating.isLoading}
-          onClick={submit}
+          onClick={() => submit()}
         >
           {t("save")}
         </Button>

@@ -13,7 +13,7 @@ import { useTranslations } from "next-intl";
 import { useSyncExternalStore, type ReactNode } from "react";
 
 export type ViewMode = "grid" | "list";
-export type Tone = "success" | "default" | "warning" | "error";
+export type Tone = "success" | "default" | "warning" | "error" | "primary";
 
 const STORAGE_KEY = "oms.catalog.view";
 
@@ -97,10 +97,16 @@ interface ItemProps {
   name: string;
   /** Link for the name (and photo); omit when the item has no page. */
   href?: string;
-  image: string | null;
+  image?: string | null;
+  /** No photo at all (groups of options, options). */
+  hidePhoto?: boolean;
+  /** Opens a panel instead of navigating. */
+  onOpen?: () => void;
+  /** Extra content under the title of a card. */
+  extra?: ReactNode;
   subtitle?: string;
   stats: Stat[];
-  status: { label: string; tone: Tone };
+  status?: { label: string; tone: Tone };
   /** Switch, edit button and menu, laid out by the card or the row. */
   actions: ReactNode;
   muted?: boolean;
@@ -209,7 +215,10 @@ const SURFACE = {
 export function ItemCard({
   name,
   href,
+  onOpen,
   image,
+  hidePhoto,
+  extra,
   stats,
   status,
   actions,
@@ -221,12 +230,15 @@ export function ItemCard({
       spacing={1.5}
       sx={{ ...SURFACE, p: 1.5, opacity: muted ? 0.65 : 1, minWidth: 0 }}
     >
-      <Title name={name} href={href} />
-      <Photo
-        src={image}
-        name={name}
-        sx={{ aspectRatio: "4 / 3", borderRadius: 2, fontSize: 40 }}
-      />
+      <Title name={name} href={href} onOpen={onOpen} />
+      {!hidePhoto && (
+        <Photo
+          src={image ?? null}
+          name={name}
+          sx={{ aspectRatio: "4 / 3", borderRadius: 2, fontSize: 40 }}
+        />
+      )}
+      {extra}
       <Box
         sx={{
           display: "grid",
@@ -266,7 +278,7 @@ export function ItemCard({
           rowGap: 0.5,
         }}
       >
-        <Pill {...status} />
+        {status ? <Pill {...status} /> : <span />}
         <Stack direction="row" sx={{ alignItems: "center" }}>
           {actions}
         </Stack>
@@ -278,7 +290,9 @@ export function ItemCard({
 export function ItemRow({
   name,
   href,
+  onOpen,
   image,
+  hidePhoto,
   subtitle,
   stats,
   status,
@@ -295,18 +309,20 @@ export function ItemRow({
         px: 2,
         py: 1.25,
         alignItems: "center",
-        flexWrap: { xs: "wrap", md: "nowrap" },
+        flexWrap: hidePhoto ? "wrap" : { xs: "wrap", md: "nowrap" },
         rowGap: 1,
         opacity: muted ? 0.65 : 1,
       }}
     >
-      <Photo
-        src={image}
-        name={name}
-        sx={{ width: 56, height: 56, borderRadius: 2, flex: "none" }}
-      />
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        <Title name={name} href={href} />
+      {!hidePhoto && (
+        <Photo
+          src={image ?? null}
+          name={name}
+          sx={{ width: 56, height: 56, borderRadius: 2, flex: "none" }}
+        />
+      )}
+      <Box sx={{ flex: 1, minWidth: hidePhoto ? 110 : 0 }}>
+        <Title name={name} href={href} onOpen={onOpen} />
         {subtitle && (
           <Typography variant="body2" color="text.secondary" noWrap>
             {subtitle}
@@ -326,7 +342,7 @@ export function ItemRow({
           </Typography>
         </Box>
       ))}
-      <Pill {...status} />
+      {status && <Pill {...status} />}
       <Stack direction="row" sx={{ alignItems: "center", flex: "none" }}>
         {actions}
       </Stack>
@@ -334,7 +350,15 @@ export function ItemRow({
   );
 }
 
-function Title({ name, href }: { name: string; href?: string }) {
+function Title({
+  name,
+  href,
+  onOpen,
+}: {
+  name: string;
+  href?: string;
+  onOpen?: () => void;
+}) {
   const title = (
     <Typography
       component="span"
@@ -350,6 +374,26 @@ function Title({ name, href }: { name: string; href?: string }) {
       {name}
     </Typography>
   );
+  if (onOpen) {
+    return (
+      <Box
+        component="button"
+        type="button"
+        onClick={onOpen}
+        sx={{
+          all: "unset",
+          cursor: "pointer",
+          display: "block",
+          textAlign: "left",
+          color: "text.primary",
+          "&:hover": { color: "primary.main" },
+          "&:focus-visible": { outline: 2, outlineColor: "primary.main" },
+        }}
+      >
+        {title}
+      </Box>
+    );
+  }
   if (!href) return title;
   return (
     <Link href={href} style={{ color: "inherit", textDecoration: "none" }}>

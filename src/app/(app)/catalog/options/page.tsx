@@ -1,22 +1,21 @@
 "use client";
 
 import AddIcon from "@mui/icons-material/Add";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SearchIcon from "@mui/icons-material/Search";
 import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
+import InputAdornment from "@mui/material/InputAdornment";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import IconButton from "@mui/material/IconButton";
-import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -34,8 +33,17 @@ import {
   type Option,
   type OptionGroup,
 } from "@/catalog/catalogApi";
-import { CatalogNav } from "@/catalog/CatalogNav";
-import { currencySymbol, formatMoney } from "@/catalog/money";
+import {
+  ItemCard,
+  ItemGrid,
+  ItemList,
+  ItemRow,
+  useViewMode,
+  ViewToggle,
+  type Tone,
+} from "@/catalog/CatalogView";
+import { currencySymbol } from "@/catalog/money";
+import { fold, OptionGroupPanel } from "@/catalog/OptionGroupPanel";
 import {
   AvailabilityDialog,
   GroupDialog,
@@ -65,6 +73,13 @@ export default function OptionGroupsPage() {
   const [restoreOption, restoringOption] = useRestoreOptionMutation();
   const [reorderOptions, reorderingOptions] = useReorderOptionsMutation();
   const [dialog, setDialog] = useState<Dialog | null>(null);
+  const [view, setView] = useViewMode();
+  const [search, setSearch] = useState("");
+  const [openId, setOpenId] = useState<number | null>(null);
+  const [menu, setMenu] = useState<{
+    anchor: HTMLElement;
+    group: OptionGroup;
+  } | null>(null);
 
   if (!me) return null;
   if (!can(me.levels, "catalog", "view")) {
@@ -94,6 +109,102 @@ export default function OptionGroupsPage() {
     restoringOption.error ??
     reorderingOptions.error) as ApiError | undefined;
 
+  const q = fold(search.trim());
+  const shown = rows.filter(
+    (g) =>
+      !q ||
+      fold(g.name).includes(q) ||
+      g.options.some((o) => fold(o.name).includes(q)),
+  );
+  const opened = rows.find((g) => g.id === openId) ?? null;
+  const ruleOf = (g: OptionGroup) =>
+    g.selectionType === "single"
+      ? t("single")
+      : t("multiple", { min: g.minSelect, max: g.maxSelect });
+
+  const items = shown.map((group) => {
+    const archived = group.archivedAt !== null;
+    const active = group.options.filter((o) => o.archivedAt === null);
+    const hits = q ? active.filter((o) => fold(o.name).includes(q)) : [];
+    const preview = [...hits, ...active.filter((o) => !hits.includes(o))];
+    const tone: Tone = archived
+      ? "default"
+      : group.isRequired
+        ? "primary"
+        : "default";
+    return {
+      id: group.id,
+      group,
+      shared: {
+        name: group.name,
+        hidePhoto: true,
+        muted: archived,
+        onOpen: () => setOpenId(group.id),
+        stats: [
+          { label: t("statOptions"), value: active.length },
+          { label: t("statProducts"), value: group.productCount },
+        ],
+        status: {
+          label: archived
+            ? t("archived")
+            : group.isRequired
+              ? t("required")
+              : t("optional"),
+          tone,
+        },
+        actions: (
+          <>
+            {canEdit && !archived && (
+              <Button
+                size="small"
+                aria-label={t("editGroup", { name: group.name })}
+                onClick={() => setDialog({ kind: "group", group })}
+              >
+                {t("edit")}
+              </Button>
+            )}
+            {canEdit && (
+              <IconButton
+                size="small"
+                aria-label={t("more", { name: group.name })}
+                onClick={(event) =>
+                  setMenu({ anchor: event.currentTarget, group })
+                }
+              >
+                <MoreVertIcon fontSize="small" />
+              </IconButton>
+            )}
+          </>
+        ),
+      },
+      extra: (
+        <Stack spacing={1}>
+          <Typography variant="body2" color="text.secondary">
+            {ruleOf(group)}
+          </Typography>
+          <Stack direction="row" sx={{ flexWrap: "wrap", gap: 0.5 }}>
+            {preview.slice(0, 4).map((o) => (
+              <Chip
+                key={o.id}
+                size="small"
+                variant={hits.includes(o) ? "filled" : "outlined"}
+                color={hits.includes(o) ? "primary" : "default"}
+                label={o.name}
+              />
+            ))}
+            {preview.length > 4 && (
+              <Chip
+                size="small"
+                variant="outlined"
+                label={t("moreChips", { count: preview.length - 4 })}
+              />
+            )}
+          </Stack>
+        </Stack>
+      ),
+    };
+  });
+
   return (
     <Stack spacing={3}>
       <Stack
@@ -114,292 +225,149 @@ export default function OptionGroupsPage() {
           </Button>
         )}
       </Stack>
-      <CatalogNav />
       <Typography color="text.secondary">{t("help")}</Typography>
       {error && <Alert severity="error">{errorMessage(error)}</Alert>}
-      <FormControlLabel
-        control={
-          <Switch
-            checked={showArchived}
-            onChange={(event) => setShowArchived(event.target.checked)}
-          />
-        }
-        label={t("showArchived")}
-      />
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        sx={{ alignItems: { md: "center" } }}
+      >
+        <TextField
+          size="small"
+          type="search"
+          label={t("search")}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          sx={{ minWidth: { md: 320 } }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+        <Box sx={{ flex: 1 }} />
+        <ViewToggle value={view} onChange={setView} />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showArchived}
+              onChange={(event) => setShowArchived(event.target.checked)}
+            />
+          }
+          label={t("showArchived")}
+        />
+      </Stack>
       {groups.isLoading && <CircularProgress aria-label={t("loading")} />}
       {groups.data && rows.length === 0 && (
         <Typography color="text.secondary">{t("empty")}</Typography>
       )}
-      {rows.map((group) => {
-        const archived = group.archivedAt !== null;
-        const at = activeGroupIds.indexOf(group.id);
-        const activeOptionIds = group.options
-          .filter((o) => o.archivedAt === null)
-          .map((o) => o.id);
-        return (
-          <Paper
-            key={group.id}
-            variant="outlined"
-            component="section"
-            aria-label={group.name}
-            sx={{ p: 2 }}
+      {rows.length > 0 && shown.length === 0 && (
+        <Typography color="text.secondary">{t("noMatches")}</Typography>
+      )}
+      {shown.length > 0 &&
+        (view === "grid" ? (
+          <ItemGrid label={t("title")}>
+            {items.map((i) => (
+              <ItemCard key={i.id} {...i.shared} extra={i.extra} />
+            ))}
+          </ItemGrid>
+        ) : (
+          <ItemList label={t("title")}>
+            {items.map((i) => (
+              <ItemRow
+                key={i.id}
+                {...i.shared}
+                subtitle={`${ruleOf(i.group)} · ${t("optionsCount", { count: i.group.options.filter((o) => o.archivedAt === null).length })}`}
+                stats={i.shared.stats.slice(1)}
+              />
+            ))}
+          </ItemList>
+        ))}
+      <Menu
+        open={menu !== null}
+        anchorEl={menu?.anchor}
+        onClose={() => setMenu(null)}
+      >
+        {menu && menu.group.archivedAt === null && (
+          <MenuItem
+            disabled={busy || activeGroupIds.indexOf(menu.group.id) <= 0}
+            onClick={() => {
+              const next = moveId(activeGroupIds, menu.group.id, -1);
+              if (next) reorderGroups(next);
+              setMenu(null);
+            }}
           >
-            <Stack spacing={2}>
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{ alignItems: "center", flexWrap: "wrap" }}
-              >
-                <Typography variant="h6" component="h2" sx={{ mr: 1 }}>
-                  {group.name}
-                </Typography>
-                <Chip
-                  size="small"
-                  label={
-                    group.selectionType === "single"
-                      ? t("single")
-                      : t("multiple", {
-                          min: group.minSelect,
-                          max: group.maxSelect,
-                        })
-                  }
-                />
-                {group.isRequired && (
-                  <Chip size="small" color="primary" label={t("required")} />
-                )}
-                <Chip
-                  size="small"
-                  variant="outlined"
-                  label={t("products", { count: group.productCount })}
-                />
-                {archived && <Chip size="small" label={t("archived")} />}
-                <span style={{ flexGrow: 1 }} />
-                {canEdit && !archived && (
-                  <>
-                    <IconButton
-                      size="small"
-                      aria-label={t("moveUp", { name: group.name })}
-                      disabled={busy || at <= 0}
-                      onClick={() => {
-                        const next = moveId(activeGroupIds, group.id, -1);
-                        if (next) reorderGroups(next);
-                      }}
-                    >
-                      <ArrowUpwardIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label={t("moveDown", { name: group.name })}
-                      disabled={busy || at === activeGroupIds.length - 1}
-                      onClick={() => {
-                        const next = moveId(activeGroupIds, group.id, 1);
-                        if (next) reorderGroups(next);
-                      }}
-                    >
-                      <ArrowDownwardIcon fontSize="small" />
-                    </IconButton>
-                    <Button
-                      size="small"
-                      aria-label={t("editGroup", { name: group.name })}
-                      onClick={() => setDialog({ kind: "group", group })}
-                    >
-                      {t("edit")}
-                    </Button>
-                    <Button
-                      size="small"
-                      color="error"
-                      aria-label={t("archiveGroup", { name: group.name })}
-                      disabled={busy}
-                      onClick={() => archiveGroup(group.id)}
-                    >
-                      {t("archive")}
-                    </Button>
-                  </>
-                )}
-                {canEdit && archived && (
-                  <Button
-                    size="small"
-                    aria-label={t("restoreGroup", { name: group.name })}
-                    disabled={busy}
-                    onClick={() => restoreGroup(group.id)}
-                  >
-                    {t("restore")}
-                  </Button>
-                )}
-              </Stack>
-              {group.options.length === 0 && (
-                <Typography color="text.secondary">{t("noOptions")}</Typography>
-              )}
-              {group.options.length > 0 && (
-                <Table
-                  size="small"
-                  aria-label={t("optionsTable", { name: group.name })}
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t("option")}</TableCell>
-                      <TableCell align="right">{t("priceDelta")}</TableCell>
-                      <TableCell align="right">{t("actions")}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {group.options.map((option) => {
-                      const optionArchived = option.archivedAt !== null;
-                      const spot = activeOptionIds.indexOf(option.id);
-                      return (
-                        <TableRow key={option.id}>
-                          <TableCell>
-                            {option.name}
-                            {option.isDefault && (
-                              <Chip
-                                size="small"
-                                sx={{ ml: 1 }}
-                                label={t("default")}
-                              />
-                            )}
-                            {optionArchived && (
-                              <Chip
-                                size="small"
-                                sx={{ ml: 1 }}
-                                label={t("archived")}
-                              />
-                            )}
-                          </TableCell>
-                          <TableCell align="right">
-                            {Number(option.priceDelta) > 0 ? "+" : ""}
-                            {formatMoney(option.priceDelta, currency)}
-                          </TableCell>
-                          <TableCell align="right">
-                            {canEdit && !archived && !optionArchived && (
-                              <>
-                                <IconButton
-                                  size="small"
-                                  aria-label={t("moveUp", {
-                                    name: option.name,
-                                  })}
-                                  disabled={busy || spot <= 0}
-                                  onClick={() => {
-                                    const next = moveId(
-                                      activeOptionIds,
-                                      option.id,
-                                      -1,
-                                    );
-                                    if (next)
-                                      reorderOptions({
-                                        groupId: group.id,
-                                        ids: next,
-                                      });
-                                  }}
-                                >
-                                  <ArrowUpwardIcon fontSize="small" />
-                                </IconButton>
-                                <IconButton
-                                  size="small"
-                                  aria-label={t("moveDown", {
-                                    name: option.name,
-                                  })}
-                                  disabled={
-                                    busy || spot === activeOptionIds.length - 1
-                                  }
-                                  onClick={() => {
-                                    const next = moveId(
-                                      activeOptionIds,
-                                      option.id,
-                                      1,
-                                    );
-                                    if (next)
-                                      reorderOptions({
-                                        groupId: group.id,
-                                        ids: next,
-                                      });
-                                  }}
-                                >
-                                  <ArrowDownwardIcon fontSize="small" />
-                                </IconButton>
-                                <Button
-                                  size="small"
-                                  aria-label={t("editOption", {
-                                    name: option.name,
-                                  })}
-                                  onClick={() =>
-                                    setDialog({
-                                      kind: "option",
-                                      groupId: group.id,
-                                      option,
-                                    })
-                                  }
-                                >
-                                  {t("edit")}
-                                </Button>
-                              </>
-                            )}
-                            {canToggle && !archived && !optionArchived && (
-                              <Button
-                                size="small"
-                                aria-label={t("outletsOf", {
-                                  name: option.name,
-                                })}
-                                onClick={() =>
-                                  setDialog({ kind: "availability", option })
-                                }
-                              >
-                                {t("outlets")}
-                              </Button>
-                            )}
-                            {canEdit && !archived && !optionArchived && (
-                              <Button
-                                size="small"
-                                color="error"
-                                aria-label={t("archiveOption", {
-                                  name: option.name,
-                                })}
-                                disabled={busy}
-                                onClick={() => archiveOption(option.id)}
-                              >
-                                {t("archive")}
-                              </Button>
-                            )}
-                            {canEdit && !archived && optionArchived && (
-                              <Button
-                                size="small"
-                                aria-label={t("restoreOption", {
-                                  name: option.name,
-                                })}
-                                disabled={busy}
-                                onClick={() => restoreOption(option.id)}
-                              >
-                                {t("restore")}
-                              </Button>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              )}
-              {canEdit && !archived && (
-                <div>
-                  <Button
-                    size="small"
-                    startIcon={<AddIcon />}
-                    aria-label={t("addOptionTo", { name: group.name })}
-                    onClick={() =>
-                      setDialog({
-                        kind: "option",
-                        groupId: group.id,
-                        option: null,
-                      })
-                    }
-                  >
-                    {t("addOption")}
-                  </Button>
-                </div>
-              )}
-            </Stack>
-          </Paper>
-        );
-      })}
+            {t("moveUpShort")}
+          </MenuItem>
+        )}
+        {menu && menu.group.archivedAt === null && (
+          <MenuItem
+            disabled={
+              busy ||
+              activeGroupIds.indexOf(menu.group.id) ===
+                activeGroupIds.length - 1
+            }
+            onClick={() => {
+              const next = moveId(activeGroupIds, menu.group.id, 1);
+              if (next) reorderGroups(next);
+              setMenu(null);
+            }}
+          >
+            {t("moveDownShort")}
+          </MenuItem>
+        )}
+        {menu && menu.group.archivedAt === null && (
+          <MenuItem
+            disabled={busy}
+            onClick={() => {
+              archiveGroup(menu.group.id);
+              setMenu(null);
+            }}
+          >
+            {t("archive")}
+          </MenuItem>
+        )}
+        {menu && menu.group.archivedAt !== null && (
+          <MenuItem
+            disabled={busy}
+            onClick={() => {
+              restoreGroup(menu.group.id);
+              setMenu(null);
+            }}
+          >
+            {t("restore")}
+          </MenuItem>
+        )}
+      </Menu>
+      {opened && (
+        <OptionGroupPanel
+          key={opened.id}
+          group={opened}
+          currency={currency}
+          initialQuery={search}
+          canEdit={canEdit}
+          canToggle={canToggle}
+          busy={busy}
+          rule={ruleOf(opened)}
+          onClose={() => setOpenId(null)}
+          onAdd={() =>
+            setDialog({ kind: "option", groupId: opened.id, option: null })
+          }
+          onEdit={(option) =>
+            setDialog({ kind: "option", groupId: opened.id, option })
+          }
+          onAvailability={(option) =>
+            setDialog({ kind: "availability", option })
+          }
+          onArchive={(option) => archiveOption(option.id)}
+          onRestore={(option) => restoreOption(option.id)}
+          onReorder={(ids) => reorderOptions({ groupId: opened.id, ids })}
+        />
+      )}
       {dialog?.kind === "group" && (
         <GroupDialog group={dialog.group} onClose={() => setDialog(null)} />
       )}

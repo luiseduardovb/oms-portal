@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import { useTranslations } from "next-intl";
 import { can } from "@/auth/permissions";
 import { useMe } from "@/auth/useSession";
-import { CatalogNav } from "@/catalog/CatalogNav";
 import { ExportSection } from "@/catalog/ExportSection";
 import { ImportSection } from "@/catalog/ImportSection";
 
@@ -26,7 +25,6 @@ export default function ImportExportPage() {
       <Typography variant="h4" component="h1">
         {t("title")}
       </Typography>
-      <CatalogNav />
       {canExport ? (
         <ExportSection />
       ) : (

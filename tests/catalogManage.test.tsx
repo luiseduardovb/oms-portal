@@ -150,8 +150,12 @@ function open(
           ? [...CATEGORIES, OLD_CATEGORY]
           : CATEGORIES,
       };
-    if (call.url === "/option-groups" && call.method === "GET")
-      return { status: 200, data: [GROUP, EXTRAS] };
+    if (call.url === "/option-groups" && call.method === "GET") {
+      const custom = overrides(call);
+      return Array.isArray(custom?.data)
+        ? custom
+        : { status: 200, data: [GROUP, EXTRAS] };
+    }
     if (call.url === "/products/3" && call.method === "GET")
       return { status: 200, data: PRODUCT };
     return overrides(call);
@@ -178,30 +182,6 @@ describe("moveId", () => {
     expect(moveId([1, 2, 3], 1, -1)).toBeNull();
     expect(moveId([1, 2, 3], 3, 1)).toBeNull();
     expect(moveId([1, 2, 3], 9, 1)).toBeNull();
-  });
-});
-
-describe("Catalog sections", () => {
-  it("links the four screens and marks the current one", async () => {
-    open(<CategoriesPage />);
-    const tabs = await screen.findByRole("tablist", {
-      name: "Secciones del catálogo",
-    });
-    for (const name of [
-      "Productos",
-      "Categorías",
-      "Opciones",
-      "Importar y exportar",
-    ]) {
-      expect(within(tabs).getByRole("tab", { name })).toBeInTheDocument();
-    }
-    expect(
-      within(tabs).getByRole("tab", { name: "Categorías" }),
-    ).toHaveAttribute("aria-selected", "true");
-    expect(within(tabs).getByRole("tab", { name: "Opciones" })).toHaveAttribute(
-      "href",
-      "/catalog/options",
-    );
   });
 });
 
@@ -385,22 +365,88 @@ describe("Categorías", () => {
 describe("Opciones", () => {
   beforeEach(() => {
     path = "/catalog/options";
+    window.localStorage.removeItem("oms.catalog.view");
   });
 
-  it("shows groups, rules and options with price changes", async () => {
+  const openPanel = async (name: string) => {
+    await userEvent.click(await screen.findByRole("button", { name }));
+    return screen.findByRole("dialog", { name: `Opciones de ${name}` });
+  };
+  const rowOf = (panel: HTMLElement, name: string) =>
+    within(panel).getByText(name).closest("[role=listitem]") as HTMLElement;
+
+  it("shows groups as cards and their options in a side panel", async () => {
     open(<OptionGroupsPage />);
-    const group = await screen.findByRole("region", { name: "Tamaño" });
-    expect(within(group).getByText("Elegir una")).toBeInTheDocument();
-    expect(within(group).getByText("Obligatorio")).toBeInTheDocument();
-    expect(within(group).getByText("3 productos")).toBeInTheDocument();
-    const table = within(group).getByRole("table", {
-      name: "Opciones de Tamaño",
+    const list = await screen.findByRole("list", {
+      name: "Grupos de opciones",
     });
-    expect(within(table).getByText(/^\+L\s15\.00$/)).toBeInTheDocument();
-    expect(within(table).getByText("Por defecto")).toBeInTheDocument();
-    expect(within(table).getByText("Viejo")).toBeInTheDocument();
-    const extras = screen.getByRole("region", { name: "Extras" });
+    const card = within(list)
+      .getByText("Tamaño")
+      .closest("[role=listitem]") as HTMLElement;
+    expect(within(card).getByText("Elegir una")).toBeInTheDocument();
+    expect(within(card).getByText("Obligatorio")).toBeInTheDocument();
+    expect(within(card).getByText("Grande")).toBeInTheDocument();
+    const extras = within(list)
+      .getByText("Extras")
+      .closest("[role=listitem]") as HTMLElement;
     expect(within(extras).getByText("Elegir de 0 a 3")).toBeInTheDocument();
+    expect(within(extras).getByText("Opcional")).toBeInTheDocument();
+    const panel = await openPanel("Tamaño");
+    expect(within(panel).getByText("3 productos")).toBeInTheDocument();
+    expect(within(panel).getByText(/^\+L\s15\.00$/)).toBeInTheDocument();
+    expect(within(panel).getByText("Por defecto")).toBeInTheDocument();
+    expect(within(rowOf(panel, "Viejo")).getByText("Archivado")).toBeVisible();
+  });
+
+  it("shows the groups as list rows when chosen", async () => {
+    window.localStorage.setItem("oms.catalog.view", "list");
+    open(<OptionGroupsPage />);
+    const list = await screen.findByRole("list", {
+      name: "Grupos de opciones",
+    });
+    const row = within(list)
+      .getByText("Tamaño")
+      .closest("[role=listitem]") as HTMLElement;
+    expect(
+      within(row).getByText(/Elegir una · 2 opciones/),
+    ).toBeInTheDocument();
+  });
+
+  it("finds groups by their name or by an option name", async () => {
+    open(<OptionGroupsPage />);
+    await screen.findByText("Tamaño");
+    await userEvent.type(screen.getByLabelText("Buscar grupo u opción"), "QUE");
+    expect(screen.queryByText("Tamaño")).toBeNull();
+    expect(screen.getByText("Extras")).toBeInTheDocument();
+    await userEvent.clear(screen.getByLabelText("Buscar grupo u opción"));
+    await userEvent.type(
+      screen.getByLabelText("Buscar grupo u opción"),
+      "norm",
+    );
+    expect(screen.getByText("Tamaño")).toBeInTheDocument();
+    expect(screen.queryByText("Extras")).toBeNull();
+    await userEvent.clear(screen.getByLabelText("Buscar grupo u opción"));
+    await userEvent.type(screen.getByLabelText("Buscar grupo u opción"), "zzz");
+    expect(
+      await screen.findByText("Nada coincide con la búsqueda."),
+    ).toBeInTheDocument();
+  });
+
+  it("searches the options of a long group inside the panel", async () => {
+    const many = {
+      ...GROUP,
+      options: Array.from({ length: 8 }, (_, i) =>
+        option(20 + i, i === 4 ? "Café" : `Opción ${i}`),
+      ),
+    };
+    open(<OptionGroupsPage />, MANAGER, (call) => ({
+      status: 200,
+      data: call.url === "/option-groups" ? [many] : {},
+    }));
+    const panel = await openPanel("Tamaño");
+    await userEvent.type(within(panel).getByLabelText("Buscar opción"), "cafe");
+    expect(within(panel).getByText("Café")).toBeInTheDocument();
+    expect(within(panel).queryByText("Opción 0")).toBeNull();
   });
 
   it("creates a single-choice group that is required", async () => {
@@ -487,6 +533,7 @@ describe("Opciones", () => {
       status: 201,
       data: GROUP,
     }));
+    await openPanel("Tamaño");
     await userEvent.click(
       await screen.findByRole("button", { name: "Agregar opción a Tamaño" }),
     );
@@ -511,11 +558,37 @@ describe("Opciones", () => {
     );
   });
 
+  it("keeps the form open to add several options in a row", async () => {
+    const { calls } = open(<OptionGroupsPage />, MANAGER, () => ({
+      status: 201,
+      data: GROUP,
+    }));
+    await openPanel("Tamaño");
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Agregar opción a Tamaño" }),
+    );
+    await userEvent.type(screen.getByLabelText("Nombre"), "Chico");
+    await userEvent.click(
+      screen.getByRole("button", { name: "Guardar y agregar otra" }),
+    );
+    await waitFor(() => expect(writes(calls)).toHaveLength(1));
+    await waitFor(() =>
+      expect(screen.getByLabelText("Nombre")).toHaveValue(""),
+    );
+    await userEvent.type(screen.getByLabelText("Nombre"), "Mediano");
+    await userEvent.click(screen.getByRole("button", { name: "Guardar" }));
+    await waitFor(() => expect(writes(calls)).toHaveLength(2));
+    expect(writes(calls)[1]).toMatchObject({
+      data: { name: "Mediano" },
+    });
+  });
+
   it("edits an option", async () => {
     const { calls } = open(<OptionGroupsPage />, MANAGER, () => ({
       status: 200,
       data: GROUP,
     }));
+    await openPanel("Tamaño");
     await userEvent.click(
       await screen.findByRole("button", { name: "Editar opción Normal" }),
     );
@@ -535,6 +608,7 @@ describe("Opciones", () => {
     open(<OptionGroupsPage />, MANAGER, () =>
       apiError(422, "catalog.too_many_defaults"),
     );
+    await openPanel("Tamaño");
     await userEvent.click(
       await screen.findByRole("button", { name: "Editar opción Grande" }),
     );
@@ -549,6 +623,7 @@ describe("Opciones", () => {
       status: 200,
       data: GROUP,
     }));
+    await openPanel("Tamaño");
     await userEvent.click(
       await screen.findByRole("button", { name: "Subir Normal" }),
     );
@@ -559,7 +634,11 @@ describe("Opciones", () => {
         data: { ids: [6, 5] },
       }),
     );
-    await userEvent.click(screen.getByRole("button", { name: "Bajar Tamaño" }));
+    await userEvent.click(screen.getByRole("button", { name: "Cerrar" }));
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Más acciones de Tamaño" }),
+    );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Bajar" }));
     await waitFor(() =>
       expect(writes(calls).at(-1)).toMatchObject({
         url: "/option-groups/order",
@@ -573,23 +652,28 @@ describe("Opciones", () => {
       status: 200,
       data: GROUP,
     }));
+    await openPanel("Tamaño");
     await userEvent.click(
-      await screen.findByRole("button", { name: "Archivar opción Grande" }),
+      await screen.findByRole("button", { name: "Más acciones de Grande" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Archivar" }));
     await waitFor(() =>
       expect(writes(calls)[0]).toMatchObject({ url: "/options/5/archive" }),
     );
     await userEvent.click(
-      screen.getByRole("button", { name: "Restaurar opción Viejo" }),
+      screen.getByRole("button", { name: "Más acciones de Viejo" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Restaurar" }));
     await waitFor(() =>
       expect(writes(calls).at(-1)).toMatchObject({
         url: "/options/7/restore",
       }),
     );
+    await userEvent.click(screen.getByRole("button", { name: "Cerrar" }));
     await userEvent.click(
-      screen.getByRole("button", { name: "Archivar grupo Extras" }),
+      await screen.findByRole("button", { name: "Más acciones de Extras" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Archivar" }));
     await waitFor(() =>
       expect(writes(calls).at(-1)).toMatchObject({
         url: "/option-groups/2/archive",
@@ -602,10 +686,14 @@ describe("Opciones", () => {
       status: 200,
       data: GROUP,
     }));
+    await openPanel("Tamaño");
     await userEvent.click(
-      await screen.findByRole("button", { name: "Sucursales de Grande" }),
+      await screen.findByRole("button", { name: "Más acciones de Grande" }),
     );
-    const dialog = await screen.findByRole("dialog");
+    await userEvent.click(screen.getByRole("menuitem", { name: "Sucursales" }));
+    const dialog = await screen.findByRole("dialog", {
+      name: /Disponibilidad|Sucursales|Grande/,
+    });
     const toggle = await within(dialog).findByRole("switch", {
       name: "Centro",
     });
@@ -623,9 +711,14 @@ describe("Opciones", () => {
 
   it("lets the Operator switch availability but not edit", async () => {
     open(<OptionGroupsPage />, OPERATOR);
+    await openPanel("Tamaño");
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Más acciones de Grande" }),
+    );
     expect(
-      await screen.findByRole("button", { name: "Sucursales de Grande" }),
+      screen.getByRole("menuitem", { name: "Sucursales" }),
     ).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: "Archivar" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Nuevo grupo" })).toBeNull();
     expect(
       screen.queryByRole("button", { name: "Editar opción Grande" }),
@@ -637,9 +730,9 @@ describe("Opciones", () => {
 
   it("shows nothing to change for a viewer without the extra", async () => {
     open(<OptionGroupsPage />, VIEWER);
-    await screen.findByRole("region", { name: "Tamaño" });
+    await openPanel("Tamaño");
     expect(
-      screen.queryByRole("button", { name: "Sucursales de Grande" }),
+      screen.queryByRole("button", { name: "Más acciones de Grande" }),
     ).toBeNull();
     expect(screen.queryByRole("button", { name: "Nuevo grupo" })).toBeNull();
   });

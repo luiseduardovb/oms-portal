@@ -665,13 +665,6 @@
     },
     "colCategories": "Categorías",
     "colStock": "Stock",
-    "sections": {
-      "label": "Secciones del catálogo",
-      "products": "Productos",
-      "categories": "Categorías",
-      "options": "Opciones",
-      "import": "Importar y exportar"
-    },
     "categoryPage": {
       "title": "Categorías",
       "noAccess": "Tu rol no tiene acceso al catálogo.",
@@ -709,7 +702,7 @@
       "save": "Guardar"
     },
     "optionsPage": {
-      "title": "Opciones",
+      "title": "Grupos de opciones",
       "noAccess": "Tu rol no tiene acceso al catálogo.",
       "help": "Los grupos de opciones (tamaño, extras, término) se comparten entre productos. Agrégalos a cada producto en su pestaña Opciones.",
       "loading": "Cargando…",
@@ -741,7 +734,22 @@
       "outlets": "Sucursales",
       "outletsOf": "Sucursales de {name}",
       "addOption": "Agregar opción",
-      "addOptionTo": "Agregar opción a {name}"
+      "addOptionTo": "Agregar opción a {name}",
+      "search": "Buscar grupo u opción",
+      "optional": "Opcional",
+      "statOptions": "Opciones",
+      "statProducts": "Productos",
+      "more": "Más acciones de {name}",
+      "moreOption": "Más acciones de {name}",
+      "close": "Cerrar",
+      "searchOptions": "Buscar opción",
+      "noMatches": "Nada coincide con la búsqueda.",
+      "panel": "Opciones de {name}",
+      "moreChips": "+{count}",
+      "optionsCount": "{count, plural, one {# opción} other {# opciones}}",
+      "moveUpShort": "Subir",
+      "moveDownShort": "Bajar",
+      "priceShort": "Precio"
     },
     "groupDialog": {
       "newTitle": "Nuevo grupo de opciones",
@@ -771,7 +779,8 @@
       "priceInvalid": "Usa un monto como 10, 12.50 o -5.",
       "default": "Elegida por defecto",
       "cancel": "Cancelar",
-      "save": "Guardar"
+      "save": "Guardar",
+      "saveAnother": "Guardar y agregar otra"
     },
     "optionAvailability": {
       "title": "Sucursales de {name}",

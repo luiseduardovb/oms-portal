@@ -33,7 +33,6 @@ import {
   useUpdateCategoryMutation,
   type Category,
 } from "@/catalog/catalogApi";
-import { CatalogNav } from "@/catalog/CatalogNav";
 import {
   ItemCard,
   ItemGrid,
@@ -109,7 +108,6 @@ export default function CategoriesPage() {
           </Button>
         )}
       </Stack>
-      <CatalogNav />
       {error && <Alert severity="error">{errorMessage(error)}</Alert>}
       <Stack
         direction="row"
