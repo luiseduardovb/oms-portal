@@ -291,7 +291,8 @@
     "tabs": {
       "store": "Tienda",
       "payments": "Pagos",
-      "orders": "Pedidos"
+      "orders": "Pedidos",
+      "layout": "Diseño"
     },
     "store": {
       "nameSection": "Datos del negocio",
@@ -354,6 +355,32 @@
       "tipPresetsHelp": "Separados por comas, de menor a mayor. Por ejemplo: 5, 10, 15.",
       "tipPresetsInvalid": "Usa hasta 5 porcentajes distintos entre 0 y 100, de menor a mayor.",
       "tipsNeedPresets": "Las propinas necesitan al menos un porcentaje sugerido."
+    },
+    "layout": {
+      "homeTitle": "Diseño del inicio",
+      "homeHelp": "Cómo ven tus clientes el menú al abrir tu tienda.",
+      "homeTiles": "Mosaicos",
+      "homeTilesHint": "Una cuadrícula de categorías con foto; cada una abre sus productos.",
+      "productsTitle": "Diseño de los productos",
+      "productsHelp": "Cómo se muestran los productos dentro de cada categoría.",
+      "productsList": "Lista",
+      "productsListHint": "Un producto por fila, con la foto a la derecha.",
+      "productsGrid": "Cuadrícula",
+      "productsGridHint": "Dos productos por fila, con foto grande.",
+      "save": "Guardar cambios",
+      "saved": "Diseño guardado.",
+      "preview": "Vista previa",
+      "previewOff": "La vista previa no está disponible: falta configurar la dirección de la tienda.",
+      "previewNote": "Así se ve con tus productos. Si aún no tienes, se muestran de ejemplo.",
+      "homeSections": "Secciones",
+      "homeSectionsHint": "Todas las categorías una debajo de otra, cada una con su título y sus productos.",
+      "productsCarousel": "Carrusel",
+      "productsCarouselHint": "Los productos se deslizan de lado, con «Ver todo» en el título.",
+      "optionsTitle": "Opciones",
+      "tabs": "Pestañas de categorías",
+      "tabsHelp": "Una barra fija para saltar entre categorías. Solo con el inicio en secciones.",
+      "collapsible": "Categorías plegables",
+      "collapsibleHelp": "Cada categoría se puede ocultar o mostrar. No aplica a carrusel ni a mosaicos."
     }
   },
   "outlets": {

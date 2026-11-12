@@ -37,6 +37,10 @@ const SETUP = {
     slogan: null,
     primaryColor: null,
     hideStoreName: false,
+    menuHome: "sections",
+    menuProducts: "list",
+    menuTabs: true,
+    menuCollapsible: false,
     asapEnabled: true,
     scheduledEnabled: false,
     slotIntervalMinutes: 30,
@@ -383,5 +387,86 @@ describe("tip percentages", () => {
 
   it("shows the server's decimals without trailing zeros", () => {
     expect(formatTipPresets(["5.00", "12.50"])).toBe("5, 12.5");
+  });
+});
+
+describe("Diseño", () => {
+  async function open(me: object = MANAGER) {
+    const api = setup(me);
+    await userEvent.click(await screen.findByRole("tab", { name: "Diseño" }));
+    await screen.findByText("Diseño del inicio");
+    return api;
+  }
+
+  it("saves the home and product layouts the business picks", async () => {
+    const { calls } = await open();
+    const save = screen.getByRole("button", { name: "Guardar cambios" });
+    expect(save).toBeDisabled();
+    expect(screen.getByRole("radio", { name: "Secciones" })).toBeChecked();
+    expect(screen.getByRole("radio", { name: "Lista" })).toBeChecked();
+    await userEvent.click(screen.getByRole("radio", { name: "Mosaicos" }));
+    await userEvent.click(screen.getByRole("radio", { name: "Cuadrícula" }));
+    await userEvent.click(save);
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        method: "PATCH",
+        url: "/merchant/settings",
+        data: {
+          menuHome: "tiles",
+          menuProducts: "grid",
+          menuTabs: true,
+          menuCollapsible: false,
+        },
+      }),
+    );
+    expect(await screen.findByText("Diseño guardado.")).toBeInTheDocument();
+  });
+
+  it("offers the carousel and the switches that go with each layout", async () => {
+    const { calls } = await open();
+    const tabs = screen.getByLabelText("Pestañas de categorías");
+    const collapse = screen.getByLabelText("Categorías plegables");
+    expect(tabs).toBeEnabled();
+    expect(collapse).toBeEnabled();
+    // A carousel has "View all", so there is nothing to collapse.
+    await userEvent.click(screen.getByRole("radio", { name: "Carrusel" }));
+    expect(collapse).toBeDisabled();
+    expect(tabs).toBeEnabled();
+    await userEvent.click(tabs);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Guardar cambios" }),
+    );
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        data: {
+          menuHome: "sections",
+          menuProducts: "carousel",
+          menuTabs: false,
+          menuCollapsible: false,
+        },
+      }),
+    );
+  });
+
+  it("turns the section switches off for tiles", async () => {
+    await open();
+    await userEvent.click(screen.getByRole("radio", { name: "Mosaicos" }));
+    expect(screen.getByLabelText("Pestañas de categorías")).toBeDisabled();
+    expect(screen.getByLabelText("Categorías plegables")).toBeDisabled();
+  });
+
+  it("is read-only with view access", async () => {
+    await open(VIEWER);
+    expect(screen.getByRole("radio", { name: "Mosaicos" })).toBeDisabled();
+    expect(
+      screen.queryByRole("button", { name: "Guardar cambios" }),
+    ).toBeNull();
+  });
+
+  it("says the preview is off when no storefront address is set", async () => {
+    await open();
+    expect(
+      screen.getByText(/vista previa no está disponible/),
+    ).toBeInTheDocument();
   });
 });

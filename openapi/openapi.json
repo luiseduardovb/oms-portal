@@ -5260,6 +5260,466 @@
         }
       }
     },
+    "/public/customers/signup": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Sign Up",
+        "description": "Create an account and sign in.",
+        "operationId": "sign_up_public_customers_signup_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/signin": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Sign In",
+        "description": "Sign in with email and password.",
+        "operationId": "sign_in_public_customers_signin_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/signout": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Sign Out",
+        "operationId": "sign_out_public_customers_signout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/public/customers/me": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Get Me",
+        "description": "The signed-in customer.",
+        "operationId": "get_me_public_customers_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerOut"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Update Me",
+        "description": "Change the name or phone.",
+        "operationId": "update_me_public_customers_me_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/password-reset": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Request Reset",
+        "description": "Ask for a password reset. Always answers the same.",
+        "operationId": "request_reset_public_customers_password_reset_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetRequestIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/password-reset/verify": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Verify Reset",
+        "description": "Check the code from the email before asking for the new password.",
+        "operationId": "verify_reset_public_customers_password_reset_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetVerifyIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/password-reset/confirm": {
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Confirm Reset",
+        "operationId": "confirm_reset_public_customers_password_reset_confirm_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetConfirmIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/me/orders": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "My Orders",
+        "description": "The signed-in customer's orders at one store, newest first, from\nevery device they ordered on.",
+        "operationId": "my_orders_public_customers_me_orders_get",
+        "parameters": [
+          {
+            "name": "store",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 63,
+              "title": "Store"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicOrderStatuses"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/me/addresses": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "List Addresses",
+        "operationId": "list_addresses_public_customers_me_addresses_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AddressOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Addresses Public Customers Me Addresses Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Add Address",
+        "operationId": "add_address_public_customers_me_addresses_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/customers/me/addresses/{link_id}": {
+      "put": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Change Address",
+        "operationId": "change_address_public_customers_me_addresses__link_id__put",
+        "parameters": [
+          {
+            "name": "link_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Link Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Delete Address",
+        "operationId": "delete_address_public_customers_me_addresses__link_id__delete",
+        "parameters": [
+          {
+            "name": "link_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Link Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/local-storage/{key}": {
       "put": {
         "tags": [
@@ -5485,12 +5945,159 @@
         ],
         "title": "AcceptedInvitation"
       },
+      "AddressIn": {
+        "properties": {
+          "addressText": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Addresstext"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 90,
+                "minimum": -90
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 180,
+                "minimum": -180
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "title": "Isdefault",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "addressText"
+        ],
+        "title": "AddressIn"
+      },
+      "AddressOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "addressText": {
+            "type": "string",
+            "title": "Addresstext"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "title": "Isdefault"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "addressText",
+          "reference",
+          "latitude",
+          "longitude",
+          "label",
+          "isDefault",
+          "createdAt"
+        ],
+        "title": "AddressOut"
+      },
       "AdjustBody": {
         "properties": {
           "delta": {
             "type": "integer",
-            "maximum": 1000000.0,
-            "minimum": -1000000.0,
+            "maximum": 1000000,
+            "minimum": -1000000,
             "title": "Delta"
           },
           "reason": {
@@ -5558,7 +6165,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1.0
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -5852,13 +6459,48 @@
         ],
         "title": "CountryInfo"
       },
+      "CustomerOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "name",
+          "phone"
+        ],
+        "title": "CustomerOut"
+      },
       "DispatchBody": {
         "properties": {
           "version": {
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1.0
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -6216,7 +6858,7 @@
           },
           "sizeBytes": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Sizebytes"
           }
         },
@@ -7211,8 +7853,8 @@
         "properties": {
           "weekday": {
             "type": "integer",
-            "maximum": 7.0,
-            "minimum": 1.0,
+            "maximum": 7,
+            "minimum": 1,
             "title": "Weekday",
             "description": "1 = Monday … 7 = Sunday"
           },
@@ -7289,8 +7931,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 50.0,
-                "minimum": 0.0
+                "maximum": 50,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -7302,8 +7944,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 50.0,
-                "minimum": 1.0
+                "maximum": 50,
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -7423,8 +8065,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 50.0,
-                "minimum": 0.0
+                "maximum": 50,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -7436,8 +8078,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 50.0,
-                "minimum": 1.0
+                "maximum": 50,
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -7729,8 +8371,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 90.0,
-                "minimum": -90.0
+                "maximum": 90,
+                "minimum": -90
               },
               {
                 "type": "null"
@@ -7742,8 +8384,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 180.0,
-                "minimum": -180.0
+                "maximum": 180,
+                "minimum": -180
               },
               {
                 "type": "null"
@@ -7775,7 +8417,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -7790,7 +8432,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -7820,8 +8462,8 @@
           },
           "quantity": {
             "type": "integer",
-            "maximum": 999.0,
-            "minimum": 1.0,
+            "maximum": 999,
+            "minimum": 1,
             "title": "Quantity"
           },
           "optionIds": {
@@ -8360,6 +9002,31 @@
             "type": "boolean",
             "title": "Hidestorename"
           },
+          "menuHome": {
+            "type": "string",
+            "enum": [
+              "sections",
+              "tiles"
+            ],
+            "title": "Menuhome"
+          },
+          "menuProducts": {
+            "type": "string",
+            "enum": [
+              "list",
+              "grid",
+              "carousel"
+            ],
+            "title": "Menuproducts"
+          },
+          "menuTabs": {
+            "type": "boolean",
+            "title": "Menutabs"
+          },
+          "menuCollapsible": {
+            "type": "boolean",
+            "title": "Menucollapsible"
+          },
           "asapEnabled": {
             "type": "boolean",
             "title": "Asapenabled"
@@ -8460,6 +9127,10 @@
           "slogan",
           "primaryColor",
           "hideStoreName",
+          "menuHome",
+          "menuProducts",
+          "menuTabs",
+          "menuCollapsible",
           "asapEnabled",
           "scheduledEnabled",
           "slotIntervalMinutes",
@@ -8715,8 +9386,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 90.0,
-                "minimum": -90.0
+                "maximum": 90,
+                "minimum": -90
               },
               {
                 "type": "string"
@@ -8731,8 +9402,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 180.0,
-                "minimum": -180.0
+                "maximum": 180,
+                "minimum": -180
               },
               {
                 "type": "string"
@@ -8777,22 +9448,22 @@
           },
           "prepTimeMinutes": {
             "type": "integer",
-            "maximum": 600.0,
-            "minimum": 0.0,
+            "maximum": 600,
+            "minimum": 0,
             "title": "Preptimeminutes",
             "default": 20
           },
           "acceptAlertMinutes": {
             "type": "integer",
-            "maximum": 119.0,
-            "minimum": 1.0,
+            "maximum": 119,
+            "minimum": 1,
             "title": "Acceptalertminutes",
             "default": 3
           },
           "expireUnacceptedMinutes": {
             "type": "integer",
-            "maximum": 120.0,
-            "minimum": 2.0,
+            "maximum": 120,
+            "minimum": 2,
             "title": "Expireunacceptedminutes",
             "default": 15
           },
@@ -8805,7 +9476,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -8818,7 +9489,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -8829,8 +9500,8 @@
           },
           "deliveryEtaMinutes": {
             "type": "integer",
-            "maximum": 600.0,
-            "minimum": 0.0,
+            "maximum": 600,
+            "minimum": 0,
             "title": "Deliveryetaminutes",
             "default": 40
           }
@@ -9179,8 +9850,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 90.0,
-                "minimum": -90.0
+                "maximum": 90,
+                "minimum": -90
               },
               {
                 "type": "string"
@@ -9195,8 +9866,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 180.0,
-                "minimum": -180.0
+                "maximum": 180,
+                "minimum": -180
               },
               {
                 "type": "string"
@@ -9277,8 +9948,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 600.0,
-                "minimum": 0.0
+                "maximum": 600,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -9290,8 +9961,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 119.0,
-                "minimum": 1.0
+                "maximum": 119,
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -9303,8 +9974,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 120.0,
-                "minimum": 2.0
+                "maximum": 120,
+                "minimum": 2
               },
               {
                 "type": "null"
@@ -9327,7 +9998,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -9342,7 +10013,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -9357,8 +10028,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 600.0,
-                "minimum": 0.0
+                "maximum": 600,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -9533,7 +10204,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -9563,8 +10234,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 600.0,
-                "minimum": 0.0
+                "maximum": 600,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -9603,8 +10274,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 50.0,
-                "minimum": 0.0
+                "maximum": 50,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -9616,8 +10287,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 50.0,
-                "minimum": 1.0
+                "maximum": 50,
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -9935,7 +10606,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -9974,8 +10645,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 600.0,
-                "minimum": 0.0
+                "maximum": 600,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -9998,6 +10669,37 @@
         "type": "object",
         "title": "ProductUpdate",
         "description": "Send only the fields to change. Description, image, SKU and prep time\nmay be null."
+      },
+      "ProfileIn": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "title": "ProfileIn"
       },
       "PublicCategory": {
         "properties": {
@@ -10142,12 +10844,12 @@
           },
           "minSelect": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Minselect"
           },
           "maxSelect": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Maxselect"
           },
           "options": {
@@ -10392,8 +11094,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 90.0,
-                "minimum": -90.0
+                "maximum": 90,
+                "minimum": -90
               },
               {
                 "type": "null"
@@ -10405,8 +11107,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 180.0,
-                "minimum": -180.0
+                "maximum": 180,
+                "minimum": -180
               },
               {
                 "type": "null"
@@ -10438,7 +11140,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -10453,7 +11155,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -11077,7 +11779,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "string"
@@ -11188,6 +11890,31 @@
           "hideStoreName": {
             "type": "boolean",
             "title": "Hidestorename"
+          },
+          "menuHome": {
+            "type": "string",
+            "enum": [
+              "sections",
+              "tiles"
+            ],
+            "title": "Menuhome"
+          },
+          "menuProducts": {
+            "type": "string",
+            "enum": [
+              "list",
+              "grid",
+              "carousel"
+            ],
+            "title": "Menuproducts"
+          },
+          "menuTabs": {
+            "type": "boolean",
+            "title": "Menutabs"
+          },
+          "menuCollapsible": {
+            "type": "boolean",
+            "title": "Menucollapsible"
           },
           "logo": {
             "anyOf": [
@@ -11323,6 +12050,10 @@
           "slogan",
           "primaryColor",
           "hideStoreName",
+          "menuHome",
+          "menuProducts",
+          "menuTabs",
+          "menuCollapsible",
           "logo",
           "cover",
           "contactPhone",
@@ -11584,6 +12315,73 @@
         ],
         "title": "PublishBody"
       },
+      "ResetConfirmIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$",
+            "title": "Code"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "code",
+          "password"
+        ],
+        "title": "ResetConfirmIn"
+      },
+      "ResetRequestIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "ResetRequestIn"
+      },
+      "ResetVerifyIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$",
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "code"
+        ],
+        "title": "ResetVerifyIn"
+      },
       "RoleOut": {
         "properties": {
           "id": {
@@ -11684,6 +12482,59 @@
             ],
             "title": "Hidestorename"
           },
+          "menuHome": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "sections",
+                  "tiles"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Menuhome"
+          },
+          "menuProducts": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "list",
+                  "grid",
+                  "carousel"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Menuproducts"
+          },
+          "menuTabs": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Menutabs"
+          },
+          "menuCollapsible": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Menucollapsible"
+          },
           "asapEnabled": {
             "anyOf": [
               {
@@ -11721,8 +12572,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 30.0,
-                "minimum": 1.0
+                "maximum": 30,
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -11748,8 +12599,8 @@
                   "anyOf": [
                     {
                       "type": "number",
-                      "maximum": 100.0,
-                      "minimum": 0.0
+                      "maximum": 100,
+                      "minimum": 0
                     },
                     {
                       "type": "string"
@@ -11868,6 +12719,71 @@
         "title": "SettingsUpdate",
         "description": "Send only the fields to change. Text fields may be null to clear."
       },
+      "SignInIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "SignInIn"
+      },
+      "SignUpIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "name"
+        ],
+        "title": "SignUpIn"
+      },
       "SlugChange": {
         "properties": {
           "slug": {
@@ -11898,8 +12814,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 1000000.0,
-                "minimum": 0.0
+                "maximum": 1000000,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -11911,8 +12827,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 1000000.0,
-                "minimum": 0.0
+                "maximum": 1000000,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -11924,7 +12840,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1.0
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -12031,7 +12947,7 @@
         "properties": {
           "merchantId": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Merchantid"
           }
         },
@@ -12154,7 +13070,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1.0
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -12193,7 +13109,7 @@
           },
           "sizeBytes": {
             "type": "integer",
-            "exclusiveMinimum": 0.0,
+            "exclusiveMinimum": 0,
             "title": "Sizebytes"
           }
         },

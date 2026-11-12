@@ -12,12 +12,13 @@ import type { ApiError } from "@/api/apiError";
 import { can } from "@/auth/permissions";
 import { useMe } from "@/auth/useSession";
 import { useErrorMessage } from "@/lib/useErrorMessage";
+import { LayoutTab } from "@/setup/LayoutTab";
 import { OrdersTab } from "@/setup/OrdersTab";
 import { PaymentsTab } from "@/setup/PaymentsTab";
 import { StoreTab } from "@/setup/StoreTab";
 import { useStoreSetupQuery } from "@/setup/setupApi";
 
-type TabKey = "store" | "payments" | "orders";
+type TabKey = "store" | "payments" | "orders" | "layout";
 
 export default function SetupPage() {
   const t = useTranslations("setup");
@@ -47,6 +48,7 @@ export default function SetupPage() {
         <Tab value="store" label={t("tabs.store")} />
         <Tab value="payments" label={t("tabs.payments")} />
         <Tab value="orders" label={t("tabs.orders")} />
+        <Tab value="layout" label={t("tabs.layout")} />
       </Tabs>
       {setup.isLoading && <CircularProgress aria-label={t("loading")} />}
       {setup.data && tab === "store" && (
@@ -54,6 +56,9 @@ export default function SetupPage() {
       )}
       {setup.data && tab === "payments" && (
         <PaymentsTab setup={setup.data} canEdit={canEdit} />
+      )}
+      {setup.data && tab === "layout" && (
+        <LayoutTab setup={setup.data} canEdit={canEdit} />
       )}
       {setup.data && tab === "orders" && (
         <OrdersTab setup={setup.data} canEdit={canEdit} />

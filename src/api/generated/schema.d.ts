@@ -1513,6 +1513,201 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/customers/signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign Up
+         * @description Create an account and sign in.
+         */
+        post: operations["sign_up_public_customers_signup_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/signin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign In
+         * @description Sign in with email and password.
+         */
+        post: operations["sign_in_public_customers_signin_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/signout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign Out */
+        post: operations["sign_out_public_customers_signout_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Me
+         * @description The signed-in customer.
+         */
+        get: operations["get_me_public_customers_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Me
+         * @description Change the name or phone.
+         */
+        patch: operations["update_me_public_customers_me_patch"];
+        trace?: never;
+    };
+    "/public/customers/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Request Reset
+         * @description Ask for a password reset. Always answers the same.
+         */
+        post: operations["request_reset_public_customers_password_reset_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/password-reset/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Verify Reset
+         * @description Check the code from the email before asking for the new password.
+         */
+        post: operations["verify_reset_public_customers_password_reset_verify_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/password-reset/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm Reset */
+        post: operations["confirm_reset_public_customers_password_reset_confirm_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/me/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Orders
+         * @description The signed-in customer's orders at one store, newest first, from
+         *     every device they ordered on.
+         */
+        get: operations["my_orders_public_customers_me_orders_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/me/addresses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Addresses */
+        get: operations["list_addresses_public_customers_me_addresses_get"];
+        put?: never;
+        /** Add Address */
+        post: operations["add_address_public_customers_me_addresses_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/customers/me/addresses/{link_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Change Address */
+        put: operations["change_address_public_customers_me_addresses__link_id__put"];
+        post?: never;
+        /** Delete Address */
+        delete: operations["delete_address_public_customers_me_addresses__link_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/local-storage/{key}": {
         parameters: {
             query?: never;
@@ -1558,6 +1753,46 @@ export interface components {
             merchantSlug: string;
             /** Usercreated */
             userCreated: boolean;
+        };
+        /** AddressIn */
+        AddressIn: {
+            /** Addresstext */
+            addressText: string;
+            /** Reference */
+            reference?: string | null;
+            /** Latitude */
+            latitude?: number | null;
+            /** Longitude */
+            longitude?: number | null;
+            /** Label */
+            label?: string | null;
+            /**
+             * Isdefault
+             * @default false
+             */
+            isDefault: boolean;
+        };
+        /** AddressOut */
+        AddressOut: {
+            /** Id */
+            id: number;
+            /** Addresstext */
+            addressText: string;
+            /** Reference */
+            reference: string | null;
+            /** Latitude */
+            latitude: number | null;
+            /** Longitude */
+            longitude: number | null;
+            /** Label */
+            label: string | null;
+            /** Isdefault */
+            isDefault: boolean;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
         };
         /**
          * AdjustBody
@@ -1673,6 +1908,17 @@ export interface components {
             currencyCode: string;
             /** Timezone */
             timezone: string;
+        };
+        /** CustomerOut */
+        CustomerOut: {
+            /** Id */
+            id: number;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Phone */
+            phone: string | null;
         };
         /** DispatchBody */
         DispatchBody: {
@@ -2469,6 +2715,20 @@ export interface components {
             primaryColor: string | null;
             /** Hidestorename */
             hideStoreName: boolean;
+            /**
+             * Menuhome
+             * @enum {string}
+             */
+            menuHome: "sections" | "tiles";
+            /**
+             * Menuproducts
+             * @enum {string}
+             */
+            menuProducts: "list" | "grid" | "carousel";
+            /** Menutabs */
+            menuTabs: boolean;
+            /** Menucollapsible */
+            menuCollapsible: boolean;
             /** Asapenabled */
             asapEnabled: boolean;
             /** Scheduledenabled */
@@ -2932,6 +3192,13 @@ export interface components {
             /** Ispublished */
             isPublished?: boolean | null;
         };
+        /** ProfileIn */
+        ProfileIn: {
+            /** Name */
+            name?: string | null;
+            /** Phone */
+            phone?: string | null;
+        };
         /** PublicCategory */
         PublicCategory: {
             /** Id */
@@ -3329,6 +3596,20 @@ export interface components {
             primaryColor: string | null;
             /** Hidestorename */
             hideStoreName: boolean;
+            /**
+             * Menuhome
+             * @enum {string}
+             */
+            menuHome: "sections" | "tiles";
+            /**
+             * Menuproducts
+             * @enum {string}
+             */
+            menuProducts: "list" | "grid" | "carousel";
+            /** Menutabs */
+            menuTabs: boolean;
+            /** Menucollapsible */
+            menuCollapsible: boolean;
             logo: components["schemas"]["PublicPicture"] | null;
             cover: components["schemas"]["PublicPicture"] | null;
             /** Contactphone */
@@ -3443,6 +3724,27 @@ export interface components {
             /** Ispublished */
             isPublished: boolean;
         };
+        /** ResetConfirmIn */
+        ResetConfirmIn: {
+            /** Email */
+            email: string;
+            /** Code */
+            code: string;
+            /** Password */
+            password: string;
+        };
+        /** ResetRequestIn */
+        ResetRequestIn: {
+            /** Email */
+            email: string;
+        };
+        /** ResetVerifyIn */
+        ResetVerifyIn: {
+            /** Email */
+            email: string;
+            /** Code */
+            code: string;
+        };
         /** RoleOut */
         RoleOut: {
             /** Id */
@@ -3473,6 +3775,14 @@ export interface components {
             primaryColor?: string | null;
             /** Hidestorename */
             hideStoreName?: boolean | null;
+            /** Menuhome */
+            menuHome?: ("sections" | "tiles") | null;
+            /** Menuproducts */
+            menuProducts?: ("list" | "grid" | "carousel") | null;
+            /** Menutabs */
+            menuTabs?: boolean | null;
+            /** Menucollapsible */
+            menuCollapsible?: boolean | null;
             /** Asapenabled */
             asapEnabled?: boolean | null;
             /** Scheduledenabled */
@@ -3501,6 +3811,24 @@ export interface components {
             facebookUrl?: string | null;
             /** Websiteurl */
             websiteUrl?: string | null;
+        };
+        /** SignInIn */
+        SignInIn: {
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
+        };
+        /** SignUpIn */
+        SignUpIn: {
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
+            /** Name */
+            name: string;
+            /** Phone */
+            phone?: string | null;
         };
         /** SlugChange */
         SlugChange: {
@@ -6586,6 +6914,384 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["PublicOrderStatuses"];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_up_public_customers_signup_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignUpIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_in_public_customers_signin_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignInIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_out_public_customers_signout_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_me_public_customers_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerOut"];
+                };
+            };
+        };
+    };
+    update_me_public_customers_me_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfileIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    request_reset_public_customers_password_reset_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetRequestIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    verify_reset_public_customers_password_reset_verify_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetVerifyIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    confirm_reset_public_customers_password_reset_confirm_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetConfirmIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_orders_public_customers_me_orders_get: {
+        parameters: {
+            query: {
+                store: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicOrderStatuses"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_addresses_public_customers_me_addresses_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressOut"][];
+                };
+            };
+        };
+    };
+    add_address_public_customers_me_addresses_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddressIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_address_public_customers_me_addresses__link_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                link_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddressIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_address_public_customers_me_addresses__link_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                link_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {
