@@ -1,5 +1,6 @@
 "use client";
 
+import FilterListIcon from "@mui/icons-material/FilterList";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
@@ -236,7 +237,12 @@ export default function OrdersPage() {
         <Button type="submit" variant="outlined">
           {t("apply")}
         </Button>
-        <Button onClick={() => setShowFilters((value) => !value)}>
+        <Button
+          variant={showFilters ? "contained" : "outlined"}
+          color={showFilters ? "primary" : "inherit"}
+          startIcon={<FilterListIcon />}
+          onClick={() => setShowFilters((value) => !value)}
+        >
           {t("filter")}
         </Button>
       </Stack>

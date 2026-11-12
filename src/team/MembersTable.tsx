@@ -1,5 +1,6 @@
 "use client";
 
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
@@ -8,7 +9,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
 import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
@@ -53,6 +57,10 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
   const [failure, setFailure] = useState<string | null>(null);
   const [removing, setRemoving] = useState<Member | null>(null);
   const [choosing, setChoosing] = useState<Member | null>(null);
+  const [menu, setMenu] = useState<{
+    anchor: HTMLElement;
+    member: Member;
+  } | null>(null);
 
   const run = async (action: Promise<{ error?: unknown }>) => {
     const result = await action;
@@ -75,9 +83,13 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
           {failure}
         </Alert>
       )}
-      <TableContainer>
-        <Table size="small" aria-label={t("table")}>
-          <TableHead>
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ borderRadius: 3 }}
+      >
+        <Table aria-label={t("table")}>
+          <TableHead sx={{ bgcolor: "background.default" }}>
             <TableRow>
               <TableCell>{t("name")}</TableCell>
               <TableCell>{t("email")}</TableCell>
@@ -144,38 +156,32 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
                       {editable(member) && (
                         <Stack
                           direction="row"
-                          spacing={1}
-                          sx={{ justifyContent: "flex-end" }}
+                          sx={{
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                          }}
                         >
                           <Button
                             size="small"
-                            onClick={() =>
-                              run(
-                                update({
-                                  id: member.id,
-                                  changes: {
-                                    status: suspended ? "active" : "suspended",
-                                  },
-                                }),
-                              )
-                            }
-                          >
-                            {suspended ? t("reactivate") : t("suspend")}
-                          </Button>
-                          <Button
-                            size="small"
+                            variant="outlined"
+                            color="inherit"
                             aria-label={t("editOutlets", { name })}
                             onClick={() => setChoosing(member)}
                           >
                             {t("outletsAction")}
                           </Button>
-                          <Button
+                          <IconButton
                             size="small"
-                            color="error"
-                            onClick={() => setRemoving(member)}
+                            aria-label={t("more", { name })}
+                            onClick={(event) =>
+                              setMenu({
+                                anchor: event.currentTarget,
+                                member,
+                              })
+                            }
                           >
-                            {t("remove")}
-                          </Button>
+                            <MoreVertIcon fontSize="small" />
+                          </IconButton>
                         </Stack>
                       )}
                     </TableCell>
@@ -186,6 +192,44 @@ export function MembersTable({ me, members, roles, canManage }: Props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <Menu
+        open={menu !== null}
+        anchorEl={menu?.anchor}
+        onClose={() => setMenu(null)}
+      >
+        {menu && (
+          <MenuItem
+            onClick={() => {
+              const target = menu.member;
+              setMenu(null);
+              run(
+                update({
+                  id: target.id,
+                  changes: {
+                    status:
+                      target.status === "suspended" ? "active" : "suspended",
+                  },
+                }),
+              );
+            }}
+          >
+            {menu.member.status === "suspended"
+              ? t("reactivate")
+              : t("suspend")}
+          </MenuItem>
+        )}
+        {menu && (
+          <MenuItem
+            sx={{ color: "error.main" }}
+            onClick={() => {
+              setRemoving(menu.member);
+              setMenu(null);
+            }}
+          >
+            {t("remove")}
+          </MenuItem>
+        )}
+      </Menu>
       <OutletsDialog
         key={choosing?.id ?? "none"}
         member={choosing}

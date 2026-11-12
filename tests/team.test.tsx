@@ -121,22 +121,42 @@ describe("Team page", () => {
     });
     // A manager cannot touch the owner, and cannot change themselves.
     const owner = within(table).getByText("Olga Prueba").closest("tr")!;
-    expect(within(owner).queryByRole("button", { name: "Quitar" })).toBeNull();
+    expect(
+      within(owner).queryByRole("button", {
+        name: "Más acciones de Olga Prueba",
+      }),
+    ).toBeNull();
     const self = within(table).getByText("Ana Prueba").closest("tr")!;
     expect(within(self).getByText("Tú")).toBeInTheDocument();
-    expect(within(self).queryByRole("button", { name: "Quitar" })).toBeNull();
+    expect(
+      within(self).queryByRole("button", {
+        name: "Más acciones de Ana Prueba",
+      }),
+    ).toBeNull();
     const operator = within(table).getByText("Omar Prueba").closest("tr")!;
     expect(
-      within(operator).getByRole("button", { name: "Suspender" }),
+      within(operator).getByRole("button", {
+        name: "Más acciones de Omar Prueba",
+      }),
     ).toBeInTheDocument();
+  });
+
+  it("filters the members by role", async () => {
+    setup();
+    await screen.findByText("Omar Prueba");
+    await userEvent.click(screen.getByLabelText("Rol"));
+    await userEvent.click(await screen.findByRole("option", { name: "Owner" }));
+    expect(screen.getByText("Olga Prueba")).toBeInTheDocument();
+    expect(screen.queryByText("Omar Prueba")).toBeNull();
   });
 
   it("suspends a member", async () => {
     const { calls } = setup(ME, () => ({ status: 204 }));
     const row = (await screen.findByText("Omar Prueba")).closest("tr")!;
     await userEvent.click(
-      within(row).getByRole("button", { name: "Suspender" }),
+      within(row).getByRole("button", { name: "Más acciones de Omar Prueba" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Suspender" }));
     await waitFor(() =>
       expect(calls.find((c) => c.method === "PATCH")).toMatchObject({
         url: "/team/members/7",
@@ -188,7 +208,10 @@ describe("Team page", () => {
   it("removes a member only after confirming", async () => {
     const { calls } = setup(ME, () => ({ status: 204 }));
     const row = (await screen.findByText("Omar Prueba")).closest("tr")!;
-    await userEvent.click(within(row).getByRole("button", { name: "Quitar" }));
+    await userEvent.click(
+      within(row).getByRole("button", { name: "Más acciones de Omar Prueba" }),
+    );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Quitar" }));
     expect(calls.some((c) => c.method === "DELETE")).toBe(false);
     await userEvent.click(
       within(screen.getByRole("dialog")).getByRole("button", {
@@ -206,8 +229,9 @@ describe("Team page", () => {
     setup(ME, () => apiError(403, "team.owner_only"));
     const row = (await screen.findByText("Omar Prueba")).closest("tr")!;
     await userEvent.click(
-      within(row).getByRole("button", { name: "Suspender" }),
+      within(row).getByRole("button", { name: "Más acciones de Omar Prueba" }),
     );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Suspender" }));
     expect(
       await screen.findByText("Solo un dueño puede hacer esto con un dueño."),
     ).toBeInTheDocument();
@@ -217,7 +241,9 @@ describe("Team page", () => {
     setup({ ...ME, levels: { team: "view" } });
     await screen.findByRole("table", { name: "Miembros del equipo" });
     expect(screen.queryByRole("button", { name: "Invitar" })).toBeNull();
-    expect(screen.queryByRole("button", { name: "Suspender" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: /Más acciones de/ }),
+    ).toBeNull();
   });
 
   it("tells someone without the team area they have no access", async () => {
@@ -291,7 +317,7 @@ describe("Team page", () => {
   it("revokes a pending invitation", async () => {
     const { calls } = setup(ME, () => ({ status: 204 }));
     await userEvent.click(
-      await screen.findByRole("tab", { name: /Invitaciones pendientes/ }),
+      await screen.findByRole("button", { name: /Invitaciones/ }),
     );
     expect(await screen.findByText("nuevo@example.com")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Revocar" }));

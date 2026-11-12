@@ -96,15 +96,17 @@ afterEach(() => setAccessToken(null));
 describe("Sucursales list", () => {
   it("lists outlets and shows archived ones on request", async () => {
     open(<OutletsPage />);
-    const table = await screen.findByRole("table", { name: "Sucursales" });
-    expect(within(table).getByText("Centro")).toBeInTheDocument();
-    expect(within(table).getByText("Privada")).toBeInTheDocument();
-    expect(within(table).queryByText("Viejo")).toBeNull();
+    const list = await screen.findByRole("list", { name: "Sucursales" });
+    expect(within(list).getByText("Centro")).toBeInTheDocument();
+    expect(within(list).getByText("Privada")).toBeInTheDocument();
+    expect(within(list).queryByText("Viejo")).toBeNull();
     await userEvent.click(screen.getByLabelText("Mostrar archivadas"));
-    const row = (await screen.findByText("Viejo")).closest("tr")!;
-    expect(within(row).getByText("Archivada")).toBeInTheDocument();
+    const card = (await screen.findByText("Viejo")).closest(
+      "[role=listitem]",
+    ) as HTMLElement;
+    expect(within(card).getByText("Archivada")).toBeInTheDocument();
     expect(
-      within(row).getByRole("button", { name: "Restaurar" }),
+      within(card).getByRole("button", { name: "Restaurar Viejo" }),
     ).toBeInTheDocument();
   });
 
@@ -158,7 +160,7 @@ describe("Sucursales list", () => {
 
   it("does not offer to add or restore to a member limited to some outlets", async () => {
     open(<OutletsPage />, LIMITED);
-    await screen.findByRole("table", { name: "Sucursales" });
+    await screen.findByRole("list", { name: "Sucursales" });
     expect(screen.queryByRole("button", { name: "Nueva sucursal" })).toBeNull();
     await userEvent.click(screen.getByLabelText("Mostrar archivadas"));
     await screen.findByText("Viejo");

@@ -2,12 +2,13 @@
 
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Alert from "@mui/material/Alert";
-import Badge from "@mui/material/Badge";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -36,6 +37,7 @@ export default function TeamPage() {
   const invitations = useInvitationsQuery(undefined, fresh);
   const [tab, setTab] = useState<"members" | "invitations">("members");
   const [inviting, setInviting] = useState(false);
+  const [roleId, setRoleId] = useState<number | "">("");
 
   if (!me) return null;
   if (!can(me.levels, "team", "view")) {
@@ -70,22 +72,57 @@ export default function TeamPage() {
       {failed && (
         <Alert severity="error">{errorMessage(failed as ApiError)}</Alert>
       )}
-      <Tabs value={tab} onChange={(_event, value) => setTab(value)}>
-        <Tab value="members" label={t("tabs.members")} />
-        <Tab
-          value="invitations"
-          label={
-            <Badge badgeContent={pending} color="primary" sx={{ pr: 2 }}>
-              {t("tabs.invitations")}
-            </Badge>
-          }
-        />
-      </Tabs>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={2}
+        sx={{ alignItems: { sm: "center" }, justifyContent: "space-between" }}
+      >
+        <ToggleButtonGroup
+          exclusive
+          size="small"
+          value={tab}
+          aria-label={t("tabs.label")}
+          onChange={(_event, value: "members" | "invitations" | null) => {
+            if (value) setTab(value);
+          }}
+        >
+          <ToggleButton value="members">{t("tabs.members")}</ToggleButton>
+          <ToggleButton value="invitations">
+            {t("tabs.invitations")}
+            {pending > 0 ? ` (${pending})` : ""}
+          </ToggleButton>
+        </ToggleButtonGroup>
+        {tab === "members" && roles.data && (
+          <TextField
+            select
+            size="small"
+            label={t("roleFilter")}
+            value={roleId}
+            sx={{ minWidth: 200 }}
+            onChange={(event) =>
+              setRoleId(
+                event.target.value === "" ? "" : Number(event.target.value),
+              )
+            }
+          >
+            <MenuItem value="">{t("allRoles")}</MenuItem>
+            {roles.data.map((role) => (
+              <MenuItem key={role.id} value={role.id}>
+                {role.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
+      </Stack>
       {loading && <CircularProgress aria-label={t("loading")} />}
       {tab === "members" && members.data && roles.data && (
         <MembersTable
           me={me}
-          members={members.data}
+          members={
+            roleId === ""
+              ? members.data
+              : members.data.filter((m) => m.roleId === roleId)
+          }
           roles={roles.data}
           canManage={canManage}
         />

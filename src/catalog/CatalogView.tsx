@@ -263,7 +263,10 @@ export function ItemCard({
             <Typography variant="caption" color="text.secondary" noWrap>
               {stat.label}
             </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 600, wordBreak: "break-word" }}
+            >
               {stat.value}
             </Typography>
           </Box>

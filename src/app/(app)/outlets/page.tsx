@@ -3,7 +3,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,12 +11,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
@@ -27,11 +20,21 @@ import { useState } from "react";
 import type { ApiError } from "@/api/apiError";
 import { can } from "@/auth/permissions";
 import { useMe } from "@/auth/useSession";
+import {
+  ItemCard,
+  ItemGrid,
+  ItemList,
+  ItemRow,
+  useViewMode,
+  ViewToggle,
+  type Tone,
+} from "@/catalog/CatalogView";
 import { useErrorMessage } from "@/lib/useErrorMessage";
 import {
   useCreateOutletMutation,
   useOutletsQuery,
   useRestoreOutletMutation,
+  type OutletSummary,
 } from "@/outlets/outletsApi";
 
 export default function OutletsPage() {
@@ -45,6 +48,7 @@ export default function OutletsPage() {
   });
   const [restore, restoring] = useRestoreOutletMutation();
   const [creating, setCreating] = useState(false);
+  const [view, setView] = useViewMode();
 
   if (!me) return null;
   if (!can(me.levels, "setup", "view")) {
@@ -85,77 +89,36 @@ export default function OutletsPage() {
           {errorMessage(restoring.error as ApiError)}
         </Alert>
       )}
-      <FormControlLabel
-        control={
-          <Switch
-            checked={showArchived}
-            onChange={(event) => setShowArchived(event.target.checked)}
-          />
-        }
-        label={t("showArchived")}
-      />
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ alignItems: "center", justifyContent: "space-between" }}
+      >
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showArchived}
+              onChange={(event) => setShowArchived(event.target.checked)}
+            />
+          }
+          label={t("showArchived")}
+        />
+        <ViewToggle value={view} onChange={setView} />
+      </Stack>
       {outlets.isLoading && <CircularProgress aria-label={t("loading")} />}
       {outlets.data && outlets.data.length === 0 && (
         <Typography color="text.secondary">{t("empty")}</Typography>
       )}
       {outlets.data && outlets.data.length > 0 && (
-        <TableContainer>
-          <Table size="small" aria-label={t("table")}>
-            <TableHead>
-              <TableRow>
-                <TableCell>{t("name")}</TableCell>
-                <TableCell>{t("address")}</TableCell>
-                <TableCell>{t("phone")}</TableCell>
-                <TableCell>{t("status")}</TableCell>
-                <TableCell align="right">{t("actions")}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {outlets.data.map((outlet) => (
-                <TableRow key={outlet.id}>
-                  <TableCell>
-                    <Link href={`/outlets/${outlet.id}`}>{outlet.name}</Link>
-                  </TableCell>
-                  <TableCell>{outlet.addressText}</TableCell>
-                  <TableCell>{outlet.phone}</TableCell>
-                  <TableCell>
-                    <Stack direction="row" spacing={1}>
-                      {outlet.archivedAt ? (
-                        <Chip size="small" label={t("archived")} />
-                      ) : (
-                        <>
-                          <Chip
-                            size="small"
-                            color={outlet.isPublic ? "success" : "default"}
-                            label={outlet.isPublic ? t("public") : t("private")}
-                          />
-                          {outlet.isBusy && (
-                            <Chip
-                              size="small"
-                              color="warning"
-                              label={t("busy")}
-                            />
-                          )}
-                        </>
-                      )}
-                    </Stack>
-                  </TableCell>
-                  <TableCell align="right">
-                    {outlet.archivedAt && canAdd && (
-                      <Button
-                        size="small"
-                        disabled={restoring.isLoading}
-                        onClick={() => restore(outlet.id)}
-                      >
-                        {t("restore")}
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <OutletItems
+          outlets={outlets.data}
+          view={view}
+          label={t("table")}
+          canEdit={canEdit}
+          canAdd={canAdd}
+          restoring={restoring.isLoading}
+          onRestore={(id) => restore(id)}
+        />
       )}
       <NewOutletDialog
         open={creating}
@@ -238,5 +201,104 @@ function NewOutletDialog({
         </Button>
       </DialogActions>
     </Dialog>
+  );
+}
+
+type OutletList = OutletSummary[];
+
+function OutletItems({
+  outlets,
+  view,
+  label,
+  canEdit,
+  canAdd,
+  restoring,
+  onRestore,
+}: {
+  outlets: OutletList;
+  view: "grid" | "list";
+  label: string;
+  canEdit: boolean;
+  canAdd: boolean;
+  restoring: boolean;
+  onRestore: (id: number) => void;
+}) {
+  const t = useTranslations("outlets");
+  const items = outlets.map((outlet) => {
+    const archived = outlet.archivedAt !== null;
+    const status: { label: string; tone: Tone } = archived
+      ? { label: t("archived"), tone: "default" }
+      : outlet.isBusy
+        ? { label: t("busy"), tone: "warning" }
+        : outlet.isPublic
+          ? { label: t("public"), tone: "success" }
+          : { label: t("private"), tone: "default" };
+    const service = [
+      outlet.pickupEnabled ? t("pickup") : null,
+      outlet.deliveryEnabled ? t("delivery") : null,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    return {
+      id: outlet.id,
+      address: outlet.addressText,
+      shared: {
+        name: outlet.name,
+        href: `/outlets/${outlet.id}`,
+        hidePhoto: true,
+        muted: archived,
+        status,
+        stats: [
+          { label: t("phone"), value: outlet.phone || "—" },
+          { label: t("service"), value: service || "—" },
+        ],
+        actions: archived ? (
+          canAdd && (
+            <Button
+              size="small"
+              disabled={restoring}
+              aria-label={t("restoreAria", { name: outlet.name })}
+              onClick={() => onRestore(outlet.id)}
+            >
+              {t("restore")}
+            </Button>
+          )
+        ) : (
+          <Button
+            size="small"
+            component={Link}
+            href={`/outlets/${outlet.id}`}
+            aria-label={t("openAria", { name: outlet.name })}
+          >
+            {canEdit ? t("edit") : t("view")}
+          </Button>
+        ),
+      },
+    };
+  });
+  return view === "grid" ? (
+    <ItemGrid label={label}>
+      {items.map((i) => (
+        <ItemCard
+          key={i.id}
+          {...i.shared}
+          extra={
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ minHeight: 40 }}
+            >
+              {i.address}
+            </Typography>
+          }
+        />
+      ))}
+    </ItemGrid>
+  ) : (
+    <ItemList label={label}>
+      {items.map((i) => (
+        <ItemRow key={i.id} {...i.shared} subtitle={i.address ?? undefined} />
+      ))}
+    </ItemList>
   );
 }

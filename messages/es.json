@@ -209,7 +209,8 @@
     "loading": "Cargando el equipo…",
     "tabs": {
       "members": "Miembros",
-      "invitations": "Invitaciones pendientes"
+      "invitations": "Invitaciones",
+      "label": "Vista del equipo"
     },
     "members": {
       "table": "Miembros del equipo",
@@ -233,7 +234,8 @@
       "allOutlets": "Todas",
       "someOutlets": "{count, plural, =0 {Ninguna} one {1 sucursal} other {# sucursales}}",
       "outletsAction": "Sucursales",
-      "editOutlets": "Elegir sucursales de {name}"
+      "editOutlets": "Elegir sucursales de {name}",
+      "more": "Más acciones de {name}"
     },
     "invitations": {
       "table": "Invitaciones pendientes",
@@ -268,7 +270,9 @@
       "none": "Todavía no hay sucursales. Crea una primero.",
       "cancel": "Cancelar",
       "save": "Guardar"
-    }
+    },
+    "roleFilter": "Rol",
+    "allRoles": "Todos"
   },
   "accept": {
     "loading": "Cargando la invitación…",
@@ -522,7 +526,14 @@
       "remove": "Quitar número",
       "phoneInvalid": "Usa el formato internacional, por ejemplo +50499998888.",
       "duplicate": "Cada número se puede agregar una sola vez."
-    }
+    },
+    "service": "Servicio",
+    "pickup": "Recogida",
+    "delivery": "Entrega",
+    "edit": "Editar",
+    "view": "Ver",
+    "restoreAria": "Restaurar {name}",
+    "openAria": "Abrir {name}"
   },
   "catalog": {
     "title": "Catálogo",

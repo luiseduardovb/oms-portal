@@ -5,7 +5,6 @@ import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
-import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 import { alpha } from "@mui/material/styles";
@@ -34,7 +33,18 @@ export function OrderRow({
   const delivery = order.fulfillmentType === "delivery";
   const paid = order.paymentStatus === "paid";
   return (
-    <Paper variant="outlined" sx={{ overflow: "hidden" }}>
+    <Paper
+      variant="outlined"
+      sx={{
+        overflow: "hidden",
+        borderRadius: 3,
+        transition: "box-shadow 120ms, border-color 120ms",
+        "&:hover": {
+          boxShadow: "0 4px 16px rgba(24, 39, 75, 0.08)",
+          borderColor: "primary.light",
+        },
+      }}
+    >
       <ButtonBase
         onClick={onToggle}
         aria-expanded={open}
@@ -103,15 +113,34 @@ export function OrderRow({
               })
             : t("asap")}
         </Typography>
-        {isStatus(order.status) ? (
-          <Chip
-            size="small"
-            color={STATUS_COLOR[order.status]}
-            label={t(`status.${order.status}`)}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 0.75,
+            fontWeight: 600,
+            color: isStatus(order.status)
+              ? `${STATUS_COLOR[order.status] === "default" ? "text" : STATUS_COLOR[order.status]}.${STATUS_COLOR[order.status] === "default" ? "secondary" : "main"}`
+              : "text.secondary",
+          }}
+        >
+          <Box
+            component="span"
+            aria-hidden
+            sx={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              bgcolor: "currentColor",
+              flex: "none",
+            }}
           />
-        ) : (
-          <Chip size="small" label={order.status} />
-        )}
+          <Typography variant="body2" component="span" sx={{ fontWeight: 600 }}>
+            {isStatus(order.status)
+              ? t(`status.${order.status}`)
+              : order.status}
+          </Typography>
+        </Box>
         <ExpandMoreIcon
           sx={{
             transform: open ? "rotate(180deg)" : "none",
