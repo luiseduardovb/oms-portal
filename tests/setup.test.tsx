@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { http } from "@/api/http";
 import { sessionStarted } from "@/auth/sessionSlice";
 import { setAccessToken } from "@/auth/tokenStore";
@@ -64,6 +64,9 @@ const SETUP = {
   paymentMethods: { cashOnDelivery: true, cardOnDelivery: true },
 };
 
+// What GET /merchant/settings answers; a test may swap it.
+let served: object = SETUP;
+
 const MANAGER = { ...ME, levels: { ...ME.levels, setup: "full" } };
 const OWNER = { ...MANAGER, isOwner: true };
 const VIEWER = { ...ME, levels: { ...ME.levels, setup: "view" } };
@@ -91,7 +94,7 @@ function setup(
   const api = fakeApi(http, (call) => {
     if (call.url === "/me") return { status: 200, data: me };
     if (call.url === "/merchant/settings" && call.method === "GET")
-      return { status: 200, data: SETUP };
+      return { status: 200, data: served };
     return overrides(call);
   });
   const Page = PAGES[page];
@@ -102,7 +105,10 @@ function setup(
 const writes = <T extends { method: string }>(calls: T[]) =>
   calls.filter((c) => c.method !== "GET");
 
-afterEach(() => setAccessToken(null));
+afterEach(() => {
+  setAccessToken(null);
+  served = SETUP;
+});
 
 describe("Configuración", () => {
   it("shows the store, country and the tax that the platform sets", async () => {
@@ -666,5 +672,50 @@ describe("Banners", () => {
     expect(
       screen.getByLabelText("Cambiar de banner automáticamente"),
     ).toBeDisabled();
+  });
+});
+
+describe("Logo y portada", () => {
+  beforeEach(() => {
+    served = { ...SETUP, logo: image(21), cover: image(22) };
+  });
+  const show = (me: object = MANAGER) =>
+    setup(
+      me,
+      (call) => {
+        if (call.url === "/merchant/banners")
+          return { status: 200, data: { banners: [] } };
+        return { status: 200, data: served };
+      },
+      "branding",
+    );
+
+  it("shows the current logo and cover", async () => {
+    show();
+    expect(await screen.findByAltText("Logo del negocio")).toHaveAttribute(
+      "src",
+      "https://img/21-t.jpg",
+    );
+    expect(screen.getByAltText("Portada del negocio")).toBeInTheDocument();
+  });
+
+  it("removes the cover and keeps the logo", async () => {
+    const { calls } = show();
+    await screen.findByAltText("Logo del negocio");
+    const removes = screen.getAllByRole("button", { name: "Quitar foto" });
+    await userEvent.click(removes[1]!);
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        method: "PATCH",
+        url: "/merchant/settings",
+        data: { coverMediaId: null },
+      }),
+    );
+  });
+
+  it("cannot be changed with view access", async () => {
+    show(VIEWER);
+    await screen.findByAltText("Logo del negocio");
+    expect(screen.queryByRole("button", { name: "Quitar foto" })).toBeNull();
   });
 });
