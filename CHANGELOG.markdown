@@ -6,6 +6,8 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-820 (logo and cover): Configuración → Marca has a "Logo y portada" section to upload, replace or remove the store logo and cover picture (same upload as product photos).
+- TASK-820: Configuración → Marca has a Banners section: add up to 5 images (1200×600), reorder, show or hide, delete, choose what each opens (a product or a category), and a switch for changing banner automatically. Image upload moved to a shared `useImageUpload` hook (product photos use it too).
 - TASK-817: "Mostrar recomendaciones" switch in Configuración → Diseño de la tienda.
 - TASK-815: option group dialog has "Permitir cantidades" and "Máximo por opción" (multiple-choice groups only), the group card and panel show "Cantidades hasta N", and order detail shows "2× Queso".
 - TASK-831 (step A): portal shell follows the Zyda panel: white top bar with the business switcher, "Ver tienda" and the user menu; grouped sidebar (Pedidos, Catálogo, Configuración, Equipo); Setup split into Información del negocio, Marca, Diseño de la tienda, Gestión de pedidos, Métodos de pago and Enlaces web, each with a page frame and a sticky save bar; the dashboard opens on the orders.

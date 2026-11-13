@@ -5,6 +5,8 @@ type Schemas = components["schemas"];
 export type StoreSetup = Schemas["StoreSetup"];
 export type SettingsChanges = Schemas["SettingsUpdate"];
 export type PaymentMethods = Schemas["PaymentMethods"];
+export type Banner = Schemas["BannerOut"];
+export type BannerIn = Schemas["BannerIn"];
 
 export const setupApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -29,6 +31,20 @@ export const setupApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Setup"],
     }),
+    banners: build.query<Banner[], void>({
+      query: () => ({ url: "/merchant/banners" }),
+      transformResponse: (body: { banners: Banner[] }) => body.banners,
+      providesTags: ["Banners"],
+    }),
+    replaceBanners: build.mutation<Banner[], BannerIn[]>({
+      query: (banners) => ({
+        url: "/merchant/banners",
+        method: "PUT",
+        data: { banners },
+      }),
+      transformResponse: (body: { banners: Banner[] }) => body.banners,
+      invalidatesTags: ["Banners"],
+    }),
     changeSlug: build.mutation<StoreSetup, string>({
       query: (slug) => ({
         url: "/merchant/slug",
@@ -46,4 +62,6 @@ export const {
   useRenameStoreMutation,
   useSetPaymentMethodsMutation,
   useChangeSlugMutation,
+  useBannersQuery,
+  useReplaceBannersMutation,
 } = setupApi;

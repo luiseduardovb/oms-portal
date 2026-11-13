@@ -47,6 +47,7 @@ const SETUP = {
     menuTabs: true,
     menuCollapsible: false,
     showRecommendations: true,
+    bannerAutoplay: true,
     asapEnabled: true,
     scheduledEnabled: false,
     slotIntervalMinutes: 30,
@@ -78,9 +79,9 @@ const PAGES = {
 
 function setup(
   me: object = MANAGER,
-  overrides: Parameters<typeof fakeApi>[1] = () => ({
+  overrides: Parameters<typeof fakeApi>[1] = (call) => ({
     status: 200,
-    data: SETUP,
+    data: call.url === "/merchant/banners" ? { banners: [] } : SETUP,
   }),
   page: keyof typeof PAGES = "business",
 ) {
@@ -540,5 +541,130 @@ describe("Diseño", () => {
     expect(
       screen.getByText(/vista previa no está disponible/),
     ).toBeInTheDocument();
+  });
+});
+
+const image = (id: number) => ({
+  id,
+  status: "ready",
+  width: 1200,
+  height: 600,
+  largeUrl: `https://img/${id}-l.jpg`,
+  thumbUrl: `https://img/${id}-t.jpg`,
+  failureReason: null,
+});
+
+const BANNERS = [
+  {
+    id: 1,
+    image: image(11),
+    productId: null,
+    productName: null,
+    categoryId: 5,
+    categoryName: "Combos",
+    isActive: true,
+  },
+  {
+    id: 2,
+    image: image(12),
+    productId: null,
+    productName: null,
+    categoryId: null,
+    categoryName: null,
+    isActive: true,
+  },
+];
+
+describe("Banners", () => {
+  const withBanners = (me: object = MANAGER) =>
+    setup(
+      me,
+      (call) => {
+        if (call.url === "/merchant/banners")
+          return {
+            status: 200,
+            data: { banners: call.method === "PUT" ? BANNERS : BANNERS },
+          };
+        if (call.url === "/categories") return { status: 200, data: [] };
+        if (call.url === "/products")
+          return { status: 200, data: { results: [], totalCount: 0 } };
+        return { status: 200, data: SETUP };
+      },
+      "branding",
+    );
+
+  it("lists the banners with where each one leads", async () => {
+    withBanners();
+    expect(await screen.findByText("Banner 1")).toBeInTheDocument();
+    expect(screen.getByText("Abre la categoría: Combos")).toBeInTheDocument();
+    expect(screen.getByText("No abre nada")).toBeInTheDocument();
+  });
+
+  it("saves the new order, visibility and removal as one list", async () => {
+    const { calls } = withBanners();
+    await screen.findByText("Banner 1");
+    await userEvent.click(
+      screen.getByRole("button", { name: "Bajar banner 1" }),
+    );
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        method: "PUT",
+        url: "/merchant/banners",
+        data: {
+          banners: [
+            { mediaId: 12, isActive: true },
+            { mediaId: 11, categoryId: 5, isActive: true },
+          ],
+        },
+      }),
+    );
+    await userEvent.click(
+      screen.getAllByRole("switch", { name: "Visible" })[1]!,
+    );
+    await waitFor(() =>
+      expect(writes(calls).at(-1)).toMatchObject({
+        data: {
+          banners: [
+            { mediaId: 11, isActive: true },
+            { mediaId: 12, isActive: false },
+          ],
+        },
+      }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Quitar banner 1" }),
+    );
+    await waitFor(() =>
+      expect(writes(calls).at(-1)).toMatchObject({
+        data: { banners: [{ mediaId: 12, isActive: true }] },
+      }),
+    );
+  });
+
+  it("turns the automatic change off", async () => {
+    const { calls } = withBanners();
+    await screen.findByText("Banner 1");
+    await userEvent.click(
+      screen.getByLabelText("Cambiar de banner automáticamente"),
+    );
+    await waitFor(() =>
+      expect(writes(calls)[0]).toMatchObject({
+        method: "PATCH",
+        url: "/merchant/settings",
+        data: { bannerAutoplay: false },
+      }),
+    );
+  });
+
+  it("is read-only with view access", async () => {
+    withBanners(VIEWER);
+    await screen.findByText("Banner 1");
+    expect(screen.queryByRole("button", { name: "Agregar banner" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "Quitar banner 1" }),
+    ).toBeNull();
+    expect(
+      screen.getByLabelText("Cambiar de banner automáticamente"),
+    ).toBeDisabled();
   });
 });

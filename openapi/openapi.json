@@ -499,6 +499,88 @@
         ]
       }
     },
+    "/merchant/banners": {
+      "get": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "List Banners",
+        "operationId": "list_banners_merchant_banners_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BannersOut"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Replace Banners",
+        "operationId": "replace_banners_merchant_banners_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BannersIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BannersOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
     "/outlets": {
       "get": {
         "tags": [
@@ -6226,6 +6308,156 @@
         ],
         "title": "AvailabilityBody"
       },
+      "BannerIn": {
+        "properties": {
+          "mediaId": {
+            "type": "integer",
+            "title": "Mediaid"
+          },
+          "productId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Productid"
+          },
+          "categoryId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categoryid"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "mediaId"
+        ],
+        "title": "BannerIn"
+      },
+      "BannerOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MediaOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "productId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Productid"
+          },
+          "productName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Productname"
+          },
+          "categoryId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categoryid"
+          },
+          "categoryName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categoryname"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "image",
+          "productId",
+          "productName",
+          "categoryId",
+          "categoryName",
+          "isActive"
+        ],
+        "title": "BannerOut"
+      },
+      "BannersIn": {
+        "properties": {
+          "banners": {
+            "items": {
+              "$ref": "#/components/schemas/BannerIn"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Banners"
+          }
+        },
+        "type": "object",
+        "required": [
+          "banners"
+        ],
+        "title": "BannersIn"
+      },
+      "BannersOut": {
+        "properties": {
+          "banners": {
+            "items": {
+              "$ref": "#/components/schemas/BannerOut"
+            },
+            "type": "array",
+            "title": "Banners"
+          }
+        },
+        "type": "object",
+        "required": [
+          "banners"
+        ],
+        "title": "BannersOut"
+      },
       "CancelBody": {
         "properties": {
           "version": {
@@ -9169,6 +9401,10 @@
             "type": "boolean",
             "title": "Showrecommendations"
           },
+          "bannerAutoplay": {
+            "type": "boolean",
+            "title": "Bannerautoplay"
+          },
           "asapEnabled": {
             "type": "boolean",
             "title": "Asapenabled"
@@ -9274,6 +9510,7 @@
           "menuTabs",
           "menuCollapsible",
           "showRecommendations",
+          "bannerAutoplay",
           "asapEnabled",
           "scheduledEnabled",
           "slotIntervalMinutes",
@@ -10844,6 +11081,42 @@
         "type": "object",
         "title": "ProfileIn"
       },
+      "PublicBanner": {
+        "properties": {
+          "picture": {
+            "$ref": "#/components/schemas/PublicPicture"
+          },
+          "productId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Productid"
+          },
+          "categoryId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categoryid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "picture",
+          "productId",
+          "categoryId"
+        ],
+        "title": "PublicBanner"
+      },
       "PublicCategory": {
         "properties": {
           "id": {
@@ -12104,6 +12377,17 @@
             "type": "boolean",
             "title": "Showrecommendations"
           },
+          "bannerAutoplay": {
+            "type": "boolean",
+            "title": "Bannerautoplay"
+          },
+          "banners": {
+            "items": {
+              "$ref": "#/components/schemas/PublicBanner"
+            },
+            "type": "array",
+            "title": "Banners"
+          },
           "logo": {
             "anyOf": [
               {
@@ -12243,6 +12527,8 @@
           "menuTabs",
           "menuCollapsible",
           "showRecommendations",
+          "bannerAutoplay",
+          "banners",
           "logo",
           "cover",
           "contactPhone",
@@ -12734,6 +13020,17 @@
               }
             ],
             "title": "Showrecommendations"
+          },
+          "bannerAutoplay": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bannerautoplay"
           },
           "asapEnabled": {
             "anyOf": [

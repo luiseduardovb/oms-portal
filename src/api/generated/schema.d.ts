@@ -221,6 +221,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/banners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Banners */
+        get: operations["list_banners_merchant_banners_get"];
+        /** Replace Banners */
+        put: operations["replace_banners_merchant_banners_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/outlets": {
         parameters: {
             query?: never;
@@ -1841,6 +1859,46 @@ export interface components {
             /** Isavailable */
             isAvailable: boolean;
         };
+        /** BannerIn */
+        BannerIn: {
+            /** Mediaid */
+            mediaId: number;
+            /** Productid */
+            productId?: number | null;
+            /** Categoryid */
+            categoryId?: number | null;
+            /**
+             * Isactive
+             * @default true
+             */
+            isActive: boolean;
+        };
+        /** BannerOut */
+        BannerOut: {
+            /** Id */
+            id: number;
+            image: components["schemas"]["MediaOut"] | null;
+            /** Productid */
+            productId: number | null;
+            /** Productname */
+            productName: string | null;
+            /** Categoryid */
+            categoryId: number | null;
+            /** Categoryname */
+            categoryName: string | null;
+            /** Isactive */
+            isActive: boolean;
+        };
+        /** BannersIn */
+        BannersIn: {
+            /** Banners */
+            banners: components["schemas"]["BannerIn"][];
+        };
+        /** BannersOut */
+        BannersOut: {
+            /** Banners */
+            banners: components["schemas"]["BannerOut"][];
+        };
         /** CancelBody */
         CancelBody: {
             /** Version */
@@ -2781,6 +2839,8 @@ export interface components {
             menuCollapsible: boolean;
             /** Showrecommendations */
             showRecommendations: boolean;
+            /** Bannerautoplay */
+            bannerAutoplay: boolean;
             /** Asapenabled */
             asapEnabled: boolean;
             /** Scheduledenabled */
@@ -3251,6 +3311,14 @@ export interface components {
             /** Phone */
             phone?: string | null;
         };
+        /** PublicBanner */
+        PublicBanner: {
+            picture: components["schemas"]["PublicPicture"];
+            /** Productid */
+            productId: number | null;
+            /** Categoryid */
+            categoryId: number | null;
+        };
         /** PublicCategory */
         PublicCategory: {
             /** Id */
@@ -3680,6 +3748,10 @@ export interface components {
             menuCollapsible: boolean;
             /** Showrecommendations */
             showRecommendations: boolean;
+            /** Bannerautoplay */
+            bannerAutoplay: boolean;
+            /** Banners */
+            banners: components["schemas"]["PublicBanner"][];
             logo: components["schemas"]["PublicPicture"] | null;
             cover: components["schemas"]["PublicPicture"] | null;
             /** Contactphone */
@@ -3855,6 +3927,8 @@ export interface components {
             menuCollapsible?: boolean | null;
             /** Showrecommendations */
             showRecommendations?: boolean | null;
+            /** Bannerautoplay */
+            bannerAutoplay?: boolean | null;
             /** Asapenabled */
             asapEnabled?: boolean | null;
             /** Scheduledenabled */
@@ -4409,6 +4483,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StoreSetup"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_banners_merchant_banners_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BannersOut"];
+                };
+            };
+        };
+    };
+    replace_banners_merchant_banners_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BannersIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BannersOut"];
                 };
             };
             /** @description Validation Error */
