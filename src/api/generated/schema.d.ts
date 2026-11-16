@@ -239,6 +239,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/vouchers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Vouchers */
+        get: operations["list_vouchers_merchant_vouchers_get"];
+        put?: never;
+        /** Create Voucher */
+        post: operations["create_voucher_merchant_vouchers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/vouchers/{voucher_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Voucher */
+        get: operations["get_voucher_merchant_vouchers__voucher_id__get"];
+        /** Replace Voucher */
+        put: operations["replace_voucher_merchant_vouchers__voucher_id__put"];
+        post?: never;
+        /**
+         * Archive Voucher
+         * @description Vouchers are archived, never deleted: orders keep pointing at them.
+         */
+        delete: operations["archive_voucher_merchant_vouchers__voucher_id__delete"];
+        options?: never;
+        head?: never;
+        /** Toggle Voucher */
+        patch: operations["toggle_voucher_merchant_vouchers__voucher_id__patch"];
+        trace?: never;
+    };
     "/outlets": {
         parameters: {
             query?: never;
@@ -1469,6 +1510,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}/outlets/{outlet_id}/vouchers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Vouchers
+         * @description The public vouchers a branch offers right now.
+         */
+        get: operations["get_vouchers_public_stores__slug__outlets__outlet_id__vouchers_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public/stores/{slug}/quote": {
         parameters: {
             query?: never;
@@ -1853,6 +1914,17 @@ export interface components {
              * @default true
              */
             active: boolean;
+        };
+        /** AppliedVoucher */
+        AppliedVoucher: {
+            /** Code */
+            code: string;
+            /** Description */
+            description: string;
+            /** Type */
+            type: string;
+            /** Discount */
+            discount: string;
         };
         /** AvailabilityBody */
         AvailabilityBody: {
@@ -2656,6 +2728,8 @@ export interface components {
              * @default 0
              */
             tipAmount: number | string;
+            /** Vouchercode */
+            voucherCode?: string | null;
         };
         /** OrderLineIn */
         OrderLineIn: {
@@ -2790,6 +2864,8 @@ export interface components {
             itemsTotal: string;
             /** Discounttotal */
             discountTotal: string;
+            /** Vouchercode */
+            voucherCode?: string | null;
             /** Deliveryfee */
             deliveryFee: string;
             /** Taxincluded */
@@ -3420,6 +3496,8 @@ export interface components {
             itemsTotal: string;
             /** Discounttotal */
             discountTotal: string;
+            /** Vouchercode */
+            voucherCode?: string | null;
             /** Deliveryfee */
             deliveryFee: string;
             /** Taxincluded */
@@ -3481,6 +3559,8 @@ export interface components {
              * @default 0
              */
             tipAmount: number | string;
+            /** Vouchercode */
+            voucherCode?: string | null;
             /** Customeremail */
             customerEmail?: string | null;
         };
@@ -3646,6 +3726,7 @@ export interface components {
         PublicQuote: {
             /** Currencycode */
             currencyCode: string;
+            voucher?: components["schemas"]["AppliedVoucher"] | null;
             /** Lines */
             lines: components["schemas"]["PublicQuoteLine"][];
             /** Itemstotal */
@@ -3688,6 +3769,8 @@ export interface components {
              * @default 0
              */
             tipAmount: number | string;
+            /** Vouchercode */
+            voucherCode?: string | null;
         };
         /** PublicQuoteLine */
         PublicQuoteLine: {
@@ -3817,6 +3900,8 @@ export interface components {
             itemsTotal: string;
             /** Discounttotal */
             discountTotal: string;
+            /** Vouchercode */
+            voucherCode?: string | null;
             /** Deliveryfee */
             deliveryFee: string;
             /** Taxincluded */
@@ -3845,6 +3930,40 @@ export interface components {
             outletAddress: string | null;
             /** Driverfirstname */
             driverFirstName: string | null;
+        };
+        /** PublicVoucher */
+        PublicVoucher: {
+            /** Code */
+            code: string;
+            /** Description */
+            description: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "percentage" | "amount" | "free_delivery";
+            /** Value */
+            value: string | null;
+            /** Maxdiscount */
+            maxDiscount: string | null;
+            /**
+             * Appliesto
+             * @enum {string}
+             */
+            appliesTo: "entire_order" | "delivery_orders" | "pickup_orders";
+            /** Minorderamount */
+            minOrderAmount: string;
+            /** Happyhourstart */
+            happyHourStart: string | null;
+            /** Happyhourend */
+            happyHourEnd: string | null;
+            /** Endsat */
+            endsAt: string | null;
+        };
+        /** PublicVouchers */
+        PublicVouchers: {
+            /** Vouchers */
+            vouchers: components["schemas"]["PublicVoucher"][];
         };
         /** PublicWeekday */
         PublicWeekday: {
@@ -4137,6 +4256,145 @@ export interface components {
             input?: unknown;
             /** Context */
             ctx?: Record<string, never>;
+        };
+        /** VoucherIn */
+        VoucherIn: {
+            /** Code */
+            code: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "percentage" | "amount" | "free_delivery";
+            /** Value */
+            value?: number | string | null;
+            /** Maxdiscount */
+            maxDiscount?: number | string | null;
+            /**
+             * Appliesto
+             * @default entire_order
+             * @enum {string}
+             */
+            appliesTo: "entire_order" | "delivery_orders" | "pickup_orders";
+            /**
+             * Minorderamount
+             * @default 0
+             */
+            minOrderAmount: number | string;
+            /** Totalusagelimit */
+            totalUsageLimit?: number | null;
+            /** Percustomerlimit */
+            perCustomerLimit?: number | null;
+            /** Happyhourstart */
+            happyHourStart?: string | null;
+            /** Happyhourend */
+            happyHourEnd?: string | null;
+            /** Startsat */
+            startsAt?: string | null;
+            /** Endsat */
+            endsAt?: string | null;
+            /**
+             * Visibility
+             * @default public
+             * @enum {string}
+             */
+            visibility: "public" | "private";
+            /** Assignedphone */
+            assignedPhone?: string | null;
+            /**
+             * Alloutlets
+             * @default true
+             */
+            allOutlets: boolean;
+            /** Outletids */
+            outletIds?: number[];
+            /**
+             * Isactive
+             * @default true
+             */
+            isActive: boolean;
+        };
+        /** VoucherOut */
+        VoucherOut: {
+            /** Id */
+            id: number;
+            /** Code */
+            code: string;
+            /** Description */
+            description: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "percentage" | "amount" | "free_delivery";
+            /** Value */
+            value: string | null;
+            /** Maxdiscount */
+            maxDiscount: string | null;
+            /**
+             * Appliesto
+             * @enum {string}
+             */
+            appliesTo: "entire_order" | "delivery_orders" | "pickup_orders";
+            /** Minorderamount */
+            minOrderAmount: string;
+            /** Totalusagelimit */
+            totalUsageLimit: number | null;
+            /** Percustomerlimit */
+            perCustomerLimit: number | null;
+            /** Redeemedcount */
+            redeemedCount: number;
+            /** Happyhourstart */
+            happyHourStart: string | null;
+            /** Happyhourend */
+            happyHourEnd: string | null;
+            /** Startsat */
+            startsAt: string | null;
+            /** Endsat */
+            endsAt: string | null;
+            /**
+             * Visibility
+             * @enum {string}
+             */
+            visibility: "public" | "private";
+            /** Assignedphone */
+            assignedPhone: string | null;
+            /** Alloutlets */
+            allOutlets: boolean;
+            /** Outletids */
+            outletIds: number[];
+            /** Isactive */
+            isActive: boolean;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "active" | "deactivated" | "scheduled" | "expired";
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
+        /**
+         * VoucherToggle
+         * @description The two switches of the list: on or off, public or private.
+         */
+        VoucherToggle: {
+            /** Isactive */
+            isActive?: boolean | null;
+            /** Visibility */
+            visibility?: ("public" | "private") | null;
+        };
+        /** VouchersOut */
+        VouchersOut: {
+            /** Vouchers */
+            vouchers: components["schemas"]["VoucherOut"][];
         };
     };
     responses: never;
@@ -4536,6 +4794,201 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BannersOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_vouchers_merchant_vouchers_get: {
+        parameters: {
+            query?: {
+                /** @description Only vouchers in this state (a tab of the list). */
+                status?: ("active" | "deactivated" | "scheduled" | "expired") | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VouchersOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_voucher_merchant_vouchers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoucherIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoucherOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_voucher_merchant_vouchers__voucher_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                voucher_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoucherOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    replace_voucher_merchant_vouchers__voucher_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                voucher_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoucherIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoucherOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_voucher_merchant_vouchers__voucher_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                voucher_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    toggle_voucher_merchant_vouchers__voucher_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                voucher_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoucherToggle"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoucherOut"];
                 };
             };
             /** @description Validation Error */
@@ -7002,6 +7455,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicRecommendations"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_vouchers_public_stores__slug__outlets__outlet_id__vouchers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicVouchers"];
                 };
             };
             /** @description Validation Error */

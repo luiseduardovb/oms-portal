@@ -581,6 +581,342 @@
         ]
       }
     },
+    "/merchant/vouchers": {
+      "get": {
+        "tags": [
+          "vouchers"
+        ],
+        "summary": "List Vouchers",
+        "operationId": "list_vouchers_merchant_vouchers_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "active",
+                    "deactivated",
+                    "scheduled",
+                    "expired"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only vouchers in this state (a tab of the list).",
+              "title": "Status"
+            },
+            "description": "Only vouchers in this state (a tab of the list)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VouchersOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "anyOf": "marketing:view, extra:issue_private_vouchers"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "vouchers"
+        ],
+        "summary": "Create Voucher",
+        "operationId": "create_voucher_merchant_vouchers_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoucherIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoucherOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "anyOf": "marketing:full, extra:issue_private_vouchers"
+          }
+        ]
+      }
+    },
+    "/merchant/vouchers/{voucher_id}": {
+      "get": {
+        "tags": [
+          "vouchers"
+        ],
+        "summary": "Get Voucher",
+        "operationId": "get_voucher_merchant_vouchers__voucher_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "voucher_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Voucher Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoucherOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "anyOf": "marketing:view, extra:issue_private_vouchers"
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "vouchers"
+        ],
+        "summary": "Replace Voucher",
+        "operationId": "replace_voucher_merchant_vouchers__voucher_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "voucher_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Voucher Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoucherIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoucherOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "anyOf": "marketing:full, extra:issue_private_vouchers"
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "vouchers"
+        ],
+        "summary": "Toggle Voucher",
+        "operationId": "toggle_voucher_merchant_vouchers__voucher_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "voucher_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Voucher Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoucherToggle"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoucherOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "anyOf": "marketing:full, extra:issue_private_vouchers"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "vouchers"
+        ],
+        "summary": "Archive Voucher",
+        "description": "Vouchers are archived, never deleted: orders keep pointing at them.",
+        "operationId": "archive_voucher_merchant_vouchers__voucher_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "voucher_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Voucher Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "anyOf": "marketing:full, extra:issue_private_vouchers"
+          }
+        ]
+      }
+    },
     "/outlets": {
       "get": {
         "tags": [
@@ -5203,6 +5539,59 @@
         }
       }
     },
+    "/public/stores/{slug}/outlets/{outlet_id}/vouchers": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Get Vouchers",
+        "description": "The public vouchers a branch offers right now.",
+        "operationId": "get_vouchers_public_stores__slug__outlets__outlet_id__vouchers_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicVouchers"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/public/stores/{slug}/quote": {
       "post": {
         "tags": [
@@ -6294,6 +6683,34 @@
           "phone"
         ],
         "title": "AlertContact"
+      },
+      "AppliedVoucher": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "discount": {
+            "type": "string",
+            "title": "Discount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "description",
+          "type",
+          "discount"
+        ],
+        "title": "AppliedVoucher"
       },
       "AvailabilityBody": {
         "properties": {
@@ -8785,6 +9202,19 @@
             ],
             "title": "Tipamount",
             "default": "0"
+          },
+          "voucherCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vouchercode"
           }
         },
         "type": "object",
@@ -9226,6 +9656,17 @@
           "discountTotal": {
             "type": "string",
             "title": "Discounttotal"
+          },
+          "voucherCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vouchercode"
           },
           "deliveryFee": {
             "type": "string",
@@ -11373,6 +11814,17 @@
             "type": "string",
             "title": "Discounttotal"
           },
+          "voucherCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vouchercode"
+          },
           "deliveryFee": {
             "type": "string",
             "title": "Deliveryfee"
@@ -11590,6 +12042,19 @@
             ],
             "title": "Tipamount",
             "default": "0"
+          },
+          "voucherCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vouchercode"
           },
           "customerEmail": {
             "anyOf": [
@@ -12119,6 +12584,16 @@
             "type": "string",
             "title": "Currencycode"
           },
+          "voucher": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AppliedVoucher"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "lines": {
             "items": {
               "$ref": "#/components/schemas/PublicQuoteLine"
@@ -12219,6 +12694,19 @@
             ],
             "title": "Tipamount",
             "default": "0"
+          },
+          "voucherCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vouchercode"
           }
         },
         "type": "object",
@@ -12622,6 +13110,17 @@
             "type": "string",
             "title": "Discounttotal"
           },
+          "voucherCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vouchercode"
+          },
           "deliveryFee": {
             "type": "string",
             "title": "Deliveryfee"
@@ -12751,6 +13250,126 @@
         ],
         "title": "PublicTracking",
         "description": "An order as its customer follows it."
+      },
+      "PublicVoucher": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "amount",
+              "free_delivery"
+            ],
+            "title": "Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "maxDiscount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxdiscount"
+          },
+          "appliesTo": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "delivery_orders",
+              "pickup_orders"
+            ],
+            "title": "Appliesto"
+          },
+          "minOrderAmount": {
+            "type": "string",
+            "title": "Minorderamount"
+          },
+          "happyHourStart": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourstart"
+          },
+          "happyHourEnd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourend"
+          },
+          "endsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endsat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "description",
+          "type",
+          "value",
+          "maxDiscount",
+          "appliesTo",
+          "minOrderAmount",
+          "happyHourStart",
+          "happyHourEnd",
+          "endsAt"
+        ],
+        "title": "PublicVoucher"
+      },
+      "PublicVouchers": {
+        "properties": {
+          "vouchers": {
+            "items": {
+              "$ref": "#/components/schemas/PublicVoucher"
+            },
+            "type": "array",
+            "title": "Vouchers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vouchers"
+        ],
+        "title": "PublicVouchers"
       },
       "PublicWeekday": {
         "properties": {
@@ -13744,6 +14363,454 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "VoucherIn": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Description",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "amount",
+              "free_delivery"
+            ],
+            "title": "Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "maxDiscount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxdiscount"
+          },
+          "appliesTo": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "delivery_orders",
+              "pickup_orders"
+            ],
+            "title": "Appliesto",
+            "default": "entire_order"
+          },
+          "minOrderAmount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Minorderamount",
+            "default": "0"
+          },
+          "totalUsageLimit": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Totalusagelimit"
+          },
+          "perCustomerLimit": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percustomerlimit"
+          },
+          "happyHourStart": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourstart"
+          },
+          "happyHourEnd": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourend"
+          },
+          "startsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Startsat"
+          },
+          "endsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endsat"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "private"
+            ],
+            "title": "Visibility",
+            "default": "public"
+          },
+          "assignedPhone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assignedphone"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets",
+            "default": true
+          },
+          "outletIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 200,
+            "title": "Outletids"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "type"
+        ],
+        "title": "VoucherIn"
+      },
+      "VoucherOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "amount",
+              "free_delivery"
+            ],
+            "title": "Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "maxDiscount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxdiscount"
+          },
+          "appliesTo": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "delivery_orders",
+              "pickup_orders"
+            ],
+            "title": "Appliesto"
+          },
+          "minOrderAmount": {
+            "type": "string",
+            "title": "Minorderamount"
+          },
+          "totalUsageLimit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Totalusagelimit"
+          },
+          "perCustomerLimit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percustomerlimit"
+          },
+          "redeemedCount": {
+            "type": "integer",
+            "title": "Redeemedcount"
+          },
+          "happyHourStart": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourstart"
+          },
+          "happyHourEnd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourend"
+          },
+          "startsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Startsat"
+          },
+          "endsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endsat"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "private"
+            ],
+            "title": "Visibility"
+          },
+          "assignedPhone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assignedphone"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets"
+          },
+          "outletIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Outletids"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "deactivated",
+              "scheduled",
+              "expired"
+            ],
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "description",
+          "type",
+          "value",
+          "maxDiscount",
+          "appliesTo",
+          "minOrderAmount",
+          "totalUsageLimit",
+          "perCustomerLimit",
+          "redeemedCount",
+          "happyHourStart",
+          "happyHourEnd",
+          "startsAt",
+          "endsAt",
+          "visibility",
+          "assignedPhone",
+          "allOutlets",
+          "outletIds",
+          "isActive",
+          "status",
+          "createdAt"
+        ],
+        "title": "VoucherOut"
+      },
+      "VoucherToggle": {
+        "properties": {
+          "isActive": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isactive"
+          },
+          "visibility": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "public",
+                  "private"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visibility"
+          }
+        },
+        "type": "object",
+        "title": "VoucherToggle",
+        "description": "The two switches of the list: on or off, public or private."
+      },
+      "VouchersOut": {
+        "properties": {
+          "vouchers": {
+            "items": {
+              "$ref": "#/components/schemas/VoucherOut"
+            },
+            "type": "array",
+            "title": "Vouchers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vouchers"
+        ],
+        "title": "VouchersOut"
       }
     },
     "securitySchemes": {

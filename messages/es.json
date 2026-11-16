@@ -160,6 +160,12 @@
       "access_revoked": "Tu acceso a los pedidos cambió.",
       "ticket_invalid": "No pudimos abrir la conexión en vivo. Reintentando…",
       "unavailable": "La conexión en vivo no está disponible por ahora."
+    },
+    "vouchers": {
+      "not_found": "No encontramos ese voucher.",
+      "code_taken": "Ya existe un voucher con ese código.",
+      "code_locked": "El código no se puede cambiar después de usarse.",
+      "outlet_not_found": "Alguna de esas sucursales no existe o está archivada."
     }
   },
   "login": {
@@ -199,7 +205,9 @@
       "setupLayout": "Diseño de la tienda",
       "setupOrders": "Gestión de pedidos",
       "setupPayments": "Métodos de pago",
-      "setupLinks": "Enlaces web"
+      "setupLinks": "Enlaces web",
+      "marketing": "Marketing",
+      "marketingVouchers": "Vouchers"
     },
     "visitStore": "Ver tienda"
   },
@@ -1053,5 +1061,104 @@
     },
     "stale": "El pedido cambió mientras lo veías. Se actualizó; revisa e inténtalo de nuevo.",
     "map": "Ver mapa"
+  },
+  "vouchers": {
+    "title": "Vouchers",
+    "add": "Agregar voucher",
+    "noAccess": "No tienes permiso para ver los vouchers.",
+    "tabs": {
+      "all": "Todos",
+      "active": "Activos",
+      "deactivated": "Desactivados",
+      "scheduled": "Programados",
+      "expired": "Vencidos"
+    },
+    "columns": {
+      "code": "Código",
+      "type": "Tipo",
+      "usage": "Usos",
+      "from": "Válido desde",
+      "to": "Válido hasta",
+      "status": "Estado",
+      "publish": "Publicar"
+    },
+    "types": {
+      "percentage": "Porcentaje",
+      "amount": "Monto",
+      "free_delivery": "Envío gratis"
+    },
+    "status": {
+      "active": "Activo",
+      "deactivated": "Desactivado",
+      "scheduled": "Programado",
+      "expired": "Vencido"
+    },
+    "visibility": {
+      "public": "Público",
+      "private": "Privado"
+    },
+    "unlimited": "Sin límite",
+    "empty": "Todavía no hay vouchers en esta lista.",
+    "loading": "Cargando vouchers",
+    "rowMenu": "Acciones del voucher {code}",
+    "edit": "Editar",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "archive": "Archivar",
+    "archiveTitle": "¿Archivar {code}?",
+    "archiveBody": "Los pedidos que ya usaron este voucher no cambian. El código queda libre para usarlo de nuevo.",
+    "cancel": "Cancelar",
+    "form": {
+      "addTitle": "Agregar voucher",
+      "editTitle": "Editar voucher",
+      "save": "Guardar",
+      "code": "Código del voucher",
+      "codeHelp": "Tus clientes usarán este código para canjear el voucher. Sin espacios; las mayúsculas no importan.",
+      "codeLocked": "El código no se puede cambiar porque el voucher ya se usó.",
+      "description": "Descripción",
+      "descriptionHelp": "Escribe una descripción clara para tus clientes. Aparece en la tienda si el voucher es público.",
+      "type": "Tipo de voucher",
+      "value": "Valor",
+      "valuePercent": "Porcentaje de descuento",
+      "valueAmount": "Monto del descuento",
+      "maxDiscount": "Descuento máximo (opcional)",
+      "appliesTo": "Se aplica a",
+      "applies": {
+        "entire_order": "Todos los pedidos",
+        "delivery_orders": "Pedidos a domicilio",
+        "pickup_orders": "Pedidos para recoger"
+      },
+      "minOrder": "Pedido mínimo",
+      "totalLimit": "Usos en total (opcional)",
+      "perCustomerLimit": "Usos por cliente (opcional)",
+      "limitsHelp": "Déjalos vacíos para no poner límite. El límite por cliente se cuenta por número de teléfono o cuenta, así que no es infalible mientras los teléfonos no se verifiquen.",
+      "happyHour": "Horario del voucher",
+      "happyHourOn": "Solo en un horario del día",
+      "happyHourStart": "Desde",
+      "happyHourEnd": "Hasta",
+      "happyHourHelp": "Hora local de la sucursal. No aplica a pedidos programados.",
+      "starts": "Empieza",
+      "ends": "Termina",
+      "datesHelp": "Déjalas vacías para que el voucher valga siempre.",
+      "visibility": "Visibilidad",
+      "publicHelp": "Público: se muestra en la tienda con un botón para aplicarlo.",
+      "privateHelp": "Privado: no se muestra; solo lo usa quien tenga el código.",
+      "assignedPhone": "Solo para este teléfono (opcional)",
+      "assignedPhoneHelp": "Con un teléfono asignado, solo ese cliente puede usar el código. Formato +50499999999.",
+      "outlets": "Sucursales",
+      "allOutlets": "Todas las sucursales",
+      "someOutlets": "Solo algunas sucursales",
+      "active": "Voucher activo",
+      "required": "Obligatorio",
+      "invalidPhone": "Escribe el teléfono en formato +50499999999.",
+      "invalidCode": "El código lleva de 3 a 40 letras, números, guiones o guiones bajos.",
+      "invalidValue": "Escribe un valor mayor que cero (hasta 100 si es porcentaje).",
+      "invalidNumber": "Escribe un número válido.",
+      "badDates": "El voucher debe terminar después de empezar.",
+      "noOutlets": "Elige al menos una sucursal.",
+      "cancel": "Cancelar"
+    },
+    "back": "← Volver a vouchers",
+    "notFound": "No encontramos este voucher."
   }
 }

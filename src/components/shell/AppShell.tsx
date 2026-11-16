@@ -1,5 +1,6 @@
 "use client";
 
+import CampaignIcon from "@mui/icons-material/Campaign";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -38,6 +39,7 @@ const ICONS: Record<string, ReactNode> = {
   orders: <ShoppingBagIcon />,
   catalog: <GridViewIcon />,
   team: <GroupIcon />,
+  marketing: <CampaignIcon />,
   setup: <SettingsIcon />,
 };
 

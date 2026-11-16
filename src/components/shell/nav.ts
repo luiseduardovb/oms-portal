@@ -13,7 +13,7 @@ export interface NavItem {
 }
 
 /** Sidebar order follows Zyda's dashboard: Orders, Product Catalog, Setup and
- * Team. Analytics, Marketing and Billing join when their screens exist. */
+ * Team. Analytics and Billing join when their screens exist. */
 export const NAV_ITEMS: NavItem[] = [
   { key: "orders", href: "/orders", area: "orders" },
   {
@@ -44,6 +44,12 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "setupPayments", href: "/setup/payments" },
       { key: "setupLinks", href: "/setup/links" },
     ],
+  },
+  {
+    key: "marketing",
+    href: "/marketing/vouchers",
+    area: "marketing",
+    children: [{ key: "marketingVouchers", href: "/marketing/vouchers" }],
   },
   { key: "team", href: "/team", area: "team" },
 ];
