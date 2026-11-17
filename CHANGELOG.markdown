@@ -6,6 +6,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-833: Marketing > Promotions screen (list, add and edit pages) with scope by category or product, hours, dates and branches.
 - TASK-501: Marketing > Vouchers screen with tabs, create/edit form, pause/archive, and private vouchers for staff with the issue-private extra.
 - TASK-820 (logo and cover): Configuración → Marca has a "Logo y portada" section to upload, replace or remove the store logo and cover picture (same upload as product photos).
 - TASK-820: Configuración → Marca has a Banners section: add up to 5 images (1200×600), reorder, show or hide, delete, choose what each opens (a product or a category), and a switch for changing banner automatically. Image upload moved to a shared `useImageUpload` hook (product photos use it too).

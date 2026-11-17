@@ -47,9 +47,12 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     key: "marketing",
-    href: "/marketing/vouchers",
+    href: "/marketing/promotions",
     area: "marketing",
-    children: [{ key: "marketingVouchers", href: "/marketing/vouchers" }],
+    children: [
+      { key: "marketingPromotions", href: "/marketing/promotions" },
+      { key: "marketingVouchers", href: "/marketing/vouchers" },
+    ],
   },
   { key: "team", href: "/team", area: "team" },
 ];

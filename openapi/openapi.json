@@ -917,6 +917,348 @@
         ]
       }
     },
+    "/merchant/promotions": {
+      "get": {
+        "tags": [
+          "promotions"
+        ],
+        "summary": "List Promotions",
+        "operationId": "list_promotions_merchant_promotions_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "active",
+                    "deactivated",
+                    "scheduled",
+                    "expired"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only promotions in this state (a tab).",
+              "title": "Status"
+            },
+            "description": "Only promotions in this state (a tab)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionsOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "marketing",
+            "level": "view"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "promotions"
+        ],
+        "summary": "Create Promotion",
+        "operationId": "create_promotion_merchant_promotions_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromotionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "marketing",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/merchant/promotions/{promotion_id}": {
+      "get": {
+        "tags": [
+          "promotions"
+        ],
+        "summary": "Get Promotion",
+        "operationId": "get_promotion_merchant_promotions__promotion_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "promotion_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Promotion Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "marketing",
+            "level": "view"
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "promotions"
+        ],
+        "summary": "Replace Promotion",
+        "operationId": "replace_promotion_merchant_promotions__promotion_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "promotion_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Promotion Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromotionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "marketing",
+            "level": "full"
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "promotions"
+        ],
+        "summary": "Toggle Promotion",
+        "operationId": "toggle_promotion_merchant_promotions__promotion_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "promotion_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Promotion Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromotionToggle"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "marketing",
+            "level": "full"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "promotions"
+        ],
+        "summary": "Archive Promotion",
+        "description": "Promotions are archived, never deleted: orders keep pointing at them.",
+        "operationId": "archive_promotion_merchant_promotions__promotion_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "promotion_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Promotion Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "marketing",
+            "level": "full"
+          }
+        ]
+      }
+    },
     "/outlets": {
       "get": {
         "tags": [
@@ -6684,6 +7026,34 @@
         ],
         "title": "AlertContact"
       },
+      "AppliedPromotion": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "discount": {
+            "type": "string",
+            "title": "Discount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "type",
+          "discount"
+        ],
+        "title": "AppliedPromotion"
+      },
       "AppliedVoucher": {
         "properties": {
           "code": {
@@ -9668,6 +10038,17 @@
             ],
             "title": "Vouchercode"
           },
+          "promotionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promotionname"
+          },
           "deliveryFee": {
             "type": "string",
             "title": "Deliveryfee"
@@ -11384,6 +11765,24 @@
         ],
         "title": "ProductOutletOut"
       },
+      "ProductRef": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "ProductRef"
+      },
       "ProductUpdate": {
         "properties": {
           "name": {
@@ -11521,6 +11920,402 @@
         },
         "type": "object",
         "title": "ProfileIn"
+      },
+      "PromotionIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Description",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "amount",
+              "free_delivery"
+            ],
+            "title": "Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "maxDiscount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxdiscount"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "categories",
+              "products"
+            ],
+            "title": "Scope",
+            "default": "entire_order"
+          },
+          "categoryIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 200,
+            "title": "Categoryids"
+          },
+          "productIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Productids"
+          },
+          "appliesTo": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "delivery_orders",
+              "pickup_orders"
+            ],
+            "title": "Appliesto",
+            "default": "entire_order"
+          },
+          "minOrderAmount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Minorderamount",
+            "default": "0"
+          },
+          "happyHourStart": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourstart"
+          },
+          "happyHourEnd": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourend"
+          },
+          "startsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Startsat"
+          },
+          "endsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endsat"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets",
+            "default": true
+          },
+          "outletIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 200,
+            "title": "Outletids"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type"
+        ],
+        "title": "PromotionIn"
+      },
+      "PromotionOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "amount",
+              "free_delivery"
+            ],
+            "title": "Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "maxDiscount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxdiscount"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "categories",
+              "products"
+            ],
+            "title": "Scope"
+          },
+          "categoryIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Categoryids"
+          },
+          "productIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Productids"
+          },
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/ProductRef"
+            },
+            "type": "array",
+            "title": "Products"
+          },
+          "appliesTo": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "delivery_orders",
+              "pickup_orders"
+            ],
+            "title": "Appliesto"
+          },
+          "minOrderAmount": {
+            "type": "string",
+            "title": "Minorderamount"
+          },
+          "happyHourStart": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourstart"
+          },
+          "happyHourEnd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourend"
+          },
+          "startsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Startsat"
+          },
+          "endsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endsat"
+          },
+          "allOutlets": {
+            "type": "boolean",
+            "title": "Alloutlets"
+          },
+          "outletIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Outletids"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "deactivated",
+              "scheduled",
+              "expired"
+            ],
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "type",
+          "value",
+          "maxDiscount",
+          "scope",
+          "categoryIds",
+          "productIds",
+          "products",
+          "appliesTo",
+          "minOrderAmount",
+          "happyHourStart",
+          "happyHourEnd",
+          "startsAt",
+          "endsAt",
+          "allOutlets",
+          "outletIds",
+          "isActive",
+          "status",
+          "createdAt"
+        ],
+        "title": "PromotionOut"
+      },
+      "PromotionToggle": {
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "isActive"
+        ],
+        "title": "PromotionToggle"
+      },
+      "PromotionsOut": {
+        "properties": {
+          "promotions": {
+            "items": {
+              "$ref": "#/components/schemas/PromotionOut"
+            },
+            "type": "array",
+            "title": "Promotions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "promotions"
+        ],
+        "title": "PromotionsOut"
       },
       "PublicBanner": {
         "properties": {
@@ -11824,6 +12619,17 @@
               }
             ],
             "title": "Vouchercode"
+          },
+          "promotionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promotionname"
           },
           "deliveryFee": {
             "type": "string",
@@ -12578,6 +13384,120 @@
         ],
         "title": "PublicProduct"
       },
+      "PublicPromotion": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "percentage",
+              "amount",
+              "free_delivery"
+            ],
+            "title": "Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "maxDiscount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maxdiscount"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "categories",
+              "products"
+            ],
+            "title": "Scope"
+          },
+          "appliesTo": {
+            "type": "string",
+            "enum": [
+              "entire_order",
+              "delivery_orders",
+              "pickup_orders"
+            ],
+            "title": "Appliesto"
+          },
+          "minOrderAmount": {
+            "type": "string",
+            "title": "Minorderamount"
+          },
+          "happyHourStart": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourstart"
+          },
+          "happyHourEnd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Happyhourend"
+          },
+          "endsAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endsat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "type",
+          "value",
+          "maxDiscount",
+          "scope",
+          "appliesTo",
+          "minOrderAmount",
+          "happyHourStart",
+          "happyHourEnd",
+          "endsAt"
+        ],
+        "title": "PublicPromotion"
+      },
       "PublicQuote": {
         "properties": {
           "currencyCode": {
@@ -12593,6 +13513,21 @@
                 "type": "null"
               }
             ]
+          },
+          "promotion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AppliedPromotion"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "voucherSuperseded": {
+            "type": "boolean",
+            "title": "Vouchersuperseded",
+            "default": false
           },
           "lines": {
             "items": {
@@ -13121,6 +14056,17 @@
             ],
             "title": "Vouchercode"
           },
+          "promotionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promotionname"
+          },
           "deliveryFee": {
             "type": "string",
             "title": "Deliveryfee"
@@ -13363,6 +14309,14 @@
             },
             "type": "array",
             "title": "Vouchers"
+          },
+          "promotions": {
+            "items": {
+              "$ref": "#/components/schemas/PublicPromotion"
+            },
+            "type": "array",
+            "title": "Promotions",
+            "default": []
           }
         },
         "type": "object",

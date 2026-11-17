@@ -166,6 +166,12 @@
       "code_taken": "Ya existe un voucher con ese código.",
       "code_locked": "El código no se puede cambiar después de usarse.",
       "outlet_not_found": "Alguna de esas sucursales no existe o está archivada."
+    },
+    "promotions": {
+      "not_found": "No encontramos esa promoción.",
+      "outlet_not_found": "Alguna de esas sucursales no existe o está archivada.",
+      "category_not_found": "Alguna de esas categorías no existe o está archivada.",
+      "product_not_found": "Alguno de esos productos no existe o está archivado."
     }
   },
   "login": {
@@ -207,7 +213,8 @@
       "setupPayments": "Métodos de pago",
       "setupLinks": "Enlaces web",
       "marketing": "Marketing",
-      "marketingVouchers": "Vouchers"
+      "marketingVouchers": "Vouchers",
+      "marketingPromotions": "Promociones"
     },
     "visitStore": "Ver tienda"
   },
@@ -1160,5 +1167,112 @@
     },
     "back": "← Volver a vouchers",
     "notFound": "No encontramos este voucher."
+  },
+  "promotions": {
+    "title": "Promociones",
+    "intro": "Las promociones se aplican solas cuando el pedido cumple las condiciones; el cliente no escribe ningún código. Si el pedido también lleva un voucher, se aplica el descuento más grande de los dos.",
+    "add": "Agregar promoción",
+    "noAccess": "No tienes permiso para ver las promociones.",
+    "tabs": {
+      "all": "Todos",
+      "active": "Activos",
+      "deactivated": "Desactivados",
+      "scheduled": "Programados",
+      "expired": "Vencidos"
+    },
+    "columns": {
+      "name": "Nombre",
+      "discount": "Descuento",
+      "scope": "Aplica a",
+      "from": "Válida desde",
+      "to": "Válida hasta",
+      "status": "Estado"
+    },
+    "what": {
+      "percentage": "{value}% de descuento",
+      "amount": "L {value} de descuento",
+      "free_delivery": "Envío gratis"
+    },
+    "types": {
+      "percentage": "Porcentaje",
+      "amount": "Monto",
+      "free_delivery": "Envío gratis"
+    },
+    "scope": {
+      "entire_order": "Todo el pedido",
+      "categories": "Algunas categorías",
+      "products": "Algunos productos"
+    },
+    "status": {
+      "active": "Activo",
+      "deactivated": "Desactivado",
+      "scheduled": "Programado",
+      "expired": "Vencido"
+    },
+    "unlimited": "Sin límite",
+    "empty": "Todavía no hay promociones en esta lista.",
+    "loading": "Cargando promociones",
+    "rowMenu": "Acciones de la promoción {name}",
+    "edit": "Editar",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "archive": "Archivar",
+    "archiveTitle": "¿Archivar {name}?",
+    "archiveBody": "Los pedidos que ya usaron esta promoción no cambian.",
+    "cancel": "Cancelar",
+    "back": "← Volver a promociones",
+    "notFound": "No encontramos esta promoción.",
+    "form": {
+      "addTitle": "Agregar promoción",
+      "editTitle": "Editar promoción",
+      "save": "Guardar",
+      "name": "Nombre de la promoción",
+      "nameHelp": "Es lo que ven tus clientes en la tienda y en su pedido, por ejemplo «Lunes de baleadas».",
+      "description": "Descripción",
+      "descriptionHelp": "Una frase clara para tus clientes. Aparece en la tienda.",
+      "type": "Tipo de descuento",
+      "valuePercent": "Porcentaje de descuento",
+      "valueAmount": "Monto del descuento",
+      "maxDiscount": "Descuento máximo (opcional)",
+      "scope": "Qué descuenta",
+      "scopes": {
+        "entire_order": "Todo el pedido",
+        "categories": "Solo productos de algunas categorías",
+        "products": "Solo algunos productos"
+      },
+      "products": "Productos",
+      "noProductsFound": "No encontramos productos.",
+      "noCategories": "Elige al menos una categoría.",
+      "noProducts": "Elige al menos un producto.",
+      "appliesTo": "Se aplica a",
+      "applies": {
+        "entire_order": "Todos los pedidos",
+        "delivery_orders": "Pedidos a domicilio",
+        "pickup_orders": "Pedidos para recoger"
+      },
+      "minOrder": "Pedido mínimo",
+      "happyHourOn": "Solo en un horario del día",
+      "happyHourStart": "Desde",
+      "happyHourEnd": "Hasta",
+      "happyHourHelp": "Hora local de la sucursal. No aplica a pedidos programados.",
+      "starts": "Empieza",
+      "ends": "Termina",
+      "datesHelp": "Déjalas vacías para que la promoción valga siempre.",
+      "outlets": "Sucursales",
+      "allOutlets": "Todas las sucursales",
+      "someOutlets": "Solo algunas sucursales",
+      "active": "Promoción activa",
+      "required": "Obligatorio",
+      "invalidValue": "Escribe un valor mayor que cero (hasta 100 si es porcentaje).",
+      "invalidNumber": "Escribe un número válido.",
+      "badDates": "La promoción debe terminar después de empezar.",
+      "noOutlets": "Elige al menos una sucursal.",
+      "cancel": "Cancelar",
+      "types": {
+        "percentage": "Porcentaje",
+        "amount": "Monto",
+        "free_delivery": "Envío gratis"
+      }
+    }
   }
 }

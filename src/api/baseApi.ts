@@ -13,6 +13,7 @@ export const baseApi = createApi({
     "Setup",
     "Banners",
     "Vouchers",
+    "Promotions",
     "Outlets",
     "Outlet",
     "Products",

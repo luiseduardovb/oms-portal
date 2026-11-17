@@ -280,6 +280,47 @@ export interface paths {
         patch: operations["toggle_voucher_merchant_vouchers__voucher_id__patch"];
         trace?: never;
     };
+    "/merchant/promotions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Promotions */
+        get: operations["list_promotions_merchant_promotions_get"];
+        put?: never;
+        /** Create Promotion */
+        post: operations["create_promotion_merchant_promotions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/promotions/{promotion_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Promotion */
+        get: operations["get_promotion_merchant_promotions__promotion_id__get"];
+        /** Replace Promotion */
+        put: operations["replace_promotion_merchant_promotions__promotion_id__put"];
+        post?: never;
+        /**
+         * Archive Promotion
+         * @description Promotions are archived, never deleted: orders keep pointing at them.
+         */
+        delete: operations["archive_promotion_merchant_promotions__promotion_id__delete"];
+        options?: never;
+        head?: never;
+        /** Toggle Promotion */
+        patch: operations["toggle_promotion_merchant_promotions__promotion_id__patch"];
+        trace?: never;
+    };
     "/outlets": {
         parameters: {
             query?: never;
@@ -1915,6 +1956,17 @@ export interface components {
              */
             active: boolean;
         };
+        /** AppliedPromotion */
+        AppliedPromotion: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Type */
+            type: string;
+            /** Discount */
+            discount: string;
+        };
         /** AppliedVoucher */
         AppliedVoucher: {
             /** Code */
@@ -2866,6 +2918,8 @@ export interface components {
             discountTotal: string;
             /** Vouchercode */
             voucherCode?: string | null;
+            /** Promotionname */
+            promotionName?: string | null;
             /** Deliveryfee */
             deliveryFee: string;
             /** Taxincluded */
@@ -3357,6 +3411,13 @@ export interface components {
             /** Version */
             version: number;
         };
+        /** ProductRef */
+        ProductRef: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+        };
         /**
          * ProductUpdate
          * @description Send only the fields to change. Description, image, SKU and prep time
@@ -3386,6 +3447,136 @@ export interface components {
             name?: string | null;
             /** Phone */
             phone?: string | null;
+        };
+        /** PromotionIn */
+        PromotionIn: {
+            /** Name */
+            name: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "percentage" | "amount" | "free_delivery";
+            /** Value */
+            value?: number | string | null;
+            /** Maxdiscount */
+            maxDiscount?: number | string | null;
+            /**
+             * Scope
+             * @default entire_order
+             * @enum {string}
+             */
+            scope: "entire_order" | "categories" | "products";
+            /** Categoryids */
+            categoryIds?: number[];
+            /** Productids */
+            productIds?: number[];
+            /**
+             * Appliesto
+             * @default entire_order
+             * @enum {string}
+             */
+            appliesTo: "entire_order" | "delivery_orders" | "pickup_orders";
+            /**
+             * Minorderamount
+             * @default 0
+             */
+            minOrderAmount: number | string;
+            /** Happyhourstart */
+            happyHourStart?: string | null;
+            /** Happyhourend */
+            happyHourEnd?: string | null;
+            /** Startsat */
+            startsAt?: string | null;
+            /** Endsat */
+            endsAt?: string | null;
+            /**
+             * Alloutlets
+             * @default true
+             */
+            allOutlets: boolean;
+            /** Outletids */
+            outletIds?: number[];
+            /**
+             * Isactive
+             * @default true
+             */
+            isActive: boolean;
+        };
+        /** PromotionOut */
+        PromotionOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "percentage" | "amount" | "free_delivery";
+            /** Value */
+            value: string | null;
+            /** Maxdiscount */
+            maxDiscount: string | null;
+            /**
+             * Scope
+             * @enum {string}
+             */
+            scope: "entire_order" | "categories" | "products";
+            /** Categoryids */
+            categoryIds: number[];
+            /** Productids */
+            productIds: number[];
+            /** Products */
+            products: components["schemas"]["ProductRef"][];
+            /**
+             * Appliesto
+             * @enum {string}
+             */
+            appliesTo: "entire_order" | "delivery_orders" | "pickup_orders";
+            /** Minorderamount */
+            minOrderAmount: string;
+            /** Happyhourstart */
+            happyHourStart: string | null;
+            /** Happyhourend */
+            happyHourEnd: string | null;
+            /** Startsat */
+            startsAt: string | null;
+            /** Endsat */
+            endsAt: string | null;
+            /** Alloutlets */
+            allOutlets: boolean;
+            /** Outletids */
+            outletIds: number[];
+            /** Isactive */
+            isActive: boolean;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "active" | "deactivated" | "scheduled" | "expired";
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
+        /** PromotionToggle */
+        PromotionToggle: {
+            /** Isactive */
+            isActive: boolean;
+        };
+        /** PromotionsOut */
+        PromotionsOut: {
+            /** Promotions */
+            promotions: components["schemas"]["PromotionOut"][];
         };
         /** PublicBanner */
         PublicBanner: {
@@ -3498,6 +3689,8 @@ export interface components {
             discountTotal: string;
             /** Vouchercode */
             voucherCode?: string | null;
+            /** Promotionname */
+            promotionName?: string | null;
             /** Deliveryfee */
             deliveryFee: string;
             /** Taxincluded */
@@ -3722,11 +3915,51 @@ export interface components {
             /** Optiongroups */
             optionGroups: components["schemas"]["PublicOptionGroup"][];
         };
+        /** PublicPromotion */
+        PublicPromotion: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "percentage" | "amount" | "free_delivery";
+            /** Value */
+            value: string | null;
+            /** Maxdiscount */
+            maxDiscount: string | null;
+            /**
+             * Scope
+             * @enum {string}
+             */
+            scope: "entire_order" | "categories" | "products";
+            /**
+             * Appliesto
+             * @enum {string}
+             */
+            appliesTo: "entire_order" | "delivery_orders" | "pickup_orders";
+            /** Minorderamount */
+            minOrderAmount: string;
+            /** Happyhourstart */
+            happyHourStart: string | null;
+            /** Happyhourend */
+            happyHourEnd: string | null;
+            /** Endsat */
+            endsAt: string | null;
+        };
         /** PublicQuote */
         PublicQuote: {
             /** Currencycode */
             currencyCode: string;
             voucher?: components["schemas"]["AppliedVoucher"] | null;
+            promotion?: components["schemas"]["AppliedPromotion"] | null;
+            /**
+             * Vouchersuperseded
+             * @default false
+             */
+            voucherSuperseded: boolean;
             /** Lines */
             lines: components["schemas"]["PublicQuoteLine"][];
             /** Itemstotal */
@@ -3902,6 +4135,8 @@ export interface components {
             discountTotal: string;
             /** Vouchercode */
             voucherCode?: string | null;
+            /** Promotionname */
+            promotionName?: string | null;
             /** Deliveryfee */
             deliveryFee: string;
             /** Taxincluded */
@@ -3964,6 +4199,11 @@ export interface components {
         PublicVouchers: {
             /** Vouchers */
             vouchers: components["schemas"]["PublicVoucher"][];
+            /**
+             * Promotions
+             * @default []
+             */
+            promotions: components["schemas"]["PublicPromotion"][];
         };
         /** PublicWeekday */
         PublicWeekday: {
@@ -4989,6 +5229,201 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["VoucherOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_promotions_merchant_promotions_get: {
+        parameters: {
+            query?: {
+                /** @description Only promotions in this state (a tab). */
+                status?: ("active" | "deactivated" | "scheduled" | "expired") | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromotionsOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_promotion_merchant_promotions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromotionIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromotionOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_promotion_merchant_promotions__promotion_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                promotion_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromotionOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    replace_promotion_merchant_promotions__promotion_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                promotion_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromotionIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromotionOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_promotion_merchant_promotions__promotion_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                promotion_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    toggle_promotion_merchant_promotions__promotion_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                promotion_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromotionToggle"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromotionOut"];
                 };
             };
             /** @description Validation Error */
