@@ -165,6 +165,7 @@ function NewOutletDialog({
       acceptAlertMinutes: 3,
       expireUnacceptedMinutes: 15,
       autoAccept: false,
+      deliveryMode: "flat",
       deliveryFee: 0,
       deliveryMinOrder: 0,
       deliveryEtaMinutes: 40,

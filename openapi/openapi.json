@@ -1777,6 +1777,464 @@
         ]
       }
     },
+    "/outlets/{outlet_id}/delivery-zones": {
+      "get": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "List Zones",
+        "operationId": "list_zones_outlets__outlet_id__delivery_zones_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ZoneOut"
+                  },
+                  "title": "Response List Zones Outlets  Outlet Id  Delivery Zones Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "Create Zone",
+        "operationId": "create_zone_outlets__outlet_id__delivery_zones_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZoneOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/delivery-zones/check": {
+      "get": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "Check Address",
+        "description": "The merchant's \"test an address\": what this outlet would do for a\npoint on the map.",
+        "operationId": "check_address_outlets__outlet_id__delivery_zones_check_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Latitude"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Longitude"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoverageOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/delivery-zones/order": {
+      "put": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "Reorder Zones",
+        "description": "Set the order zones are checked in (the first match wins).",
+        "operationId": "reorder_zones_outlets__outlet_id__delivery_zones_order_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneOrder"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ZoneOut"
+                  },
+                  "title": "Response Reorder Zones Outlets  Outlet Id  Delivery Zones Order Put"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
+    "/outlets/{outlet_id}/delivery-zones/{zone_id}": {
+      "get": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "Get Zone",
+        "operationId": "get_zone_outlets__outlet_id__delivery_zones__zone_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          },
+          {
+            "name": "zone_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Zone Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZoneOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "view"
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "Update Zone",
+        "operationId": "update_zone_outlets__outlet_id__delivery_zones__zone_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          },
+          {
+            "name": "zone_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Zone Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZoneOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "delivery"
+        ],
+        "summary": "Delete Zone",
+        "description": "Remove a zone. Orders already placed keep its name and fee.",
+        "operationId": "delete_zone_outlets__outlet_id__delivery_zones__zone_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          },
+          {
+            "name": "zone_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Zone Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "setup",
+            "level": "full"
+          }
+        ]
+      }
+    },
     "/team/members": {
       "get": {
         "tags": [
@@ -5881,6 +6339,71 @@
         }
       }
     },
+    "/public/stores/{slug}/coverage": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Get Coverage",
+        "description": "For a pin on the map, which branches deliver there and at what\nfee, minimum and time.",
+        "operationId": "get_coverage_public_stores__slug__coverage_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Latitude"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Longitude"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicCoverage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/public/stores/{slug}/outlets/{outlet_id}/vouchers": {
       "get": {
         "tags": [
@@ -7500,6 +8023,36 @@
         "title": "CategoryUpdate",
         "description": "Send only the fields to change. Description and image may be null."
       },
+      "Circle": {
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "maximum": 90,
+            "minimum": -90,
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "maximum": 180,
+            "minimum": -180,
+            "title": "Longitude"
+          },
+          "radiusMeters": {
+            "type": "number",
+            "maximum": 50000,
+            "minimum": 100,
+            "title": "Radiusmeters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "latitude",
+          "longitude",
+          "radiusMeters"
+        ],
+        "title": "Circle",
+        "description": "A round zone around a point: the helper for the map's circle tool."
+      },
       "ContactsReplace": {
         "properties": {
           "alertContacts": {
@@ -7544,6 +8097,68 @@
           "timezone"
         ],
         "title": "CountryInfo"
+      },
+      "CoverageOut": {
+        "properties": {
+          "covered": {
+            "type": "boolean",
+            "title": "Covered"
+          },
+          "zoneId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zoneid"
+          },
+          "zoneName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zonename"
+          },
+          "fee": {
+            "type": "string",
+            "title": "Fee"
+          },
+          "minOrder": {
+            "type": "string",
+            "title": "Minorder"
+          },
+          "etaMinutes": {
+            "type": "integer",
+            "title": "Etaminutes"
+          },
+          "freeOver": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freeover"
+          }
+        },
+        "type": "object",
+        "required": [
+          "covered",
+          "fee",
+          "minOrder",
+          "etaMinutes"
+        ],
+        "title": "CoverageOut",
+        "description": "The answer to \"can this outlet deliver to this point?\"."
       },
       "CustomerOut": {
         "properties": {
@@ -10551,6 +11166,77 @@
         "title": "OrderSummaryOut",
         "description": "One row of the orders list; the full order is ``GET /orders/{id}``."
       },
+      "OutletCoverage": {
+        "properties": {
+          "covered": {
+            "type": "boolean",
+            "title": "Covered"
+          },
+          "zoneId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zoneid"
+          },
+          "zoneName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zonename"
+          },
+          "fee": {
+            "type": "string",
+            "title": "Fee"
+          },
+          "minOrder": {
+            "type": "string",
+            "title": "Minorder"
+          },
+          "etaMinutes": {
+            "type": "integer",
+            "title": "Etaminutes"
+          },
+          "freeOver": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freeover"
+          },
+          "outletId": {
+            "type": "integer",
+            "title": "Outletid"
+          },
+          "outletName": {
+            "type": "string",
+            "title": "Outletname"
+          }
+        },
+        "type": "object",
+        "required": [
+          "covered",
+          "fee",
+          "minOrder",
+          "etaMinutes",
+          "outletId",
+          "outletName"
+        ],
+        "title": "OutletCoverage"
+      },
       "OutletCreate": {
         "properties": {
           "name": {
@@ -10673,6 +11359,15 @@
             "type": "boolean",
             "title": "Autoaccept",
             "default": false
+          },
+          "deliveryMode": {
+            "type": "string",
+            "enum": [
+              "flat",
+              "zones"
+            ],
+            "title": "Deliverymode",
+            "default": "flat"
           },
           "deliveryFee": {
             "anyOf": [
@@ -10811,6 +11506,14 @@
             "type": "boolean",
             "title": "Autoaccept"
           },
+          "deliveryMode": {
+            "type": "string",
+            "enum": [
+              "flat",
+              "zones"
+            ],
+            "title": "Deliverymode"
+          },
           "deliveryFee": {
             "type": "string",
             "title": "Deliveryfee"
@@ -10878,6 +11581,7 @@
           "acceptAlertMinutes",
           "expireUnacceptedMinutes",
           "autoAccept",
+          "deliveryMode",
           "deliveryFee",
           "deliveryMinOrder",
           "deliveryEtaMinutes",
@@ -11195,6 +11899,21 @@
               }
             ],
             "title": "Autoaccept"
+          },
+          "deliveryMode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "flat",
+                  "zones"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverymode"
           },
           "deliveryFee": {
             "anyOf": [
@@ -12402,6 +13121,22 @@
         ],
         "title": "PublicCategory"
       },
+      "PublicCoverage": {
+        "properties": {
+          "outlets": {
+            "items": {
+              "$ref": "#/components/schemas/OutletCoverage"
+            },
+            "type": "array",
+            "title": "Outlets"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outlets"
+        ],
+        "title": "PublicCoverage"
+      },
       "PublicInterval": {
         "properties": {
           "opensAt": {
@@ -13186,6 +13921,10 @@
             "type": "integer",
             "title": "Preptimeminutes"
           },
+          "deliveryMode": {
+            "type": "string",
+            "title": "Deliverymode"
+          },
           "deliveryFee": {
             "type": "string",
             "title": "Deliveryfee"
@@ -13231,6 +13970,7 @@
           "deliveryEnabled",
           "isBusy",
           "prepTimeMinutes",
+          "deliveryMode",
           "deliveryFee",
           "deliveryMinOrder",
           "deliveryEtaMinutes",
@@ -13575,6 +14315,39 @@
           "minimumMet": {
             "type": "boolean",
             "title": "Minimummet"
+          },
+          "deliveryCovered": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverycovered"
+          },
+          "deliveryZoneName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryzonename"
+          },
+          "deliveryEtaMinutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryetaminutes"
           }
         },
         "type": "object",
@@ -13642,6 +14415,32 @@
               }
             ],
             "title": "Vouchercode"
+          },
+          "deliveryLat": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 90,
+                "minimum": -90
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverylat"
+          },
+          "deliveryLng": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 180,
+                "minimum": -180
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverylng"
           }
         },
         "type": "object",
@@ -15765,6 +16564,194 @@
           "vouchers"
         ],
         "title": "VouchersOut"
+      },
+      "ZoneIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "polygon": {
+            "anyOf": [
+              {
+                "items": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array",
+                  "maxItems": 2,
+                  "minItems": 2
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polygon"
+          },
+          "circle": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Circle"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fee": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Fee",
+            "default": "0"
+          },
+          "minOrder": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Minorder",
+            "default": "0"
+          },
+          "etaMinutes": {
+            "type": "integer",
+            "maximum": 600,
+            "minimum": 0,
+            "title": "Etaminutes",
+            "default": 40
+          },
+          "freeOver": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freeover"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ZoneIn",
+        "description": "Send the drawn ``polygon`` (``[lng, lat]`` points) or a ``circle``."
+      },
+      "ZoneOrder": {
+        "properties": {
+          "ids": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ids"
+        ],
+        "title": "ZoneOrder",
+        "description": "Every active zone of the outlet, in the order they are checked."
+      },
+      "ZoneOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "outletId": {
+            "type": "integer",
+            "title": "Outletid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "polygon": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Polygon"
+          },
+          "fee": {
+            "type": "string",
+            "title": "Fee"
+          },
+          "minOrder": {
+            "type": "string",
+            "title": "Minorder"
+          },
+          "etaMinutes": {
+            "type": "integer",
+            "title": "Etaminutes"
+          },
+          "freeOver": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freeover"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "title": "Sortorder"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "outletId",
+          "name",
+          "polygon",
+          "fee",
+          "minOrder",
+          "etaMinutes",
+          "freeOver",
+          "sortOrder",
+          "isActive"
+        ],
+        "title": "ZoneOut"
       }
     },
     "securitySchemes": {

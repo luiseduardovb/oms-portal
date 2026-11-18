@@ -172,6 +172,11 @@
       "outlet_not_found": "Alguna de esas sucursales no existe o está archivada.",
       "category_not_found": "Alguna de esas categorías no existe o está archivada.",
       "product_not_found": "Alguno de esos productos no existe o está archivado."
+    },
+    "delivery": {
+      "zone_not_found": "No encontramos esa zona.",
+      "zone_name_taken": "Otra zona de esta sucursal ya usa ese nombre.",
+      "order_mismatch": "El orden debe incluir todas las zonas de la sucursal, una vez cada una."
     }
   },
   "login": {
@@ -214,7 +219,8 @@
       "setupLinks": "Enlaces web",
       "marketing": "Marketing",
       "marketingVouchers": "Vouchers",
-      "marketingPromotions": "Promociones"
+      "marketingPromotions": "Promociones",
+      "setupDelivery": "Entregas"
     },
     "visitStore": "Ver tienda"
   },
@@ -1272,6 +1278,127 @@
         "percentage": "Porcentaje",
         "amount": "Monto",
         "free_delivery": "Envío gratis"
+      }
+    }
+  },
+  "delivery": {
+    "section": "Configuración",
+    "title": "Entregas",
+    "noAccess": "No tienes permiso para ver las entregas.",
+    "readOnly": "Solo puedes ver esta página; para cambiarla necesitas acceso completo a la configuración.",
+    "loading": "Cargando",
+    "back": "← Volver a entregas",
+    "noOutlets": "Aún no tienes sucursales.",
+    "goOutlets": "Crear una sucursal",
+    "outlet": "Sucursal",
+    "deliveryOff": "Esta sucursal no tiene la entrega a domicilio activada, así que los clientes solo pueden recoger.",
+    "editOutlet": "Editar sucursal",
+    "mode": {
+      "title": "Cómo cobras la entrega",
+      "flat": "Tarifa única",
+      "zones": "Por zonas",
+      "help": {
+        "flat": "Una sola tarifa, un solo mínimo y un solo tiempo para toda la sucursal, sin importar a dónde vaya el pedido.",
+        "zones": "Entregas solo dentro de las zonas que dibujas en el mapa, y cada zona tiene su tarifa, su mínimo y su tiempo."
+      }
+    },
+    "flat": {
+      "fee": "Tarifa de envío",
+      "min": "Pedido mínimo",
+      "eta": "Tiempo estimado: {minutes} min",
+      "help": "Estos valores se cambian en los datos de la sucursal."
+    },
+    "zones": {
+      "title": "Zonas de entrega",
+      "add": "Agregar zona",
+      "empty": "Esta sucursal no tiene zonas todavía, así que ningún pedido a domicilio puede entrar. Agrega la primera zona.",
+      "name": "Zona",
+      "fee": "Tarifa",
+      "min": "Mínimo",
+      "eta": "Tiempo",
+      "status": "Estado",
+      "actions": "Acciones",
+      "area": "{km2} km²",
+      "freeOver": "Gratis desde {amount}",
+      "minutes": "{minutes} min",
+      "on": "Activa",
+      "off": "Desactivada",
+      "up": "Subir {name}",
+      "down": "Bajar {name}",
+      "more": "Más acciones de {name}",
+      "edit": "Editar",
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "remove": "Eliminar",
+      "removeTitle": "Eliminar zona",
+      "removeBody": "Los clientes dejarán de poder pedir en {name}. Los pedidos que ya se hicieron conservan su nombre y su tarifa.",
+      "cancel": "Cancelar",
+      "confirmRemove": "Eliminar",
+      "orderHelp": "Si dos zonas se cruzan, gana la que está más arriba."
+    },
+    "test": {
+      "title": "Probar una dirección",
+      "help": "Busca una dirección o haz clic en el mapa para ver si esta sucursal entrega ahí y a qué precio.",
+      "covered": "Sí entrega: {zone}. Envío {fee}, mínimo {min}, unos {minutes} min.",
+      "notCovered": "No entrega a ese punto.",
+      "noPin": "Esta sucursal no tiene ubicación en el mapa; el mapa se abre en Tegucigalpa."
+    },
+    "search": {
+      "label": "Buscar dirección",
+      "hint": "Escribe al menos 3 letras",
+      "none": "Sin resultados"
+    },
+    "map": {
+      "outlet": "Sucursal",
+      "probe": "Punto a probar",
+      "closeShape": "Cerrar la zona",
+      "loading": "Cargando el mapa",
+      "failure": {
+        "no_key": "Falta la clave de Google Maps (NEXT_PUBLIC_GOOGLE_MAPS_KEY).",
+        "load": "No se pudo cargar el mapa. Revisa tu conexión.",
+        "auth": "Google no aceptó la clave del mapa. Revisa las direcciones web permitidas y las APIs de la clave."
+      }
+    },
+    "form": {
+      "addTitle": "Agregar zona",
+      "editTitle": "Editar zona",
+      "notFound": "No encontramos esa zona.",
+      "name": "Nombre de la zona",
+      "nameHelp": "Por ejemplo, Zona A o Colonia Kennedy.",
+      "required": "Este dato es obligatorio.",
+      "fee": "Tarifa de envío",
+      "minOrder": "Pedido mínimo",
+      "invalidMoney": "Escribe un monto válido, con hasta 2 decimales.",
+      "eta": "Tiempo estimado",
+      "etaHelp": "Lo que ve el cliente al elegir entrega.",
+      "invalidEta": "Escribe los minutos, entre 0 y 600.",
+      "minutes": "min",
+      "freeOver": "Envío gratis desde cierto monto",
+      "freeOverAmount": "Monto desde el que el envío es gratis",
+      "freeOverHelp": "Cuando los productos llegan a este monto, el cliente no paga envío.",
+      "active": "Zona activa",
+      "save": "Guardar zona",
+      "cancel": "Cancelar",
+      "tool": "Herramienta de dibujo",
+      "polygon": "Dibujar zona",
+      "circle": "Círculo",
+      "close": "Cerrar zona",
+      "undo": "Quitar último punto",
+      "clear": "Borrar y empezar de nuevo",
+      "radius": "Radio",
+      "hintStart": "Elige cómo dibujar la zona.",
+      "hintPolygon": "Haz clic en el mapa para marcar las esquinas de la zona. Necesitas al menos 3 puntos.",
+      "hintClose": "Sigue marcando puntos, o haz clic en el primer punto (el círculo vacío) para cerrar la zona.",
+      "hintClosed": "Arrastra los puntos para ajustar la zona. Para empezar de nuevo, usa Borrar.",
+      "hintCircle": "Haz clic en el mapa para poner el centro del círculo.",
+      "hintCircleDone": "Arrastra el centro o cambia el radio. Al guardar, el círculo se vuelve una zona que puedes ajustar punto por punto.",
+      "noPin": "Esta sucursal no tiene ubicación en el mapa. Puedes buscar una dirección arriba para moverte.",
+      "shape": {
+        "empty": "Dibuja la zona en el mapa.",
+        "open": "Cierra la zona: haz clic en el primer punto.",
+        "tooFew": "Una zona necesita al menos 3 puntos.",
+        "crossing": "Los bordes de la zona se cruzan. Mueve los puntos para que no se crucen.",
+        "noCenter": "Haz clic en el mapa para poner el centro del círculo."
       }
     }
   }

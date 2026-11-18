@@ -450,6 +450,87 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/outlets/{outlet_id}/delivery-zones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Zones */
+        get: operations["list_zones_outlets__outlet_id__delivery_zones_get"];
+        put?: never;
+        /** Create Zone */
+        post: operations["create_zone_outlets__outlet_id__delivery_zones_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/delivery-zones/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Check Address
+         * @description The merchant's "test an address": what this outlet would do for a
+         *     point on the map.
+         */
+        get: operations["check_address_outlets__outlet_id__delivery_zones_check_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/delivery-zones/order": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Reorder Zones
+         * @description Set the order zones are checked in (the first match wins).
+         */
+        put: operations["reorder_zones_outlets__outlet_id__delivery_zones_order_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/outlets/{outlet_id}/delivery-zones/{zone_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Zone */
+        get: operations["get_zone_outlets__outlet_id__delivery_zones__zone_id__get"];
+        /** Update Zone */
+        put: operations["update_zone_outlets__outlet_id__delivery_zones__zone_id__put"];
+        post?: never;
+        /**
+         * Delete Zone
+         * @description Remove a zone. Orders already placed keep its name and fee.
+         */
+        delete: operations["delete_zone_outlets__outlet_id__delivery_zones__zone_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/team/members": {
         parameters: {
             query?: never;
@@ -1551,6 +1632,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}/coverage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Coverage
+         * @description For a pin on the map, which branches deliver there and at what
+         *     fee, minimum and time.
+         */
+        get: operations["get_coverage_public_stores__slug__coverage_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public/stores/{slug}/outlets/{outlet_id}/vouchers": {
         parameters: {
             query?: never;
@@ -2095,6 +2197,18 @@ export interface components {
             /** Ispublished */
             isPublished?: boolean | null;
         };
+        /**
+         * Circle
+         * @description A round zone around a point: the helper for the map's circle tool.
+         */
+        Circle: {
+            /** Latitude */
+            latitude: number;
+            /** Longitude */
+            longitude: number;
+            /** Radiusmeters */
+            radiusMeters: number;
+        };
         /** ContactsReplace */
         ContactsReplace: {
             /** Alertcontacts */
@@ -2110,6 +2224,26 @@ export interface components {
             currencyCode: string;
             /** Timezone */
             timezone: string;
+        };
+        /**
+         * CoverageOut
+         * @description The answer to "can this outlet deliver to this point?".
+         */
+        CoverageOut: {
+            /** Covered */
+            covered: boolean;
+            /** Zoneid */
+            zoneId?: number | null;
+            /** Zonename */
+            zoneName?: string | null;
+            /** Fee */
+            fee: string;
+            /** Minorder */
+            minOrder: string;
+            /** Etaminutes */
+            etaMinutes: number;
+            /** Freeover */
+            freeOver?: string | null;
         };
         /** CustomerOut */
         CustomerOut: {
@@ -3060,6 +3194,27 @@ export interface components {
             /** Paymentstatus */
             paymentStatus: string;
         };
+        /** OutletCoverage */
+        OutletCoverage: {
+            /** Covered */
+            covered: boolean;
+            /** Zoneid */
+            zoneId?: number | null;
+            /** Zonename */
+            zoneName?: string | null;
+            /** Fee */
+            fee: string;
+            /** Minorder */
+            minOrder: string;
+            /** Etaminutes */
+            etaMinutes: number;
+            /** Freeover */
+            freeOver?: string | null;
+            /** Outletid */
+            outletId: number;
+            /** Outletname */
+            outletName: string;
+        };
         /** OutletCreate */
         OutletCreate: {
             /** Name */
@@ -3106,6 +3261,12 @@ export interface components {
              * @default false
              */
             autoAccept: boolean;
+            /**
+             * Deliverymode
+             * @default flat
+             * @enum {string}
+             */
+            deliveryMode: "flat" | "zones";
             /**
              * Deliveryfee
              * @default 0
@@ -3154,6 +3315,11 @@ export interface components {
             expireUnacceptedMinutes: number;
             /** Autoaccept */
             autoAccept: boolean;
+            /**
+             * Deliverymode
+             * @enum {string}
+             */
+            deliveryMode: "flat" | "zones";
             /** Deliveryfee */
             deliveryFee: string;
             /** Deliveryminorder */
@@ -3244,6 +3410,8 @@ export interface components {
             expireUnacceptedMinutes?: number | null;
             /** Autoaccept */
             autoAccept?: boolean | null;
+            /** Deliverymode */
+            deliveryMode?: ("flat" | "zones") | null;
             /** Deliveryfee */
             deliveryFee?: number | string | null;
             /** Deliveryminorder */
@@ -3598,6 +3766,11 @@ export interface components {
             /** Products */
             products: components["schemas"]["PublicProduct"][];
         };
+        /** PublicCoverage */
+        PublicCoverage: {
+            /** Outlets */
+            outlets: components["schemas"]["OutletCoverage"][];
+        };
         /** PublicInterval */
         PublicInterval: {
             /**
@@ -3861,6 +4034,8 @@ export interface components {
             isBusy: boolean;
             /** Preptimeminutes */
             prepTimeMinutes: number;
+            /** Deliverymode */
+            deliveryMode: string;
             /** Deliveryfee */
             deliveryFee: string;
             /** Deliveryminorder */
@@ -3982,6 +4157,12 @@ export interface components {
             minimumOrder: string;
             /** Minimummet */
             minimumMet: boolean;
+            /** Deliverycovered */
+            deliveryCovered?: boolean | null;
+            /** Deliveryzonename */
+            deliveryZoneName?: string | null;
+            /** Deliveryetaminutes */
+            deliveryEtaMinutes?: number | null;
         };
         /**
          * PublicQuoteIn
@@ -4004,6 +4185,10 @@ export interface components {
             tipAmount: number | string;
             /** Vouchercode */
             voucherCode?: string | null;
+            /** Deliverylat */
+            deliveryLat?: number | null;
+            /** Deliverylng */
+            deliveryLng?: number | null;
         };
         /** PublicQuoteLine */
         PublicQuoteLine: {
@@ -4635,6 +4820,70 @@ export interface components {
         VouchersOut: {
             /** Vouchers */
             vouchers: components["schemas"]["VoucherOut"][];
+        };
+        /**
+         * ZoneIn
+         * @description Send the drawn ``polygon`` (``[lng, lat]`` points) or a ``circle``.
+         */
+        ZoneIn: {
+            /** Name */
+            name: string;
+            /** Polygon */
+            polygon?: number[][] | null;
+            circle?: components["schemas"]["Circle"] | null;
+            /**
+             * Fee
+             * @default 0
+             */
+            fee: number | string;
+            /**
+             * Minorder
+             * @default 0
+             */
+            minOrder: number | string;
+            /**
+             * Etaminutes
+             * @default 40
+             */
+            etaMinutes: number;
+            /** Freeover */
+            freeOver?: number | string | null;
+            /**
+             * Isactive
+             * @default true
+             */
+            isActive: boolean;
+        };
+        /**
+         * ZoneOrder
+         * @description Every active zone of the outlet, in the order they are checked.
+         */
+        ZoneOrder: {
+            /** Ids */
+            ids: number[];
+        };
+        /** ZoneOut */
+        ZoneOut: {
+            /** Id */
+            id: number;
+            /** Outletid */
+            outletId: number;
+            /** Name */
+            name: string;
+            /** Polygon */
+            polygon: number[][];
+            /** Fee */
+            fee: string;
+            /** Minorder */
+            minOrder: string;
+            /** Etaminutes */
+            etaMinutes: number;
+            /** Freeover */
+            freeOver: string | null;
+            /** Sortorder */
+            sortOrder: number;
+            /** Isactive */
+            isActive: boolean;
         };
     };
     responses: never;
@@ -5722,6 +5971,239 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["OutletDetail"];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_zones_outlets__outlet_id__delivery_zones_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_zone_outlets__outlet_id__delivery_zones_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ZoneIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    check_address_outlets__outlet_id__delivery_zones_check_get: {
+        parameters: {
+            query: {
+                latitude: number;
+                longitude: number;
+            };
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CoverageOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reorder_zones_outlets__outlet_id__delivery_zones_order_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ZoneOrder"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_zone_outlets__outlet_id__delivery_zones__zone_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+                zone_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_zone_outlets__outlet_id__delivery_zones__zone_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+                zone_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ZoneIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_zone_outlets__outlet_id__delivery_zones__zone_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                outlet_id: number;
+                zone_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {
@@ -7890,6 +8372,40 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicRecommendations"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_coverage_public_stores__slug__coverage_get: {
+        parameters: {
+            query: {
+                latitude: number;
+                longitude: number;
+            };
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicCoverage"];
                 };
             };
             /** @description Validation Error */

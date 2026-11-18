@@ -6,6 +6,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Added
 
+- TASK-813b: Setup → Entregas (D-152). Per branch: choose a single rate or delivery by zones; draw zones on a Google map (click-to-add polygon, circle helper, draggable points) with fee, minimum, time and free-over amount; list, order (first match wins), switch on or off and remove zones; test an address by search or by clicking the map. Needs `NEXT_PUBLIC_GOOGLE_MAPS_KEY`.
 - TASK-833: Marketing > Promotions screen (list, add and edit pages) with scope by category or product, hours, dates and branches.
 - TASK-501: Marketing > Vouchers screen with tabs, create/edit form, pause/archive, and private vouchers for staff with the issue-private extra.
 - TASK-820 (logo and cover): Configuración → Marca has a "Logo y portada" section to upload, replace or remove the store logo and cover picture (same upload as product photos).

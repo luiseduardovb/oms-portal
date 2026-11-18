@@ -133,7 +133,12 @@ describe("Sucursales list", () => {
       expect(writes(calls)[0]).toMatchObject({
         method: "POST",
         url: "/outlets",
-        data: { name: "Norte", pickupEnabled: true, deliveryFee: 0 },
+        data: {
+          name: "Norte",
+          pickupEnabled: true,
+          deliveryMode: "flat",
+          deliveryFee: 0,
+        },
       }),
     );
     await waitFor(() => expect(push).toHaveBeenCalledWith("/outlets/9"));

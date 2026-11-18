@@ -40,6 +40,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "setupBranding", href: "/setup/branding" },
       { key: "setupLayout", href: "/setup/layout" },
       { key: "outlets", href: "/outlets" },
+      { key: "setupDelivery", href: "/setup/delivery" },
       { key: "setupOrders", href: "/setup/orders" },
       { key: "setupPayments", href: "/setup/payments" },
       { key: "setupLinks", href: "/setup/links" },
