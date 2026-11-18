@@ -17,6 +17,7 @@ export const baseApi = createApi({
     "Outlets",
     "Outlet",
     "Zones",
+    "Customers",
     "Products",
     "Product",
     "Categories",

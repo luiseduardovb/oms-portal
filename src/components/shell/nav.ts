@@ -55,6 +55,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "marketingVouchers", href: "/marketing/vouchers" },
     ],
   },
+  { key: "customers", href: "/customers", area: "analytics" },
   { key: "team", href: "/team", area: "team" },
 ];
 

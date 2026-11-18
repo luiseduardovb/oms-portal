@@ -220,7 +220,8 @@
       "marketing": "Marketing",
       "marketingVouchers": "Vouchers",
       "marketingPromotions": "Promociones",
-      "setupDelivery": "Entregas"
+      "setupDelivery": "Entregas",
+      "customers": "Clientes"
     },
     "visitStore": "Ver tienda"
   },
@@ -1401,6 +1402,67 @@
         "crossing": "Los bordes de la zona se cruzan. Mueve los puntos para que no se crucen.",
         "noCenter": "Haz clic en el mapa para poner el centro del círculo."
       }
+    }
+  },
+  "customers": {
+    "title": "Clientes",
+    "noAccess": "No tienes permiso para ver los clientes.",
+    "loading": "Cargando clientes",
+    "export": "Exportar CSV",
+    "search": "Buscar por nombre, teléfono o correo",
+    "empty": "Aún no hay clientes. Aparecen cuando se completa su primer pedido.",
+    "noMatches": "Ningún cliente coincide con la búsqueda.",
+    "perPage": "Por página",
+    "back": "Volver a clientes",
+    "email": "Correo",
+    "first": "Primer pedido",
+    "recent": "Pedidos recientes",
+    "marketing": {
+      "label": "Ofertas",
+      "all": "Todos",
+      "yes": "Aceptan ofertas"
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "last": "Último pedido",
+      "spent": "Más gastó",
+      "orders": "Más pedidos",
+      "name": "Nombre"
+    },
+    "columns": {
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "orders": "Pedidos",
+      "spent": "Gastado",
+      "last": "Último pedido"
+    },
+    "order": {
+      "number": "Pedido",
+      "date": "Fecha",
+      "outlet": "Sucursal",
+      "status": "Estado",
+      "total": "Total",
+      "statuses": {
+        "pending": "Pendiente",
+        "accepted": "Aceptado",
+        "ready": "Listo",
+        "dispatched": "En camino",
+        "completed": "Completado",
+        "cancelled": "Cancelado"
+      }
+    },
+    "subtitle": "Personas que ya completaron un pedido en tu negocio.",
+    "searchLabel": "Buscar clientes",
+    "frequent": "Frecuente",
+    "acceptsOffers": "Acepta ofertas",
+    "ordersCount": "{count, plural, one {# pedido} other {# pedidos}}",
+    "average": "Ticket promedio",
+    "stats": {
+      "customers": "Clientes",
+      "returning": "Han repetido",
+      "marketing": "Aceptan ofertas",
+      "spent": "Gasto total",
+      "ofThem": "{share} de tus clientes"
     }
   }
 }

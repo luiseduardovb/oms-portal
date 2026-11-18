@@ -2235,6 +2235,302 @@
         ]
       }
     },
+    "/customers": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "List Customers",
+        "description": "Customers with a completed order. ``q`` searches the name, and the\nphone and email for those who may see them.",
+        "operationId": "list_customers_customers_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "itemsPerPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 150,
+              "minimum": 1,
+              "default": 25,
+              "title": "Itemsperpage"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "marketing",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Marketing"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "last",
+                "spent",
+                "orders",
+                "name"
+              ],
+              "type": "string",
+              "default": "last",
+              "title": "Sort"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_CustomerRow_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/customers/summary": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Customers Summary",
+        "description": "Customers, how many came back, how many accept offers, total spent.",
+        "operationId": "customers_summary_customers_summary_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/customers/export": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Export Customers",
+        "description": "The same list as a CSV file.",
+        "operationId": "export_customers_customers_export_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "marketing",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Marketing"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "last",
+                "spent",
+                "orders",
+                "name"
+              ],
+              "type": "string",
+              "default": "last",
+              "title": "Sort"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/customers/{customer_id}": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Get Customer",
+        "operationId": "get_customer_customers__customer_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Customer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
     "/team/members": {
       "get": {
         "tags": [
@@ -8213,6 +8509,127 @@
         "title": "CoverageOut",
         "description": "The answer to \"can this outlet deliver to this point?\"."
       },
+      "CustomerDetail": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "firstOrderAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Firstorderat"
+          },
+          "lastOrderAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Lastorderat"
+          },
+          "ordersCount": {
+            "type": "integer",
+            "title": "Orderscount"
+          },
+          "totalSpent": {
+            "type": "string",
+            "title": "Totalspent"
+          },
+          "marketing": {
+            "type": "boolean",
+            "title": "Marketing"
+          },
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerOrder"
+            },
+            "type": "array",
+            "title": "Orders"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "phone",
+          "email",
+          "firstOrderAt",
+          "lastOrderAt",
+          "ordersCount",
+          "totalSpent",
+          "marketing",
+          "orders"
+        ],
+        "title": "CustomerDetail"
+      },
+      "CustomerOrder": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "title": "Ordernumber"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "title": "Fulfillmenttype"
+          },
+          "outletName": {
+            "type": "string",
+            "title": "Outletname"
+          },
+          "placedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Placedat"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "orderNumber",
+          "status",
+          "fulfillmentType",
+          "outletName",
+          "placedAt",
+          "total"
+        ],
+        "title": "CustomerOrder"
+      },
       "CustomerOut": {
         "properties": {
           "id": {
@@ -8247,6 +8664,103 @@
           "phone"
         ],
         "title": "CustomerOut"
+      },
+      "CustomerRow": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "firstOrderAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Firstorderat"
+          },
+          "lastOrderAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Lastorderat"
+          },
+          "ordersCount": {
+            "type": "integer",
+            "title": "Orderscount"
+          },
+          "totalSpent": {
+            "type": "string",
+            "title": "Totalspent"
+          },
+          "marketing": {
+            "type": "boolean",
+            "title": "Marketing"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "phone",
+          "email",
+          "firstOrderAt",
+          "lastOrderAt",
+          "ordersCount",
+          "totalSpent",
+          "marketing"
+        ],
+        "title": "CustomerRow"
+      },
+      "CustomerSummary": {
+        "properties": {
+          "customers": {
+            "type": "integer",
+            "title": "Customers"
+          },
+          "returning": {
+            "type": "integer",
+            "title": "Returning"
+          },
+          "marketing": {
+            "type": "integer",
+            "title": "Marketing"
+          },
+          "totalSpent": {
+            "type": "string",
+            "title": "Totalspent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "customers",
+          "returning",
+          "marketing",
+          "totalSpent"
+        ],
+        "title": "CustomerSummary"
       },
       "DispatchBody": {
         "properties": {
@@ -10253,6 +10767,17 @@
               }
             ],
             "title": "Vouchercode"
+          },
+          "marketingConsent": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marketingconsent"
           }
         },
         "type": "object",
@@ -12049,6 +12574,42 @@
         "title": "OutletUpdate",
         "description": "Send only what changes. Optional text and the map pin may be null to\nclear. A new outlet starts private; ``isPublic`` is how it goes live."
       },
+      "Paginated_CustomerRow_": {
+        "properties": {
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "itemsPerPage": {
+            "type": "integer",
+            "title": "Itemsperpage"
+          },
+          "totalPages": {
+            "type": "integer",
+            "title": "Totalpages"
+          },
+          "totalCount": {
+            "type": "integer",
+            "title": "Totalcount"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerRow"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "page",
+          "itemsPerPage",
+          "totalPages",
+          "totalCount",
+          "results"
+        ],
+        "title": "Paginated[CustomerRow]"
+      },
       "Paginated_MovementOut_": {
         "properties": {
           "page": {
@@ -13682,6 +14243,17 @@
               }
             ],
             "title": "Vouchercode"
+          },
+          "marketingConsent": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marketingconsent"
           },
           "customerEmail": {
             "anyOf": [

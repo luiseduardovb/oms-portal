@@ -531,6 +531,84 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/customers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Customers
+         * @description Customers with a completed order. ``q`` searches the name, and the
+         *     phone and email for those who may see them.
+         */
+        get: operations["list_customers_customers_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/customers/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Customers Summary
+         * @description Customers, how many came back, how many accept offers, total spent.
+         */
+        get: operations["customers_summary_customers_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/customers/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export Customers
+         * @description The same list as a CSV file.
+         */
+        get: operations["export_customers_customers_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/customers/{customer_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Customer */
+        get: operations["get_customer_customers__customer_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/team/members": {
         parameters: {
             query?: never;
@@ -2265,6 +2343,55 @@ export interface components {
             /** Freeover */
             freeOver?: string | null;
         };
+        /** CustomerDetail */
+        CustomerDetail: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Phone */
+            phone: string | null;
+            /** Email */
+            email: string | null;
+            /**
+             * Firstorderat
+             * Format: date-time
+             */
+            firstOrderAt: string;
+            /**
+             * Lastorderat
+             * Format: date-time
+             */
+            lastOrderAt: string;
+            /** Orderscount */
+            ordersCount: number;
+            /** Totalspent */
+            totalSpent: string;
+            /** Marketing */
+            marketing: boolean;
+            /** Orders */
+            orders: components["schemas"]["CustomerOrder"][];
+        };
+        /** CustomerOrder */
+        CustomerOrder: {
+            /** Id */
+            id: number;
+            /** Ordernumber */
+            orderNumber: number;
+            /** Status */
+            status: string;
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Outletname */
+            outletName: string;
+            /**
+             * Placedat
+             * Format: date-time
+             */
+            placedAt: string;
+            /** Total */
+            total: string;
+        };
         /** CustomerOut */
         CustomerOut: {
             /** Id */
@@ -2275,6 +2402,44 @@ export interface components {
             name: string;
             /** Phone */
             phone: string | null;
+        };
+        /** CustomerRow */
+        CustomerRow: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Phone */
+            phone: string | null;
+            /** Email */
+            email: string | null;
+            /**
+             * Firstorderat
+             * Format: date-time
+             */
+            firstOrderAt: string;
+            /**
+             * Lastorderat
+             * Format: date-time
+             */
+            lastOrderAt: string;
+            /** Orderscount */
+            ordersCount: number;
+            /** Totalspent */
+            totalSpent: string;
+            /** Marketing */
+            marketing: boolean;
+        };
+        /** CustomerSummary */
+        CustomerSummary: {
+            /** Customers */
+            customers: number;
+            /** Returning */
+            returning: number;
+            /** Marketing */
+            marketing: number;
+            /** Totalspent */
+            totalSpent: string;
         };
         /** DispatchBody */
         DispatchBody: {
@@ -2936,6 +3101,8 @@ export interface components {
             tipAmount: number | string;
             /** Vouchercode */
             voucherCode?: string | null;
+            /** Marketingconsent */
+            marketingConsent?: boolean | null;
         };
         /** OrderLineIn */
         OrderLineIn: {
@@ -3445,6 +3612,19 @@ export interface components {
             /** Deliveryetaminutes */
             deliveryEtaMinutes?: number | null;
         };
+        /** Paginated[CustomerRow] */
+        Paginated_CustomerRow_: {
+            /** Page */
+            page: number;
+            /** Itemsperpage */
+            itemsPerPage: number;
+            /** Totalpages */
+            totalPages: number;
+            /** Totalcount */
+            totalCount: number;
+            /** Results */
+            results: components["schemas"]["CustomerRow"][];
+        };
         /** Paginated[MovementOut] */
         Paginated_MovementOut_: {
             /** Page */
@@ -3953,6 +4133,8 @@ export interface components {
             tipAmount: number | string;
             /** Vouchercode */
             voucherCode?: string | null;
+            /** Marketingconsent */
+            marketingConsent?: boolean | null;
             /** Customeremail */
             customerEmail?: string | null;
         };
@@ -6258,6 +6440,125 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_customers_customers_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                itemsPerPage?: number;
+                q?: string | null;
+                marketing?: boolean | null;
+                sort?: "last" | "spent" | "orders" | "name";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Paginated_CustomerRow_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    customers_summary_customers_summary_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerSummary"];
+                };
+            };
+        };
+    };
+    export_customers_customers_export_get: {
+        parameters: {
+            query?: {
+                q?: string | null;
+                marketing?: boolean | null;
+                sort?: "last" | "spent" | "orders" | "name";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_customer_customers__customer_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                customer_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerDetail"];
+                };
             };
             /** @description Validation Error */
             422: {
