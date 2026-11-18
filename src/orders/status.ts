@@ -70,6 +70,14 @@ export function whatsappLink(phone: string): string {
 }
 
 /** Opens the address in Google Maps (search by text; no coordinates yet). */
-export function mapLink(address: string): string {
+export function mapLink(
+  address: string,
+  lat?: number | null,
+  lng?: number | null,
+): string {
+  // The customer's pin is exact; the typed address is a guess.
+  if (lat != null && lng != null) {
+    return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  }
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 }

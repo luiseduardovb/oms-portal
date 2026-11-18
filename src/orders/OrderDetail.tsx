@@ -25,6 +25,8 @@ import {
   useOrderQuery,
   type OrderDetail as Detail,
 } from "@/orders/ordersApi";
+import { DeliveryMap } from "@/delivery/DeliveryMap";
+import { MAPS_KEY } from "@/delivery/googleMaps";
 import { canCancel, mapLink, nextAction, whatsappLink } from "@/orders/status";
 
 function Money({ label, value, cur, bold }: MoneyProps) {
@@ -308,12 +310,28 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
                 {order.deliveryReference}
               </Typography>
             )}
+            {MAPS_KEY &&
+            order.deliveryLat != null &&
+            order.deliveryLng != null ? (
+              <Box sx={{ mt: 2 }}>
+                <DeliveryMap
+                  height={220}
+                  zoom={16}
+                  center={{ lat: order.deliveryLat, lng: order.deliveryLng }}
+                  pin={{ lat: order.deliveryLat, lng: order.deliveryLng }}
+                />
+              </Box>
+            ) : null}
             <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
               <Button
                 variant="outlined"
                 color="inherit"
                 component="a"
-                href={mapLink(order.deliveryAddressText)}
+                href={mapLink(
+                  order.deliveryAddressText,
+                  order.deliveryLat,
+                  order.deliveryLng,
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ flex: 1 }}

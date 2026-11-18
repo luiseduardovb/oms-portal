@@ -43,6 +43,9 @@ interface Props {
   dispatch?: (action: ShapeAction) => void;
   /** A point being tested, and what to do when the map is clicked to test. */
   probe?: LatLng | null;
+  /** Where an order goes; the map opens close on it. */
+  pin?: LatLng | null;
+  zoom?: number;
   onProbe?: (point: LatLng) => void;
   height?: number | string;
 }
@@ -82,6 +85,8 @@ export function DeliveryMap({
   shape,
   dispatch,
   probe,
+  pin,
+  zoom = 13,
   onProbe,
   height = 420,
 }: Props) {
@@ -113,7 +118,7 @@ export function DeliveryMap({
         )) as google.maps.MapsLibrary;
         map.current = new Map(host.current, {
           center: center ?? DEFAULT_CENTER,
-          zoom: 13,
+          zoom,
           mapId: MAP_ID,
           clickableIcons: false,
           streetViewControl: false,
@@ -198,6 +203,16 @@ export function DeliveryMap({
       );
     }
 
+    if (pin) {
+      keepMarker(
+        new google.maps.marker.AdvancedMarkerElement({
+          map: m,
+          position: pin,
+          title: t("pin"),
+        }),
+      );
+    }
+
     if (probe) {
       keepMarker(
         new google.maps.marker.AdvancedMarkerElement({
@@ -269,7 +284,19 @@ export function DeliveryMap({
         });
       }
     }
-  }, [ready, zones, outlet, probe, shape, dispatch, primary, muted, accent, t]);
+  }, [
+    ready,
+    zones,
+    outlet,
+    probe,
+    pin,
+    shape,
+    dispatch,
+    primary,
+    muted,
+    accent,
+    t,
+  ]);
 
   if (failure) {
     return (

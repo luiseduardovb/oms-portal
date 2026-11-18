@@ -1351,6 +1351,7 @@
     "map": {
       "outlet": "Sucursal",
       "probe": "Punto a probar",
+      "pin": "Entrega",
       "closeShape": "Cerrar la zona",
       "loading": "Cargando el mapa",
       "failure": {

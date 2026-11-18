@@ -6404,6 +6404,59 @@
         }
       }
     },
+    "/public/stores/{slug}/outlets/{outlet_id}/delivery-zones": {
+      "get": {
+        "tags": [
+          "public"
+        ],
+        "summary": "Get Delivery Zones",
+        "description": "The zones a branch delivers in, for the customer's map.",
+        "operationId": "get_delivery_zones_public_stores__slug__outlets__outlet_id__delivery_zones_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "outlet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Outlet Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicZones"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/public/stores/{slug}/outlets/{outlet_id}/vouchers": {
       "get": {
         "tags": [
@@ -10621,6 +10674,39 @@
               }
             ],
             "title": "Deliveryreference"
+          },
+          "deliveryLat": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverylat"
+          },
+          "deliveryLng": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliverylng"
+          },
+          "deliveryZoneName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deliveryzonename"
           },
           "currencyCode": {
             "type": "string",
@@ -15148,6 +15234,84 @@
           "closesAt"
         ],
         "title": "PublicWeekday"
+      },
+      "PublicZone": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "polygon": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Polygon"
+          },
+          "fee": {
+            "type": "string",
+            "title": "Fee"
+          },
+          "minOrder": {
+            "type": "string",
+            "title": "Minorder"
+          },
+          "etaMinutes": {
+            "type": "integer",
+            "title": "Etaminutes"
+          },
+          "freeOver": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freeover"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "polygon",
+          "fee",
+          "minOrder",
+          "etaMinutes",
+          "freeOver"
+        ],
+        "title": "PublicZone"
+      },
+      "PublicZones": {
+        "properties": {
+          "deliveryMode": {
+            "type": "string",
+            "title": "Deliverymode"
+          },
+          "zones": {
+            "items": {
+              "$ref": "#/components/schemas/PublicZone"
+            },
+            "type": "array",
+            "title": "Zones"
+          }
+        },
+        "type": "object",
+        "required": [
+          "deliveryMode",
+          "zones"
+        ],
+        "title": "PublicZones",
+        "description": "Where a branch delivers, to draw on the customer's map. A branch on a\nflat fee has no zones: it delivers everywhere."
       },
       "PublishBody": {
         "properties": {

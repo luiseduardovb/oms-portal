@@ -1653,6 +1653,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}/outlets/{outlet_id}/delivery-zones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Delivery Zones
+         * @description The zones a branch delivers in, for the customer's map.
+         */
+        get: operations["get_delivery_zones_public_stores__slug__outlets__outlet_id__delivery_zones_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public/stores/{slug}/outlets/{outlet_id}/vouchers": {
         parameters: {
             query?: never;
@@ -3040,6 +3060,12 @@ export interface components {
             deliveryAddressText: string | null;
             /** Deliveryreference */
             deliveryReference: string | null;
+            /** Deliverylat */
+            deliveryLat?: number | null;
+            /** Deliverylng */
+            deliveryLng?: number | null;
+            /** Deliveryzonename */
+            deliveryZoneName?: string | null;
             /** Currencycode */
             currencyCode: string;
             /** Taxlabel */
@@ -4404,6 +4430,34 @@ export interface components {
              * Format: time
              */
             closesAt: string;
+        };
+        /** PublicZone */
+        PublicZone: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Polygon */
+            polygon: number[][];
+            /** Fee */
+            fee: string;
+            /** Minorder */
+            minOrder: string;
+            /** Etaminutes */
+            etaMinutes: number;
+            /** Freeover */
+            freeOver: string | null;
+        };
+        /**
+         * PublicZones
+         * @description Where a branch delivers, to draw on the customer's map. A branch on a
+         *     flat fee has no zones: it delivers everywhere.
+         */
+        PublicZones: {
+            /** Deliverymode */
+            deliveryMode: string;
+            /** Zones */
+            zones: components["schemas"]["PublicZone"][];
         };
         /** PublishBody */
         PublishBody: {
@@ -8406,6 +8460,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicCoverage"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_delivery_zones_public_stores__slug__outlets__outlet_id__delivery_zones_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                outlet_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicZones"];
                 };
             };
             /** @description Validation Error */

@@ -191,6 +191,13 @@ describe("order helpers", () => {
     );
   });
 
+  it("links to the customer's pin when the order has one", () => {
+    expect(mapLink("Col. Kennedy, casa 4", 14.0723, -87.1921)).toBe(
+      "https://www.google.com/maps/search/?api=1&query=14.0723,-87.1921",
+    );
+    expect(mapLink("Col. Kennedy, casa 4", null, null)).toContain("Col.%20");
+  });
+
   it("sends repeated statuses the way the API expects", () => {
     const params = listParams({
       page: 1,
