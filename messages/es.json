@@ -177,6 +177,10 @@
       "zone_not_found": "No encontramos esa zona.",
       "zone_name_taken": "Otra zona de esta sucursal ya usa ese nombre.",
       "order_mismatch": "El orden debe incluir todas las zonas de la sucursal, una vez cada una."
+    },
+    "billing": {
+      "limit_reached": "Tu plan no permite agregar más. Mejora tu plan en Facturación.",
+      "not_included": "Tu plan no incluye esta función. Mejora tu plan en Facturación."
     }
   },
   "login": {
