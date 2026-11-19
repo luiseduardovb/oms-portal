@@ -4169,6 +4169,1206 @@
         ]
       }
     },
+    "/billing": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "My Billing",
+        "operationId": "my_billing_billing_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyBilling"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "x-required-permission": [
+          {
+            "area": "billing",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/platform/auth/login": {
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Login",
+        "operationId": "login_platform_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminSession"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/me": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Me",
+        "operationId": "me_platform_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMe"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/platform/catalogue": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Catalogue",
+        "operationId": "catalogue_platform_catalogue_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catalogue"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/platform/merchants": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Merchants",
+        "description": "Stores on the platform, for choosing who sees a private plan.",
+        "operationId": "merchants_platform_merchants_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 80
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MerchantInfo"
+                  },
+                  "title": "Response Merchants Platform Merchants Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/plans": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "List Plans",
+        "operationId": "list_plans_platform_plans_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^(draft|private|public|deactivated)$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlanSummary"
+                  },
+                  "title": "Response List Plans Platform Plans Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Create Plan",
+        "operationId": "create_plan_platform_plans_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/plans/{plan_id}": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Get Plan",
+        "operationId": "get_plan_platform_plans__plan_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Update Plan",
+        "operationId": "update_plan_platform_plans__plan_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/plans/{plan_id}/duplicate": {
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Duplicate Plan",
+        "operationId": "duplicate_plan_platform_plans__plan_id__duplicate_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/addons": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "List Addons",
+        "operationId": "list_addons_platform_addons_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^(draft|private|public|deactivated)$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddonSummary"
+                  },
+                  "title": "Response List Addons Platform Addons Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Create Addon",
+        "operationId": "create_addon_platform_addons_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddonIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddonOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/addons/{addon_id}": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Get Addon",
+        "operationId": "get_addon_platform_addons__addon_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "addon_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Addon Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddonOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Update Addon",
+        "operationId": "update_addon_platform_addons__addon_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "addon_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Addon Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddonIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddonOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/addons/{addon_id}/duplicate": {
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Duplicate Addon",
+        "operationId": "duplicate_addon_platform_addons__addon_id__duplicate_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "addon_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Addon Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddonOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Stores",
+        "description": "Every store with its plan and when it is next due.",
+        "operationId": "stores_platform_stores_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 80
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionRow"
+                  },
+                  "title": "Response Stores Platform Stores Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/billing": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Store Billing",
+        "operationId": "store_billing_platform_stores__merchant_id__billing_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/subscription": {
+      "put": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Assign Plan",
+        "operationId": "assign_plan_platform_stores__merchant_id__subscription_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/addons/{addon_id}": {
+      "put": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Set Addon",
+        "operationId": "set_addon_platform_stores__merchant_id__addons__addon_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "addon_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Addon Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddonAssignIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Remove Addon",
+        "operationId": "remove_addon_platform_stores__merchant_id__addons__addon_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "addon_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Addon Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/invoices": {
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Create Invoice",
+        "operationId": "create_invoice_platform_stores__merchant_id__invoices_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/invoices/{invoice_id}/pay": {
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Pay Invoice",
+        "operationId": "pay_invoice_platform_stores__merchant_id__invoices__invoice_id__pay_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Invoice Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/invoices/{invoice_id}/void": {
+      "post": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Void Invoice",
+        "operationId": "void_invoice_platform_stores__merchant_id__invoices__invoice_id__void_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Invoice Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreBilling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/stores/{merchant_id}/offers": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Store Offers",
+        "description": "The plans and add-ons this store can be given, with their prices.",
+        "operationId": "store_offers_platform_stores__merchant_id__offers_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Merchant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreOffers"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/team/members": {
       "get": {
         "tags": [
@@ -9388,6 +10588,275 @@
         ],
         "title": "AcceptedInvitation"
       },
+      "AddonAssignIn": {
+        "properties": {
+          "cycle": {
+            "type": "string",
+            "enum": [
+              "monthly",
+              "quarterly",
+              "biannual",
+              "annual",
+              "lifetime"
+            ],
+            "title": "Cycle"
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currencycode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cycle",
+          "currencyCode"
+        ],
+        "title": "AddonAssignIn"
+      },
+      "AddonIn": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "private",
+              "public",
+              "deactivated"
+            ],
+            "title": "Status",
+            "default": "draft"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureIn"
+            },
+            "type": "array",
+            "title": "Features",
+            "default": []
+          },
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/PriceIn"
+            },
+            "type": "array",
+            "title": "Prices",
+            "default": []
+          },
+          "merchantIds": {
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "type": "array",
+            "title": "Merchantids",
+            "default": []
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 2,
+            "pattern": "^[a-z0-9][a-z0-9-]*$",
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "code"
+        ],
+        "title": "AddonIn"
+      },
+      "AddonOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureOut"
+            },
+            "type": "array",
+            "title": "Features"
+          },
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/PriceOut"
+            },
+            "type": "array",
+            "title": "Prices"
+          },
+          "merchantIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Merchantids"
+          },
+          "merchants": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantInfo"
+            },
+            "type": "array",
+            "title": "Merchants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "title",
+          "caption",
+          "description",
+          "status",
+          "createdAt",
+          "updatedAt",
+          "features",
+          "prices",
+          "merchantIds",
+          "merchants"
+        ],
+        "title": "AddonOut"
+      },
+      "AddonSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "title",
+          "caption",
+          "description",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "AddonSummary"
+      },
       "AddressIn": {
         "properties": {
           "addressText": {
@@ -9559,6 +11028,79 @@
         "title": "AdjustBody",
         "description": "Add or remove units of a tracked product."
       },
+      "AdminLogin": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "AdminLogin"
+      },
+      "AdminMe": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "email"
+        ],
+        "title": "AdminMe"
+      },
+      "AdminSession": {
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "title": "Expiresin"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "accessToken",
+          "expiresIn",
+          "name",
+          "email"
+        ],
+        "title": "AdminSession"
+      },
       "AlertContact": {
         "properties": {
           "phone": {
@@ -9708,6 +11250,50 @@
           "lng"
         ],
         "title": "AreaRow"
+      },
+      "AssignIn": {
+        "properties": {
+          "planId": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Planid"
+          },
+          "cycle": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "monthly",
+                  "quarterly",
+                  "biannual",
+                  "annual",
+                  "lifetime"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cycle"
+          },
+          "currencyCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currencycode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "planId"
+        ],
+        "title": "AssignIn"
       },
       "AvailabilityBody": {
         "properties": {
@@ -10201,6 +11787,38 @@
           "reasonCode"
         ],
         "title": "CancelBody"
+      },
+      "Catalogue": {
+        "properties": {
+          "modules": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleInfo"
+            },
+            "type": "array",
+            "title": "Modules"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureInfo"
+            },
+            "type": "array",
+            "title": "Features"
+          },
+          "cycles": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Cycles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "modules",
+          "features",
+          "cycles"
+        ],
+        "title": "Catalogue"
       },
       "CategoryCreate": {
         "properties": {
@@ -11087,6 +12705,85 @@
         ],
         "title": "ExportJobOut"
       },
+      "FeatureIn": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000000,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key"
+        ],
+        "title": "FeatureIn"
+      },
+      "FeatureInfo": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "module": {
+            "type": "string",
+            "title": "Module"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "module",
+          "label",
+          "kind"
+        ],
+        "title": "FeatureInfo"
+      },
+      "FeatureOut": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "quantity"
+        ],
+        "title": "FeatureOut"
+      },
       "FeedbackIn": {
         "properties": {
           "rating": {
@@ -11773,6 +13470,183 @@
         ],
         "title": "InvitationPreview"
       },
+      "InvoiceIn": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Amount"
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currencycode"
+          },
+          "dueOn": {
+            "type": "string",
+            "format": "date",
+            "title": "Dueon"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "periodFrom": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodfrom"
+          },
+          "periodTo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodto"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount",
+          "currencyCode",
+          "dueOn"
+        ],
+        "title": "InvoiceIn"
+      },
+      "InvoiceOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "dueOn": {
+            "type": "string",
+            "format": "date",
+            "title": "Dueon"
+          },
+          "periodFrom": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodfrom"
+          },
+          "periodTo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodto"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "paidOn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paidon"
+          },
+          "paymentNote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentnote"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "status",
+          "currencyCode",
+          "amount",
+          "dueOn",
+          "periodFrom",
+          "periodTo",
+          "description",
+          "paidOn",
+          "paymentNote",
+          "createdAt"
+        ],
+        "title": "InvoiceOut"
+      },
       "LegalData": {
         "properties": {
           "legalName": {
@@ -12333,6 +14207,34 @@
         ],
         "title": "MembershipOut"
       },
+      "MerchantInfo": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "status"
+        ],
+        "title": "MerchantInfo"
+      },
       "MerchantOut": {
         "properties": {
           "id": {
@@ -12365,6 +14267,24 @@
           "currencyCode"
         ],
         "title": "MerchantOut"
+      },
+      "ModuleInfo": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label"
+        ],
+        "title": "ModuleInfo"
       },
       "MoneyKpi": {
         "properties": {
@@ -12495,6 +14415,114 @@
         ],
         "title": "MovementOut"
       },
+      "MyBilling": {
+        "properties": {
+          "subscription": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SubscriptionOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MyPlan"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "addons": {
+            "items": {
+              "$ref": "#/components/schemas/SubscribedAddon"
+            },
+            "type": "array",
+            "title": "Addons"
+          },
+          "invoices": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceOut"
+            },
+            "type": "array",
+            "title": "Invoices"
+          },
+          "paymentLink": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentlink"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subscription",
+          "plan",
+          "addons",
+          "invoices",
+          "paymentLink"
+        ],
+        "title": "MyBilling"
+      },
+      "MyPlan": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "hardLimit": {
+            "type": "boolean",
+            "title": "Hardlimit"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/PlanFeature"
+            },
+            "type": "array",
+            "title": "Features"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "caption",
+          "description",
+          "hardLimit",
+          "features"
+        ],
+        "title": "MyPlan"
+      },
       "NameUpdate": {
         "properties": {
           "name": {
@@ -12510,6 +14538,55 @@
           "name"
         ],
         "title": "NameUpdate"
+      },
+      "OfferChoice": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "trialDays": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trialdays"
+          },
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/PriceOut"
+            },
+            "type": "array",
+            "title": "Prices"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "prices"
+        ],
+        "title": "OfferChoice",
+        "description": "A plan or add-on an operator may give this store, with its prices."
       },
       "OpeningInterval": {
         "properties": {
@@ -15184,6 +17261,36 @@
         ],
         "title": "Paginated[ReportOrder]"
       },
+      "PayIn": {
+        "properties": {
+          "paidOn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paidon"
+          },
+          "paymentNote": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentnote"
+          }
+        },
+        "type": "object",
+        "title": "PayIn"
+      },
       "PaymentMethods": {
         "properties": {
           "cashOnDelivery": {
@@ -15221,6 +17328,446 @@
           "dateTo"
         ],
         "title": "Period"
+      },
+      "PlanFeature": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "module": {
+            "type": "string",
+            "title": "Module"
+          },
+          "moduleLabel": {
+            "type": "string",
+            "title": "Modulelabel"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "module",
+          "moduleLabel",
+          "kind",
+          "quantity"
+        ],
+        "title": "PlanFeature"
+      },
+      "PlanIn": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "private",
+              "public",
+              "deactivated"
+            ],
+            "title": "Status",
+            "default": "draft"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureIn"
+            },
+            "type": "array",
+            "title": "Features",
+            "default": []
+          },
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/PriceIn"
+            },
+            "type": "array",
+            "title": "Prices",
+            "default": []
+          },
+          "merchantIds": {
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "type": "array",
+            "title": "Merchantids",
+            "default": []
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 2,
+            "pattern": "^[a-z0-9][a-z0-9-]*$",
+            "title": "Code"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "free_trial",
+              "paid"
+            ],
+            "title": "Kind",
+            "default": "paid"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "title": "Isdefault",
+            "default": false
+          },
+          "trialDays": {
+            "type": "integer",
+            "maximum": 365,
+            "minimum": 0,
+            "title": "Trialdays",
+            "default": 0
+          },
+          "hardLimit": {
+            "type": "boolean",
+            "title": "Hardlimit",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "code"
+        ],
+        "title": "PlanIn"
+      },
+      "PlanOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "title": "Isdefault"
+          },
+          "trialDays": {
+            "type": "integer",
+            "title": "Trialdays"
+          },
+          "hardLimit": {
+            "type": "boolean",
+            "title": "Hardlimit"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureOut"
+            },
+            "type": "array",
+            "title": "Features"
+          },
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/PriceOut"
+            },
+            "type": "array",
+            "title": "Prices"
+          },
+          "merchantIds": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Merchantids"
+          },
+          "merchants": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantInfo"
+            },
+            "type": "array",
+            "title": "Merchants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "title",
+          "caption",
+          "description",
+          "status",
+          "createdAt",
+          "updatedAt",
+          "kind",
+          "isDefault",
+          "trialDays",
+          "hardLimit",
+          "features",
+          "prices",
+          "merchantIds",
+          "merchants"
+        ],
+        "title": "PlanOut"
+      },
+      "PlanSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "caption": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caption"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "title": "Isdefault"
+          },
+          "trialDays": {
+            "type": "integer",
+            "title": "Trialdays"
+          },
+          "hardLimit": {
+            "type": "boolean",
+            "title": "Hardlimit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "title",
+          "caption",
+          "description",
+          "status",
+          "createdAt",
+          "updatedAt",
+          "kind",
+          "isDefault",
+          "trialDays",
+          "hardLimit"
+        ],
+        "title": "PlanSummary"
+      },
+      "PriceIn": {
+        "properties": {
+          "cycle": {
+            "type": "string",
+            "enum": [
+              "monthly",
+              "quarterly",
+              "biannual",
+              "annual",
+              "lifetime"
+            ],
+            "title": "Cycle"
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currencycode"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Amount"
+          },
+          "paymentLink": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentlink"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cycle",
+          "currencyCode",
+          "amount"
+        ],
+        "title": "PriceIn"
+      },
+      "PriceOut": {
+        "properties": {
+          "cycle": {
+            "type": "string",
+            "title": "Cycle"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "paymentLink": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentlink"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cycle",
+          "currencyCode",
+          "amount",
+          "paymentLink"
+        ],
+        "title": "PriceOut"
       },
       "ProductCreate": {
         "properties": {
@@ -19312,6 +21859,69 @@
         "title": "StockBody",
         "description": "The whole stock state of a product at one outlet. ``quantity`` is\nrequired for ``tracked`` and not allowed otherwise. Send ``version`` (as\nlast read) to be refused when someone else changed it meanwhile."
       },
+      "StoreBilling": {
+        "properties": {
+          "merchant": {
+            "$ref": "#/components/schemas/MerchantInfo"
+          },
+          "subscription": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SubscriptionOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "addons": {
+            "items": {
+              "$ref": "#/components/schemas/SubscribedAddon"
+            },
+            "type": "array",
+            "title": "Addons"
+          },
+          "invoices": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceOut"
+            },
+            "type": "array",
+            "title": "Invoices"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchant",
+          "subscription",
+          "addons",
+          "invoices"
+        ],
+        "title": "StoreBilling"
+      },
+      "StoreOffers": {
+        "properties": {
+          "plans": {
+            "items": {
+              "$ref": "#/components/schemas/OfferChoice"
+            },
+            "type": "array",
+            "title": "Plans"
+          },
+          "addons": {
+            "items": {
+              "$ref": "#/components/schemas/OfferChoice"
+            },
+            "type": "array",
+            "title": "Addons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "plans",
+          "addons"
+        ],
+        "title": "StoreOffers"
+      },
       "StoreSetup": {
         "properties": {
           "name": {
@@ -19384,6 +21994,227 @@
           "cover"
         ],
         "title": "StoreSetup"
+      },
+      "SubscribedAddon": {
+        "properties": {
+          "addonId": {
+            "type": "integer",
+            "title": "Addonid"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "cycle": {
+            "type": "string",
+            "title": "Cycle"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "addonId",
+          "title",
+          "cycle",
+          "currencyCode",
+          "amount"
+        ],
+        "title": "SubscribedAddon"
+      },
+      "SubscriptionOut": {
+        "properties": {
+          "planId": {
+            "type": "integer",
+            "title": "Planid"
+          },
+          "planTitle": {
+            "type": "string",
+            "title": "Plantitle"
+          },
+          "planKind": {
+            "type": "string",
+            "title": "Plankind"
+          },
+          "cycle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cycle"
+          },
+          "currencyCode": {
+            "type": "string",
+            "title": "Currencycode"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "startedOn": {
+            "type": "string",
+            "format": "date",
+            "title": "Startedon"
+          },
+          "dueOn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dueon"
+          }
+        },
+        "type": "object",
+        "required": [
+          "planId",
+          "planTitle",
+          "planKind",
+          "cycle",
+          "currencyCode",
+          "amount",
+          "status",
+          "startedOn",
+          "dueOn"
+        ],
+        "title": "SubscriptionOut"
+      },
+      "SubscriptionRow": {
+        "properties": {
+          "merchantId": {
+            "type": "integer",
+            "title": "Merchantid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "merchantStatus": {
+            "type": "string",
+            "title": "Merchantstatus"
+          },
+          "planId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planid"
+          },
+          "planTitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plantitle"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "cycle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cycle"
+          },
+          "dueOn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dueon"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "currencyCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currencycode"
+          },
+          "openInvoices": {
+            "type": "integer",
+            "title": "Openinvoices"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchantId",
+          "name",
+          "slug",
+          "merchantStatus",
+          "planId",
+          "planTitle",
+          "status",
+          "cycle",
+          "dueOn",
+          "amount",
+          "currencyCode",
+          "openInvoices"
+        ],
+        "title": "SubscriptionRow",
+        "description": "One line of the operator's list of stores."
       },
       "SwitchMerchantRequest": {
         "properties": {

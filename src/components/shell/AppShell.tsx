@@ -7,6 +7,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import GridViewIcon from "@mui/icons-material/GridView";
 import GroupIcon from "@mui/icons-material/Group";
 import MenuIcon from "@mui/icons-material/Menu";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
@@ -43,6 +44,7 @@ const ICONS: Record<string, ReactNode> = {
   catalog: <GridViewIcon />,
   analytics: <BarChartIcon />,
   team: <GroupIcon />,
+  billing: <CreditCardIcon />,
   marketing: <CampaignIcon />,
   setup: <SettingsIcon />,
 };

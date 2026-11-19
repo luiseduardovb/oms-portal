@@ -228,7 +228,8 @@
       "analyticsReport": "Reporte de ventas",
       "analyticsBest": "Más vendidos",
       "analyticsGeo": "Geografía",
-      "analyticsFeedback": "Comentarios"
+      "analyticsFeedback": "Comentarios",
+      "billing": "Facturación"
     },
     "visitStore": "Ver tienda"
   },
@@ -1600,6 +1601,61 @@
       "noComment": "Sin comentario escrito.",
       "order": "Pedido #{number}",
       "general": "Sobre la tienda"
+    }
+  },
+  "billing": {
+    "section": "Cuenta",
+    "title": "Facturación y plan",
+    "noAccess": "Solo los dueños pueden ver la facturación.",
+    "notice": {
+      "suspended": "Tu tienda está fuera de línea por falta de pago. Paga tu factura abierta y vuelve a estar en línea; si ya pagaste, escríbenos.",
+      "pastDue": "Tu pago está vencido. Si no se paga, tu tienda saldrá de línea el {date}.",
+      "trial": "{count, plural, =0 {Tu prueba gratis termina hoy.} one {Te queda 1 día de prueba gratis.} other {Te quedan # días de prueba gratis.}}",
+      "renews": "{count, plural, =0 {Tu plan vence hoy.} one {Tu plan vence mañana.} other {Tu plan vence en # días.}}"
+    },
+    "status": {
+      "trialing": "En prueba",
+      "active": "Al día",
+      "past_due": "Vencida",
+      "suspended": "Suspendida"
+    },
+    "cycles": {
+      "monthly": "Mensual",
+      "quarterly": "Trimestral",
+      "biannual": "Semestral",
+      "annual": "Anual",
+      "lifetime": "De por vida"
+    },
+    "plan": {
+      "title": "Tu plan",
+      "free": "Gratis",
+      "due": "Vence el {date}",
+      "noDue": "Sin vencimiento",
+      "none": "Tu comercio aún no tiene un plan. Escríbenos y te asignamos uno."
+    },
+    "includes": "Qué incluye",
+    "unlimited": "Ilimitado",
+    "upTo": "Hasta {count}",
+    "hardLimit": "Los límites de tu plan se aplican: para superarlos, cambia de plan o agrega un add-on.",
+    "addons": "Add-ons",
+    "invoices": {
+      "title": "Facturas",
+      "none": "Aún no tienes facturas.",
+      "pay": "Pagar",
+      "help": "Cuando pagues, avísanos y marcaremos la factura como pagada. Tu tienda vuelve a estar en línea al instante.",
+      "columns": {
+        "number": "Número",
+        "description": "Concepto",
+        "period": "Periodo",
+        "due": "Vence",
+        "amount": "Monto",
+        "status": "Estado"
+      },
+      "status": {
+        "open": "Abierta",
+        "paid": "Pagada",
+        "void": "Anulada"
+      }
     }
   }
 }

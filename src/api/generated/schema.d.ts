@@ -886,6 +886,343 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/billing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Billing */
+        get: operations["my_billing_billing_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Login */
+        post: operations["login_platform_auth_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Me */
+        get: operations["me_platform_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/catalogue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Catalogue */
+        get: operations["catalogue_platform_catalogue_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/merchants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Merchants
+         * @description Stores on the platform, for choosing who sees a private plan.
+         */
+        get: operations["merchants_platform_merchants_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Plans */
+        get: operations["list_plans_platform_plans_get"];
+        put?: never;
+        /** Create Plan */
+        post: operations["create_plan_platform_plans_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/plans/{plan_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Plan */
+        get: operations["get_plan_platform_plans__plan_id__get"];
+        /** Update Plan */
+        put: operations["update_plan_platform_plans__plan_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/plans/{plan_id}/duplicate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Duplicate Plan */
+        post: operations["duplicate_plan_platform_plans__plan_id__duplicate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/addons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Addons */
+        get: operations["list_addons_platform_addons_get"];
+        put?: never;
+        /** Create Addon */
+        post: operations["create_addon_platform_addons_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/addons/{addon_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Addon */
+        get: operations["get_addon_platform_addons__addon_id__get"];
+        /** Update Addon */
+        put: operations["update_addon_platform_addons__addon_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/addons/{addon_id}/duplicate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Duplicate Addon */
+        post: operations["duplicate_addon_platform_addons__addon_id__duplicate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stores
+         * @description Every store with its plan and when it is next due.
+         */
+        get: operations["stores_platform_stores_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/billing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Store Billing */
+        get: operations["store_billing_platform_stores__merchant_id__billing_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/subscription": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Assign Plan */
+        put: operations["assign_plan_platform_stores__merchant_id__subscription_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/addons/{addon_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set Addon */
+        put: operations["set_addon_platform_stores__merchant_id__addons__addon_id__put"];
+        post?: never;
+        /** Remove Addon */
+        delete: operations["remove_addon_platform_stores__merchant_id__addons__addon_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Invoice */
+        post: operations["create_invoice_platform_stores__merchant_id__invoices_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/invoices/{invoice_id}/pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Pay Invoice */
+        post: operations["pay_invoice_platform_stores__merchant_id__invoices__invoice_id__pay_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/invoices/{invoice_id}/void": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Void Invoice */
+        post: operations["void_invoice_platform_stores__merchant_id__invoices__invoice_id__void_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/stores/{merchant_id}/offers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Store Offers
+         * @description The plans and add-ons this store can be given, with their prices.
+         */
+        get: operations["store_offers_platform_stores__merchant_id__offers_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/team/members": {
         parameters: {
             query?: never;
@@ -2392,6 +2729,106 @@ export interface components {
             /** Usercreated */
             userCreated: boolean;
         };
+        /** AddonAssignIn */
+        AddonAssignIn: {
+            /**
+             * Cycle
+             * @enum {string}
+             */
+            cycle: "monthly" | "quarterly" | "biannual" | "annual" | "lifetime";
+            /** Currencycode */
+            currencyCode: string;
+        };
+        /** AddonIn */
+        AddonIn: {
+            /** Title */
+            title: string;
+            /** Caption */
+            caption?: string | null;
+            /** Description */
+            description?: string | null;
+            /**
+             * Status
+             * @default draft
+             * @enum {string}
+             */
+            status: "draft" | "private" | "public" | "deactivated";
+            /**
+             * Features
+             * @default []
+             */
+            features: components["schemas"]["FeatureIn"][];
+            /**
+             * Prices
+             * @default []
+             */
+            prices: components["schemas"]["PriceIn"][];
+            /**
+             * Merchantids
+             * @default []
+             */
+            merchantIds: number[];
+            /** Code */
+            code: string;
+        };
+        /** AddonOut */
+        AddonOut: {
+            /** Id */
+            id: number;
+            /** Code */
+            code: string;
+            /** Title */
+            title: string;
+            /** Caption */
+            caption: string | null;
+            /** Description */
+            description: string | null;
+            /** Status */
+            status: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /**
+             * Updatedat
+             * Format: date-time
+             */
+            updatedAt: string;
+            /** Features */
+            features: components["schemas"]["FeatureOut"][];
+            /** Prices */
+            prices: components["schemas"]["PriceOut"][];
+            /** Merchantids */
+            merchantIds: number[];
+            /** Merchants */
+            merchants: components["schemas"]["MerchantInfo"][];
+        };
+        /** AddonSummary */
+        AddonSummary: {
+            /** Id */
+            id: number;
+            /** Code */
+            code: string;
+            /** Title */
+            title: string;
+            /** Caption */
+            caption: string | null;
+            /** Description */
+            description: string | null;
+            /** Status */
+            status: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /**
+             * Updatedat
+             * Format: date-time
+             */
+            updatedAt: string;
+        };
         /** AddressIn */
         AddressIn: {
             /** Addresstext */
@@ -2441,6 +2878,33 @@ export interface components {
             delta: number;
             /** Reason */
             reason: string;
+        };
+        /** AdminLogin */
+        AdminLogin: {
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
+        };
+        /** AdminMe */
+        AdminMe: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Email */
+            email: string;
+        };
+        /** AdminSession */
+        AdminSession: {
+            /** Accesstoken */
+            accessToken: string;
+            /** Expiresin */
+            expiresIn: number;
+            /** Name */
+            name: string;
+            /** Email */
+            email: string;
         };
         /** AlertContact */
         AlertContact: {
@@ -2492,6 +2956,15 @@ export interface components {
             lat: number | null;
             /** Lng */
             lng: number | null;
+        };
+        /** AssignIn */
+        AssignIn: {
+            /** Planid */
+            planId: number;
+            /** Cycle */
+            cycle?: ("monthly" | "quarterly" | "biannual" | "annual" | "lifetime") | null;
+            /** Currencycode */
+            currencyCode?: string | null;
         };
         /** AvailabilityBody */
         AvailabilityBody: {
@@ -2661,6 +3134,15 @@ export interface components {
             reasonCode: "out_of_stock" | "too_busy" | "customer_request" | "cannot_deliver" | "other";
             /** Note */
             note?: string | null;
+        };
+        /** Catalogue */
+        Catalogue: {
+            /** Modules */
+            modules: components["schemas"]["ModuleInfo"][];
+            /** Features */
+            features: components["schemas"]["FeatureInfo"][];
+            /** Cycles */
+            cycles: string[];
         };
         /** CategoryCreate */
         CategoryCreate: {
@@ -2956,6 +3438,31 @@ export interface components {
             /** Downloadurl */
             downloadUrl: string | null;
         };
+        /** FeatureIn */
+        FeatureIn: {
+            /** Key */
+            key: string;
+            /** Quantity */
+            quantity?: number | null;
+        };
+        /** FeatureInfo */
+        FeatureInfo: {
+            /** Key */
+            key: string;
+            /** Module */
+            module: string;
+            /** Label */
+            label: string;
+            /** Kind */
+            kind: string;
+        };
+        /** FeatureOut */
+        FeatureOut: {
+            /** Key */
+            key: string;
+            /** Quantity */
+            quantity: number | null;
+        };
         /**
          * FeedbackIn
          * @description What the customer sends: stars, a comment, and who they are if they
@@ -3190,6 +3697,57 @@ export interface components {
             /** Userexists */
             userExists: boolean;
         };
+        /** InvoiceIn */
+        InvoiceIn: {
+            /** Amount */
+            amount: number | string;
+            /** Currencycode */
+            currencyCode: string;
+            /**
+             * Dueon
+             * Format: date
+             */
+            dueOn: string;
+            /** Description */
+            description?: string | null;
+            /** Periodfrom */
+            periodFrom?: string | null;
+            /** Periodto */
+            periodTo?: string | null;
+        };
+        /** InvoiceOut */
+        InvoiceOut: {
+            /** Id */
+            id: number;
+            /** Number */
+            number: string;
+            /** Status */
+            status: string;
+            /** Currencycode */
+            currencyCode: string;
+            /** Amount */
+            amount: string;
+            /**
+             * Dueon
+             * Format: date
+             */
+            dueOn: string;
+            /** Periodfrom */
+            periodFrom: string | null;
+            /** Periodto */
+            periodTo: string | null;
+            /** Description */
+            description: string | null;
+            /** Paidon */
+            paidOn: string | null;
+            /** Paymentnote */
+            paymentNote: string | null;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
         /** LegalData */
         LegalData: {
             /** Legalname */
@@ -3355,6 +3913,17 @@ export interface components {
             /** Merchantstatus */
             merchantStatus: string;
         };
+        /** MerchantInfo */
+        MerchantInfo: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Slug */
+            slug: string;
+            /** Status */
+            status: string;
+        };
         /** MerchantOut */
         MerchantOut: {
             /** Id */
@@ -3367,6 +3936,13 @@ export interface components {
             status: string;
             /** Currencycode */
             currencyCode: string;
+        };
+        /** ModuleInfo */
+        ModuleInfo: {
+            /** Key */
+            key: string;
+            /** Label */
+            label: string;
         };
         /** MoneyKpi */
         MoneyKpi: {
@@ -3405,10 +3981,50 @@ export interface components {
              */
             createdAt: string;
         };
+        /** MyBilling */
+        MyBilling: {
+            subscription: components["schemas"]["SubscriptionOut"] | null;
+            plan: components["schemas"]["MyPlan"] | null;
+            /** Addons */
+            addons: components["schemas"]["SubscribedAddon"][];
+            /** Invoices */
+            invoices: components["schemas"]["InvoiceOut"][];
+            /** Paymentlink */
+            paymentLink: string | null;
+        };
+        /** MyPlan */
+        MyPlan: {
+            /** Title */
+            title: string;
+            /** Caption */
+            caption: string | null;
+            /** Description */
+            description: string | null;
+            /** Hardlimit */
+            hardLimit: boolean;
+            /** Features */
+            features: components["schemas"]["PlanFeature"][];
+        };
         /** NameUpdate */
         NameUpdate: {
             /** Name */
             name: string;
+        };
+        /**
+         * OfferChoice
+         * @description A plan or add-on an operator may give this store, with its prices.
+         */
+        OfferChoice: {
+            /** Id */
+            id: number;
+            /** Title */
+            title: string;
+            /** Kind */
+            kind?: string | null;
+            /** Trialdays */
+            trialDays?: number | null;
+            /** Prices */
+            prices: components["schemas"]["PriceOut"][];
         };
         /** OpeningInterval */
         OpeningInterval: {
@@ -4216,6 +4832,13 @@ export interface components {
             /** Results */
             results: components["schemas"]["ReportOrder"][];
         };
+        /** PayIn */
+        PayIn: {
+            /** Paidon */
+            paidOn?: string | null;
+            /** Paymentnote */
+            paymentNote?: string | null;
+        };
         /** PaymentMethods */
         PaymentMethods: {
             /** Cashondelivery */
@@ -4235,6 +4858,173 @@ export interface components {
              * Format: date
              */
             dateTo: string;
+        };
+        /** PlanFeature */
+        PlanFeature: {
+            /** Key */
+            key: string;
+            /** Label */
+            label: string;
+            /** Module */
+            module: string;
+            /** Modulelabel */
+            moduleLabel: string;
+            /** Kind */
+            kind: string;
+            /** Quantity */
+            quantity: number | null;
+        };
+        /** PlanIn */
+        PlanIn: {
+            /** Title */
+            title: string;
+            /** Caption */
+            caption?: string | null;
+            /** Description */
+            description?: string | null;
+            /**
+             * Status
+             * @default draft
+             * @enum {string}
+             */
+            status: "draft" | "private" | "public" | "deactivated";
+            /**
+             * Features
+             * @default []
+             */
+            features: components["schemas"]["FeatureIn"][];
+            /**
+             * Prices
+             * @default []
+             */
+            prices: components["schemas"]["PriceIn"][];
+            /**
+             * Merchantids
+             * @default []
+             */
+            merchantIds: number[];
+            /** Code */
+            code: string;
+            /**
+             * Kind
+             * @default paid
+             * @enum {string}
+             */
+            kind: "free_trial" | "paid";
+            /**
+             * Isdefault
+             * @default false
+             */
+            isDefault: boolean;
+            /**
+             * Trialdays
+             * @default 0
+             */
+            trialDays: number;
+            /**
+             * Hardlimit
+             * @default false
+             */
+            hardLimit: boolean;
+        };
+        /** PlanOut */
+        PlanOut: {
+            /** Id */
+            id: number;
+            /** Code */
+            code: string;
+            /** Title */
+            title: string;
+            /** Caption */
+            caption: string | null;
+            /** Description */
+            description: string | null;
+            /** Status */
+            status: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /**
+             * Updatedat
+             * Format: date-time
+             */
+            updatedAt: string;
+            /** Kind */
+            kind: string;
+            /** Isdefault */
+            isDefault: boolean;
+            /** Trialdays */
+            trialDays: number;
+            /** Hardlimit */
+            hardLimit: boolean;
+            /** Features */
+            features: components["schemas"]["FeatureOut"][];
+            /** Prices */
+            prices: components["schemas"]["PriceOut"][];
+            /** Merchantids */
+            merchantIds: number[];
+            /** Merchants */
+            merchants: components["schemas"]["MerchantInfo"][];
+        };
+        /** PlanSummary */
+        PlanSummary: {
+            /** Id */
+            id: number;
+            /** Code */
+            code: string;
+            /** Title */
+            title: string;
+            /** Caption */
+            caption: string | null;
+            /** Description */
+            description: string | null;
+            /** Status */
+            status: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /**
+             * Updatedat
+             * Format: date-time
+             */
+            updatedAt: string;
+            /** Kind */
+            kind: string;
+            /** Isdefault */
+            isDefault: boolean;
+            /** Trialdays */
+            trialDays: number;
+            /** Hardlimit */
+            hardLimit: boolean;
+        };
+        /** PriceIn */
+        PriceIn: {
+            /**
+             * Cycle
+             * @enum {string}
+             */
+            cycle: "monthly" | "quarterly" | "biannual" | "annual" | "lifetime";
+            /** Currencycode */
+            currencyCode: string;
+            /** Amount */
+            amount: number | string;
+            /** Paymentlink */
+            paymentLink?: string | null;
+        };
+        /** PriceOut */
+        PriceOut: {
+            /** Cycle */
+            cycle: string;
+            /** Currencycode */
+            currencyCode: string;
+            /** Amount */
+            amount: string;
+            /** Paymentlink */
+            paymentLink: string | null;
         };
         /** ProductCreate */
         ProductCreate: {
@@ -5480,6 +6270,22 @@ export interface components {
             /** Reason */
             reason?: string | null;
         };
+        /** StoreBilling */
+        StoreBilling: {
+            merchant: components["schemas"]["MerchantInfo"];
+            subscription: components["schemas"]["SubscriptionOut"] | null;
+            /** Addons */
+            addons: components["schemas"]["SubscribedAddon"][];
+            /** Invoices */
+            invoices: components["schemas"]["InvoiceOut"][];
+        };
+        /** StoreOffers */
+        StoreOffers: {
+            /** Plans */
+            plans: components["schemas"]["OfferChoice"][];
+            /** Addons */
+            addons: components["schemas"]["OfferChoice"][];
+        };
         /** StoreSetup */
         StoreSetup: {
             /** Name */
@@ -5496,6 +6302,73 @@ export interface components {
             paymentMethods: components["schemas"]["PaymentMethods"];
             logo: components["schemas"]["MediaOut"] | null;
             cover: components["schemas"]["MediaOut"] | null;
+        };
+        /** SubscribedAddon */
+        SubscribedAddon: {
+            /** Addonid */
+            addonId: number;
+            /** Title */
+            title: string;
+            /** Cycle */
+            cycle: string;
+            /** Currencycode */
+            currencyCode: string;
+            /** Amount */
+            amount: string;
+        };
+        /** SubscriptionOut */
+        SubscriptionOut: {
+            /** Planid */
+            planId: number;
+            /** Plantitle */
+            planTitle: string;
+            /** Plankind */
+            planKind: string;
+            /** Cycle */
+            cycle: string | null;
+            /** Currencycode */
+            currencyCode: string;
+            /** Amount */
+            amount: string;
+            /** Status */
+            status: string;
+            /**
+             * Startedon
+             * Format: date
+             */
+            startedOn: string;
+            /** Dueon */
+            dueOn: string | null;
+        };
+        /**
+         * SubscriptionRow
+         * @description One line of the operator's list of stores.
+         */
+        SubscriptionRow: {
+            /** Merchantid */
+            merchantId: number;
+            /** Name */
+            name: string;
+            /** Slug */
+            slug: string;
+            /** Merchantstatus */
+            merchantStatus: string;
+            /** Planid */
+            planId: number | null;
+            /** Plantitle */
+            planTitle: string | null;
+            /** Status */
+            status: string | null;
+            /** Cycle */
+            cycle: string | null;
+            /** Dueon */
+            dueOn: string | null;
+            /** Amount */
+            amount: string | null;
+            /** Currencycode */
+            currencyCode: string | null;
+            /** Openinvoices */
+            openInvoices: number;
         };
         /** SwitchMerchantRequest */
         SwitchMerchantRequest: {
@@ -7778,6 +8651,751 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_billing_billing_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyBilling"];
+                };
+            };
+        };
+    };
+    login_platform_auth_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminLogin"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminSession"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    me_platform_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminMe"];
+                };
+            };
+        };
+    };
+    catalogue_platform_catalogue_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Catalogue"];
+                };
+            };
+        };
+    };
+    merchants_platform_merchants_get: {
+        parameters: {
+            query?: {
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MerchantInfo"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_plans_platform_plans_get: {
+        parameters: {
+            query?: {
+                status?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlanSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_plan_platform_plans_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlanIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlanOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_plan_platform_plans__plan_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                plan_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlanOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_plan_platform_plans__plan_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                plan_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlanIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlanOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    duplicate_plan_platform_plans__plan_id__duplicate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                plan_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlanOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_addons_platform_addons_get: {
+        parameters: {
+            query?: {
+                status?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddonSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_addon_platform_addons_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddonIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddonOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_addon_platform_addons__addon_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                addon_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddonOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_addon_platform_addons__addon_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                addon_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddonIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddonOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    duplicate_addon_platform_addons__addon_id__duplicate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                addon_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddonOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    stores_platform_stores_get: {
+        parameters: {
+            query?: {
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscriptionRow"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    store_billing_platform_stores__merchant_id__billing_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    assign_plan_platform_stores__merchant_id__subscription_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_addon_platform_stores__merchant_id__addons__addon_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+                addon_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddonAssignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_addon_platform_stores__merchant_id__addons__addon_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+                addon_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_invoice_platform_stores__merchant_id__invoices_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InvoiceIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    pay_invoice_platform_stores__merchant_id__invoices__invoice_id__pay_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+                invoice_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PayIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    void_invoice_platform_stores__merchant_id__invoices__invoice_id__void_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+                invoice_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreBilling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    store_offers_platform_stores__merchant_id__offers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StoreOffers"];
                 };
             };
             /** @description Validation Error */

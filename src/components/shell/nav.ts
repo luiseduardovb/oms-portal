@@ -74,6 +74,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   { key: "team", href: "/team", area: "team" },
+  { key: "billing", href: "/billing", area: "billing" },
 ];
 
 export function visibleNav(
