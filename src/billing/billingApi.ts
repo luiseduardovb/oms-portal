@@ -5,6 +5,7 @@ type Schemas = components["schemas"];
 export type MyBilling = Schemas["MyBilling"];
 export type PlanFeature = Schemas["PlanFeature"];
 export type InvoiceOut = Schemas["InvoiceOut"];
+export type BillingEvent = Schemas["BillingEvent"];
 
 export const billingApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

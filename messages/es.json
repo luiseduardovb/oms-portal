@@ -1660,6 +1660,21 @@
         "paid": "Pagada",
         "void": "Anulada"
       }
+    },
+    "history": {
+      "title": "Historial",
+      "none": "Aún no hay movimientos.",
+      "plan_assigned": "Plan {plan} asignado",
+      "addon_set": "Add-on {addon} agregado",
+      "addon_removed": "Add-on {addon} quitado",
+      "invoice_issued": "Factura {number} emitida",
+      "invoice_paid": "Factura {number} pagada",
+      "invoice_void": "Factura {number} anulada",
+      "reactivated": "Cuenta al día: tu tienda está en línea",
+      "status_past_due": "Pago vencido",
+      "status_suspended": "Tienda suspendida por falta de pago",
+      "bySystem": "automático",
+      "byPlatform": "por el equipo de la plataforma"
     }
   }
 }

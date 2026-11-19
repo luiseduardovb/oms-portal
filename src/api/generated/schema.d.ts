@@ -3104,6 +3104,26 @@ export interface components {
             /** Categories */
             categories: components["schemas"]["BestCategory"][];
         };
+        /** BillingEvent */
+        BillingEvent: {
+            /** Id */
+            id: number;
+            /** Kind */
+            kind: string;
+            /** Detail */
+            detail: {
+                [key: string]: string;
+            };
+            /** Source */
+            source: string;
+            /** Actorname */
+            actorName: string | null;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
         /** BranchRow */
         BranchRow: {
             /** Outletid */
@@ -3989,6 +4009,8 @@ export interface components {
             addons: components["schemas"]["SubscribedAddon"][];
             /** Invoices */
             invoices: components["schemas"]["InvoiceOut"][];
+            /** Events */
+            events: components["schemas"]["BillingEvent"][];
             /** Paymentlink */
             paymentLink: string | null;
         };
@@ -6278,6 +6300,8 @@ export interface components {
             addons: components["schemas"]["SubscribedAddon"][];
             /** Invoices */
             invoices: components["schemas"]["InvoiceOut"][];
+            /** Events */
+            events: components["schemas"]["BillingEvent"][];
         };
         /** StoreOffers */
         StoreOffers: {

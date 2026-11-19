@@ -79,6 +79,24 @@ const DATA = {
       createdAt: "2026-11-08T12:00:00Z",
     },
   ],
+  events: [
+    {
+      id: 2,
+      kind: "status_changed",
+      detail: { status: "past_due" },
+      source: "system",
+      actorName: null,
+      createdAt: "2026-11-16T06:00:00Z",
+    },
+    {
+      id: 1,
+      kind: "plan_assigned",
+      detail: { plan: "Básico", cycle: "monthly" },
+      source: "operator",
+      actorName: null,
+      createdAt: "2026-10-01T15:00:00Z",
+    },
+  ],
   paymentLink: "https://pay.example.com/basico",
 };
 
@@ -111,6 +129,17 @@ describe("billing page", () => {
       "href",
       "https://pay.example.com/basico",
     );
+  });
+
+  it("lists what happened to the plan, newest first", async () => {
+    open(OWNER);
+    expect(await screen.findByText("Historial")).toBeVisible();
+    expect(screen.getByText("Plan Básico asignado")).toBeInTheDocument();
+    expect(screen.getByText("Pago vencido")).toBeInTheDocument();
+    expect(screen.getByText(/automático/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/por el equipo de la plataforma/),
+    ).toBeInTheDocument();
   });
 
   it("tells a role without billing access that it is owner-only", async () => {

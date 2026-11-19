@@ -11696,6 +11696,55 @@
         ],
         "title": "BestSelling"
       },
+      "BillingEvent": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "detail": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Detail"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "actorName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actorname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "detail",
+          "source",
+          "actorName",
+          "createdAt"
+        ],
+        "title": "BillingEvent"
+      },
       "BranchRow": {
         "properties": {
           "outletId": {
@@ -14451,6 +14500,13 @@
             "type": "array",
             "title": "Invoices"
           },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/BillingEvent"
+            },
+            "type": "array",
+            "title": "Events"
+          },
           "paymentLink": {
             "anyOf": [
               {
@@ -14469,6 +14525,7 @@
           "plan",
           "addons",
           "invoices",
+          "events",
           "paymentLink"
         ],
         "title": "MyBilling"
@@ -21887,6 +21944,13 @@
             },
             "type": "array",
             "title": "Invoices"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/BillingEvent"
+            },
+            "type": "array",
+            "title": "Events"
           }
         },
         "type": "object",
@@ -21894,7 +21958,8 @@
           "merchant",
           "subscription",
           "addons",
-          "invoices"
+          "invoices",
+          "events"
         ],
         "title": "StoreBilling"
       },

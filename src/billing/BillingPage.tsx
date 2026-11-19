@@ -23,6 +23,7 @@ import { PageFrame } from "@/components/PageFrame";
 import { useErrorMessage } from "@/lib/useErrorMessage";
 import { useMyBillingQuery, type PlanFeature } from "./billingApi";
 import { GRACE_DAYS, addDays, day, daysUntil } from "./dates";
+import { History } from "./History";
 
 const STATUS_COLOR = {
   trialing: "info",
@@ -308,6 +309,12 @@ export function BillingPage() {
             <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
               {t("invoices.help")}
             </Typography>
+          </Card>
+        ) : null}
+
+        {data ? (
+          <Card title={t("history.title")}>
+            <History events={data.events} />
           </Card>
         ) : null}
       </Stack>
