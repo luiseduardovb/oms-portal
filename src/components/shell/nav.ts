@@ -55,7 +55,23 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "marketingVouchers", href: "/marketing/vouchers" },
     ],
   },
-  { key: "customers", href: "/customers", area: "analytics" },
+  {
+    key: "analytics",
+    href: "/analytics/sales",
+    area: "analytics",
+    children: [
+      {
+        key: "analyticsSales",
+        href: "/analytics/sales",
+        match: /^\/analytics\/sales(\/breakdown)?$/,
+      },
+      { key: "analyticsBehavior", href: "/analytics/behavior" },
+      { key: "analyticsBest", href: "/analytics/best-selling" },
+      { key: "analyticsGeo", href: "/analytics/geography" },
+      { key: "analyticsReport", href: "/analytics/sales-report" },
+      { key: "customers", href: "/customers" },
+    ],
+  },
   { key: "team", href: "/team", area: "team" },
 ];
 

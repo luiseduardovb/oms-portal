@@ -163,9 +163,10 @@ describe("customers", () => {
     ).toBeInTheDocument();
     expect(
       visibleNav(NAV_ITEMS, { orders: "full" }).map((i) => i.key),
-    ).not.toContain("customers");
-    expect(
-      visibleNav(NAV_ITEMS, { analytics: "view" }).map((i) => i.key),
-    ).toContain("customers");
+    ).not.toContain("analytics");
+    const group = visibleNav(NAV_ITEMS, { analytics: "view" }).find(
+      (i) => i.key === "analytics",
+    );
+    expect(group?.children?.map((c) => c.key)).toContain("customers");
   });
 });

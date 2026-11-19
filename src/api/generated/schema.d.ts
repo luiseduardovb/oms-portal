@@ -609,6 +609,232 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/analytics/sales": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Sales
+         * @description Sales, average order, orders and customers for the period, against
+         *     the previous period and the same days a year ago.
+         */
+        get: operations["sales_analytics_sales_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/sales/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sales Export */
+        get: operations["sales_export_analytics_sales_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/behavior": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Behavior
+         * @description Delivery vs pickup, payment methods, or new vs returning customers.
+         */
+        get: operations["behavior_analytics_behavior_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/behavior/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Behavior Export */
+        get: operations["behavior_export_analytics_behavior_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/sales-report/days": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Sales Report Days
+         * @description One row per day with totals.
+         */
+        get: operations["sales_report_days_analytics_sales_report_days_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/sales-report/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Sales Report Orders
+         * @description One row per completed order.
+         */
+        get: operations["sales_report_orders_analytics_sales_report_orders_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/sales-report/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sales Report Export */
+        get: operations["sales_report_export_analytics_sales_report_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/best-selling": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Best Selling
+         * @description Products and categories ranked by what they sold.
+         */
+        get: operations["best_selling_analytics_best_selling_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/geography/branches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Geography Branches */
+        get: operations["geography_branches_analytics_geography_branches_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/geography/areas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Geography Areas
+         * @description Delivery orders by the zone they went to.
+         */
+        get: operations["geography_areas_analytics_geography_areas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/geography/map": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Geography Map
+         * @description Where delivery orders went, in squares of about a kilometre.
+         */
+        get: operations["geography_map_analytics_geography_map_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/geography/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Geography Export */
+        get: operations["geography_export_analytics_geography_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/team/members": {
         parameters: {
             query?: never;
@@ -2178,6 +2404,23 @@ export interface components {
             /** Discount */
             discount: string;
         };
+        /** AreaRow */
+        AreaRow: {
+            /** Name */
+            name: string | null;
+            /** Sales */
+            sales: string;
+            /** Averageorder */
+            averageOrder: string;
+            /** Orders */
+            orders: number;
+            /** Customers */
+            customers: number;
+            /** Lat */
+            lat: number | null;
+            /** Lng */
+            lng: number | null;
+        };
         /** AvailabilityBody */
         AvailabilityBody: {
             /** Isavailable */
@@ -2222,6 +2465,118 @@ export interface components {
         BannersOut: {
             /** Banners */
             banners: components["schemas"]["BannerOut"][];
+        };
+        /** Behavior */
+        Behavior: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "fulfillment" | "payment" | "customers";
+            /**
+             * Metric
+             * @enum {string}
+             */
+            metric: "sales" | "orders" | "average_order" | "customers";
+            /**
+             * Bucket
+             * @enum {string}
+             */
+            bucket: "day" | "month";
+            /**
+             * Tax
+             * @enum {string}
+             */
+            tax: "with" | "without";
+            /** Keys */
+            keys: string[];
+            /** Series */
+            series: components["schemas"]["BehaviorPoint"][];
+            /** Totals */
+            totals: components["schemas"]["BehaviorTotal"][];
+        };
+        /** BehaviorPoint */
+        BehaviorPoint: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Values */
+            values: {
+                [key: string]: string;
+            };
+        };
+        /** BehaviorTotal */
+        BehaviorTotal: {
+            /** Key */
+            key: string;
+            /** Orders */
+            orders: number;
+            /** Customers */
+            customers: number;
+            /** Sales */
+            sales: string;
+            /** Averageorder */
+            averageOrder: string;
+        };
+        /** BestCategory */
+        BestCategory: {
+            /** Rank */
+            rank: number;
+            /** Categoryid */
+            categoryId: number;
+            /** Name */
+            name: string;
+            /** Sales */
+            sales: string;
+            /** Orders */
+            orders: number;
+            /** Quantity */
+            quantity: number;
+        };
+        /** BestProduct */
+        BestProduct: {
+            /** Rank */
+            rank: number;
+            /** Productid */
+            productId: number;
+            /** Name */
+            name: string;
+            /** Imageurl */
+            imageUrl: string | null;
+            /** Sales */
+            sales: string;
+            /** Orders */
+            orders: number;
+            /** Quantity */
+            quantity: number;
+        };
+        /** BestSelling */
+        BestSelling: {
+            /** Products */
+            products: components["schemas"]["BestProduct"][];
+            /** Categories */
+            categories: components["schemas"]["BestCategory"][];
+        };
+        /** BranchRow */
+        BranchRow: {
+            /** Outletid */
+            outletId: number;
+            /** Name */
+            name: string;
+            /** Sales */
+            sales: string;
+            /** Averageorder */
+            averageOrder: string;
+            /** Deliveryorders */
+            deliveryOrders: number;
+            /** Pickuporders */
+            pickupOrders: number;
+            /** Orders */
+            orders: number;
+            /** Customers */
+            customers: number;
         };
         /** CancelBody */
         CancelBody: {
@@ -2311,6 +2666,19 @@ export interface components {
         ContactsReplace: {
             /** Alertcontacts */
             alertContacts: components["schemas"]["AlertContact"][];
+        };
+        /** CountKpi */
+        CountKpi: {
+            /** Value */
+            value: number;
+            /** Previous */
+            previous: number;
+            /** Previousyear */
+            previousYear: number;
+            /** Change */
+            change: number | null;
+            /** Changeyear */
+            changeYear: number | null;
         };
         /** CountryInfo */
         CountryInfo: {
@@ -2723,6 +3091,20 @@ export interface components {
             /** Password */
             password: string;
         };
+        /**
+         * MapCell
+         * @description Delivery orders inside one square of about a kilometre.
+         */
+        MapCell: {
+            /** Lat */
+            lat: number;
+            /** Lng */
+            lng: number;
+            /** Sales */
+            sales: string;
+            /** Orders */
+            orders: number;
+        };
         /** MeResponse */
         MeResponse: {
             user: components["schemas"]["UserOut"];
@@ -2854,6 +3236,19 @@ export interface components {
             status: string;
             /** Currencycode */
             currencyCode: string;
+        };
+        /** MoneyKpi */
+        MoneyKpi: {
+            /** Value */
+            value: string;
+            /** Previous */
+            previous: string;
+            /** Previousyear */
+            previousYear: string;
+            /** Change */
+            change: number | null;
+            /** Changeyear */
+            changeYear: number | null;
         };
         /** MovementOut */
         MovementOut: {
@@ -3664,12 +4059,38 @@ export interface components {
             /** Results */
             results: components["schemas"]["ProductOut"][];
         };
+        /** Paginated[ReportOrder] */
+        Paginated_ReportOrder_: {
+            /** Page */
+            page: number;
+            /** Itemsperpage */
+            itemsPerPage: number;
+            /** Totalpages */
+            totalPages: number;
+            /** Totalcount */
+            totalCount: number;
+            /** Results */
+            results: components["schemas"]["ReportOrder"][];
+        };
         /** PaymentMethods */
         PaymentMethods: {
             /** Cashondelivery */
             cashOnDelivery: boolean;
             /** Cardondelivery */
             cardOnDelivery: boolean;
+        };
+        /** Period */
+        Period: {
+            /**
+             * Datefrom
+             * Format: date
+             */
+            dateFrom: string;
+            /**
+             * Dateto
+             * Format: date
+             */
+            dateTo: string;
         };
         /** ProductCreate */
         ProductCreate: {
@@ -4646,6 +5067,77 @@ export interface components {
             /** Ispublished */
             isPublished: boolean;
         };
+        /** ReportDay */
+        ReportDay: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Orders */
+            orders: number;
+            /** Items */
+            items: number;
+            /** Subtotal */
+            subtotal: string;
+            /** Discounts */
+            discounts: string;
+            /** Tax */
+            tax: string;
+            /** Delivery */
+            delivery: string;
+            /** Total */
+            total: string;
+        };
+        /** ReportOrder */
+        ReportOrder: {
+            /** Id */
+            id: number;
+            /** Ordernumber */
+            orderNumber: number;
+            /** Code */
+            code: string;
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Outletname */
+            outletName: string;
+            /** Customername */
+            customerName: string;
+            /** Fulfillmenttype */
+            fulfillmentType: string;
+            /** Paymentmethod */
+            paymentMethod: string;
+            /** Subtotal */
+            subtotal: string;
+            /** Discounts */
+            discounts: string;
+            /** Tax */
+            tax: string;
+            /** Delivery */
+            delivery: string;
+            /** Total */
+            total: string;
+        };
+        /** ReportTotals */
+        ReportTotals: {
+            /** Orders */
+            orders: number;
+            /** Items */
+            items: number;
+            /** Subtotal */
+            subtotal: string;
+            /** Discounts */
+            discounts: string;
+            /** Tax */
+            tax: string;
+            /** Delivery */
+            delivery: string;
+            /** Total */
+            total: string;
+        };
         /** ResetConfirmIn */
         ResetConfirmIn: {
             /** Email */
@@ -4683,6 +5175,61 @@ export interface components {
             };
             /** Extras */
             extras: string[];
+        };
+        /** SalesAnalytics */
+        SalesAnalytics: {
+            /**
+             * Bucket
+             * @enum {string}
+             */
+            bucket: "day" | "month";
+            /**
+             * Tax
+             * @enum {string}
+             */
+            tax: "with" | "without";
+            period: components["schemas"]["Period"];
+            previousPeriod: components["schemas"]["Period"];
+            previousYearPeriod: components["schemas"]["Period"];
+            kpis: components["schemas"]["SalesKpis"];
+            /** Series */
+            series: components["schemas"]["SalesPoint"][];
+            /** Previous */
+            previous: components["schemas"]["SalesPoint"][] | null;
+            /** Previousyear */
+            previousYear: components["schemas"]["SalesPoint"][] | null;
+        };
+        /** SalesKpis */
+        SalesKpis: {
+            sales: components["schemas"]["MoneyKpi"];
+            averageOrder: components["schemas"]["MoneyKpi"];
+            orders: components["schemas"]["CountKpi"];
+            customers: components["schemas"]["CountKpi"];
+            delivery: components["schemas"]["MoneyKpi"];
+        };
+        /** SalesPoint */
+        SalesPoint: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Sales */
+            sales: string;
+            /** Averageorder */
+            averageOrder: string;
+            /** Orders */
+            orders: number;
+            /** Customers */
+            customers: number;
+            /** Delivery */
+            delivery: string;
+        };
+        /** SalesReportDays */
+        SalesReportDays: {
+            totals: components["schemas"]["ReportTotals"];
+            /** Rows */
+            rows: components["schemas"]["ReportDay"][];
         };
         /**
          * SettingsUpdate
@@ -6558,6 +7105,425 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CustomerDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sales_analytics_sales_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                bucket?: "day" | "month";
+                tax?: "with" | "without";
+                outletId?: number | null;
+                previous?: boolean;
+                year?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SalesAnalytics"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sales_export_analytics_sales_export_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                bucket?: "day" | "month";
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    behavior_analytics_behavior_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                kind?: "fulfillment" | "payment" | "customers";
+                metric?: "sales" | "orders" | "average_order" | "customers";
+                bucket?: "day" | "month";
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Behavior"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    behavior_export_analytics_behavior_export_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                kind?: "fulfillment" | "payment" | "customers";
+                metric?: "sales" | "orders" | "average_order" | "customers";
+                bucket?: "day" | "month";
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sales_report_days_analytics_sales_report_days_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SalesReportDays"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sales_report_orders_analytics_sales_report_orders_get: {
+        parameters: {
+            query: {
+                page?: number;
+                itemsPerPage?: number;
+                from: string;
+                to: string;
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Paginated_ReportOrder_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sales_report_export_analytics_sales_report_export_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                group?: "day" | "order";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    best_selling_analytics_best_selling_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                outletId?: number | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BestSelling"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    geography_branches_analytics_geography_branches_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BranchRow"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    geography_areas_analytics_geography_areas_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AreaRow"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    geography_map_analytics_geography_map_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MapCell"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    geography_export_analytics_geography_export_get: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                level?: "branches" | "areas";
+                tax?: "with" | "without";
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */

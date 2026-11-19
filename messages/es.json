@@ -221,7 +221,13 @@
       "marketingVouchers": "Vouchers",
       "marketingPromotions": "Promociones",
       "setupDelivery": "Entregas",
-      "customers": "Clientes"
+      "customers": "Clientes",
+      "analytics": "Analíticas",
+      "analyticsSales": "Ventas",
+      "analyticsBehavior": "Comportamiento",
+      "analyticsReport": "Reporte de ventas",
+      "analyticsBest": "Más vendidos",
+      "analyticsGeo": "Geografía"
     },
     "visitStore": "Ver tienda"
   },
@@ -1463,6 +1469,120 @@
       "marketing": "Aceptan ofertas",
       "spent": "Gasto total",
       "ofThem": "{share} de tus clientes"
+    }
+  },
+  "analytics": {
+    "section": "Analíticas",
+    "noAccess": "No tienes permiso para ver las analíticas.",
+    "export": "Exportar CSV",
+    "empty": "No hay pedidos completados en este período.",
+    "filters": {
+      "period": "Período",
+      "from": "Desde",
+      "to": "Hasta",
+      "outlet": "Sucursal",
+      "allOutlets": "Todas las sucursales",
+      "taxLabel": "Impuesto",
+      "withTax": "Con impuesto",
+      "withoutTax": "Sin impuesto",
+      "presets": {
+        "today": "Hoy",
+        "last7": "Últimos 7 días",
+        "last30": "Últimos 30 días",
+        "thisMonth": "Este mes",
+        "lastMonth": "Mes pasado",
+        "custom": "Personalizado"
+      }
+    },
+    "kpi": {
+      "sales": "Ventas totales",
+      "averageOrder": "Ticket promedio",
+      "orders": "Pedidos",
+      "customers": "Clientes",
+      "delivery": "Envíos"
+    },
+    "bucket": {
+      "label": "Agrupar por",
+      "day": "Día",
+      "month": "Mes"
+    },
+    "sales": {
+      "title": "Ventas",
+      "selected": "Período elegido",
+      "previousPeriod": "Período anterior",
+      "previousYear": "Año anterior",
+      "compare": "Comparar con",
+      "fullReport": "Ver reporte completo",
+      "deliveryNote": "Cobro de envío, aparte de las ventas."
+    },
+    "breakdown": {
+      "title": "Desglose de ventas",
+      "back": "Volver a ventas",
+      "date": "Fecha"
+    },
+    "behavior": {
+      "title": "Comportamiento",
+      "metric": "Métrica",
+      "kinds": {
+        "fulfillment": "Entrega o recoger",
+        "payment": "Método de pago",
+        "customers": "Nuevos o recurrentes"
+      },
+      "metrics": {
+        "sales": "Ventas totales",
+        "orders": "Pedidos",
+        "average_order": "Ticket promedio",
+        "customers": "Clientes"
+      },
+      "keys": {
+        "delivery": "Entrega",
+        "pickup": "Recoger",
+        "cash": "Efectivo",
+        "card": "Tarjeta",
+        "new": "Nuevos",
+        "returning": "Recurrentes"
+      }
+    },
+    "report": {
+      "title": "Reporte de ventas",
+      "group": "Ver por",
+      "byDay": "Por día",
+      "byOrder": "Por pedido",
+      "date": "Fecha",
+      "order": "Pedido",
+      "outlet": "Sucursal",
+      "customer": "Cliente",
+      "type": "Tipo",
+      "payment": "Pago",
+      "orders": "Pedidos",
+      "items": "Artículos",
+      "subtotal": "Subtotal",
+      "discounts": "Descuentos",
+      "tax": "Impuesto",
+      "delivery": "Envío",
+      "total": "Total",
+      "totals": "Total"
+    },
+    "best": {
+      "title": "Más vendidos",
+      "note": "Ventas de cada producto antes de descuentos, con el impuesto de su precio. Un producto en varias categorías cuenta en cada una.",
+      "products": "Productos",
+      "categories": "Categorías",
+      "counts": "{orders, plural, one {# pedido} other {# pedidos}} · {quantity, plural, one {# vendido} other {# vendidos}}"
+    },
+    "geo": {
+      "title": "Geografía",
+      "map": "Rendimiento por área",
+      "legend": "Ventas frente a la mejor área:",
+      "branches": "Sucursales",
+      "branch": "Sucursal",
+      "areasOf": "Áreas de entrega · {name}",
+      "area": "Área",
+      "back": "← Sucursales",
+      "search": "Buscar",
+      "noZone": "Sin zona",
+      "deliveryOrders": "Pedidos a domicilio",
+      "pickupOrders": "Pedidos para recoger"
     }
   }
 }

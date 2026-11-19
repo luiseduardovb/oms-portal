@@ -2531,6 +2531,1302 @@
         ]
       }
     },
+    "/analytics/sales": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Sales",
+        "description": "Sales, average order, orders and customers for the period, against\nthe previous period and the same days a year ago.",
+        "operationId": "sales_analytics_sales_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "day",
+                "month"
+              ],
+              "type": "string",
+              "default": "day",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          },
+          {
+            "name": "previous",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Previous"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Year"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesAnalytics"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/sales/export": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Sales Export",
+        "operationId": "sales_export_analytics_sales_export_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "day",
+                "month"
+              ],
+              "type": "string",
+              "default": "day",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/behavior": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Behavior",
+        "description": "Delivery vs pickup, payment methods, or new vs returning customers.",
+        "operationId": "behavior_analytics_behavior_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fulfillment",
+                "payment",
+                "customers"
+              ],
+              "type": "string",
+              "default": "fulfillment",
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "sales",
+                "orders",
+                "average_order",
+                "customers"
+              ],
+              "type": "string",
+              "default": "sales",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "day",
+                "month"
+              ],
+              "type": "string",
+              "default": "day",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Behavior"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/behavior/export": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Behavior Export",
+        "operationId": "behavior_export_analytics_behavior_export_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fulfillment",
+                "payment",
+                "customers"
+              ],
+              "type": "string",
+              "default": "fulfillment",
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "sales",
+                "orders",
+                "average_order",
+                "customers"
+              ],
+              "type": "string",
+              "default": "sales",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "day",
+                "month"
+              ],
+              "type": "string",
+              "default": "day",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/sales-report/days": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Sales Report Days",
+        "description": "One row per day with totals.",
+        "operationId": "sales_report_days_analytics_sales_report_days_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReportDays"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/sales-report/orders": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Sales Report Orders",
+        "description": "One row per completed order.",
+        "operationId": "sales_report_orders_analytics_sales_report_orders_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "itemsPerPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 150,
+              "minimum": 1,
+              "default": 25,
+              "title": "Itemsperpage"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_ReportOrder_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/sales-report/export": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Sales Report Export",
+        "operationId": "sales_report_export_analytics_sales_report_export_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "day",
+                "order"
+              ],
+              "type": "string",
+              "default": "day",
+              "title": "Group"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/best-selling": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Best Selling",
+        "description": "Products and categories ranked by what they sold.",
+        "operationId": "best_selling_analytics_best_selling_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BestSelling"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/geography/branches": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Geography Branches",
+        "operationId": "geography_branches_analytics_geography_branches_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchRow"
+                  },
+                  "title": "Response Geography Branches Analytics Geography Branches Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/geography/areas": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Geography Areas",
+        "description": "Delivery orders by the zone they went to.",
+        "operationId": "geography_areas_analytics_geography_areas_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AreaRow"
+                  },
+                  "title": "Response Geography Areas Analytics Geography Areas Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/geography/map": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Geography Map",
+        "description": "Where delivery orders went, in squares of about a kilometre.",
+        "operationId": "geography_map_analytics_geography_map_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MapCell"
+                  },
+                  "title": "Response Geography Map Analytics Geography Map Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
+    "/analytics/geography/export": {
+      "get": {
+        "tags": [
+          "analytics"
+        ],
+        "summary": "Geography Export",
+        "operationId": "geography_export_analytics_geography_export_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "From"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "To"
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "branches",
+                "areas"
+              ],
+              "type": "string",
+              "default": "branches",
+              "title": "Level"
+            }
+          },
+          {
+            "name": "tax",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "with",
+                "without"
+              ],
+              "type": "string",
+              "default": "with",
+              "title": "Tax"
+            }
+          },
+          {
+            "name": "outletId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Outletid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-required-permission": [
+          {
+            "area": "analytics",
+            "level": "view"
+          }
+        ]
+      }
+    },
     "/team/members": {
       "get": {
         "tags": [
@@ -7954,6 +9250,70 @@
         ],
         "title": "AppliedVoucher"
       },
+      "AreaRow": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "averageOrder": {
+            "type": "string",
+            "title": "Averageorder"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "customers": {
+            "type": "integer",
+            "title": "Customers"
+          },
+          "lat": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lat"
+          },
+          "lng": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lng"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "sales",
+          "averageOrder",
+          "orders",
+          "customers",
+          "lat",
+          "lng"
+        ],
+        "title": "AreaRow"
+      },
       "AvailabilityBody": {
         "properties": {
           "isAvailable": {
@@ -8116,6 +9476,292 @@
           "banners"
         ],
         "title": "BannersOut"
+      },
+      "Behavior": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "fulfillment",
+              "payment",
+              "customers"
+            ],
+            "title": "Kind"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "sales",
+              "orders",
+              "average_order",
+              "customers"
+            ],
+            "title": "Metric"
+          },
+          "bucket": {
+            "type": "string",
+            "enum": [
+              "day",
+              "month"
+            ],
+            "title": "Bucket"
+          },
+          "tax": {
+            "type": "string",
+            "enum": [
+              "with",
+              "without"
+            ],
+            "title": "Tax"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Keys"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/BehaviorPoint"
+            },
+            "type": "array",
+            "title": "Series"
+          },
+          "totals": {
+            "items": {
+              "$ref": "#/components/schemas/BehaviorTotal"
+            },
+            "type": "array",
+            "title": "Totals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "metric",
+          "bucket",
+          "tax",
+          "keys",
+          "series",
+          "totals"
+        ],
+        "title": "Behavior"
+      },
+      "BehaviorPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "values": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Values"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "values"
+        ],
+        "title": "BehaviorPoint"
+      },
+      "BehaviorTotal": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "customers": {
+            "type": "integer",
+            "title": "Customers"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "averageOrder": {
+            "type": "string",
+            "title": "Averageorder"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "orders",
+          "customers",
+          "sales",
+          "averageOrder"
+        ],
+        "title": "BehaviorTotal"
+      },
+      "BestCategory": {
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "categoryId": {
+            "type": "integer",
+            "title": "Categoryid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rank",
+          "categoryId",
+          "name",
+          "sales",
+          "orders",
+          "quantity"
+        ],
+        "title": "BestCategory"
+      },
+      "BestProduct": {
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "productId": {
+            "type": "integer",
+            "title": "Productid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "imageUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Imageurl"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rank",
+          "productId",
+          "name",
+          "imageUrl",
+          "sales",
+          "orders",
+          "quantity"
+        ],
+        "title": "BestProduct"
+      },
+      "BestSelling": {
+        "properties": {
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/BestProduct"
+            },
+            "type": "array",
+            "title": "Products"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/BestCategory"
+            },
+            "type": "array",
+            "title": "Categories"
+          }
+        },
+        "type": "object",
+        "required": [
+          "products",
+          "categories"
+        ],
+        "title": "BestSelling"
+      },
+      "BranchRow": {
+        "properties": {
+          "outletId": {
+            "type": "integer",
+            "title": "Outletid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "averageOrder": {
+            "type": "string",
+            "title": "Averageorder"
+          },
+          "deliveryOrders": {
+            "type": "integer",
+            "title": "Deliveryorders"
+          },
+          "pickupOrders": {
+            "type": "integer",
+            "title": "Pickuporders"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "customers": {
+            "type": "integer",
+            "title": "Customers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outletId",
+          "name",
+          "sales",
+          "averageOrder",
+          "deliveryOrders",
+          "pickupOrders",
+          "orders",
+          "customers"
+        ],
+        "title": "BranchRow"
       },
       "CancelBody": {
         "properties": {
@@ -8418,6 +10064,53 @@
           "alertContacts"
         ],
         "title": "ContactsReplace"
+      },
+      "CountKpi": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          },
+          "previous": {
+            "type": "integer",
+            "title": "Previous"
+          },
+          "previousYear": {
+            "type": "integer",
+            "title": "Previousyear"
+          },
+          "change": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change"
+          },
+          "changeYear": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Changeyear"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "previous",
+          "previousYear",
+          "change",
+          "changeYear"
+        ],
+        "title": "CountKpi"
       },
       "CountryInfo": {
         "properties": {
@@ -9586,6 +11279,35 @@
         ],
         "title": "LoginRequest"
       },
+      "MapCell": {
+        "properties": {
+          "lat": {
+            "type": "number",
+            "title": "Lat"
+          },
+          "lng": {
+            "type": "number",
+            "title": "Lng"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lat",
+          "lng",
+          "sales",
+          "orders"
+        ],
+        "title": "MapCell",
+        "description": "Delivery orders inside one square of about a kilometre."
+      },
       "MeResponse": {
         "properties": {
           "user": {
@@ -10018,6 +11740,53 @@
           "currencyCode"
         ],
         "title": "MerchantOut"
+      },
+      "MoneyKpi": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          },
+          "previous": {
+            "type": "string",
+            "title": "Previous"
+          },
+          "previousYear": {
+            "type": "string",
+            "title": "Previousyear"
+          },
+          "change": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change"
+          },
+          "changeYear": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Changeyear"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "previous",
+          "previousYear",
+          "change",
+          "changeYear"
+        ],
+        "title": "MoneyKpi"
       },
       "MovementOut": {
         "properties": {
@@ -12718,6 +14487,42 @@
         ],
         "title": "Paginated[ProductOut]"
       },
+      "Paginated_ReportOrder_": {
+        "properties": {
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "itemsPerPage": {
+            "type": "integer",
+            "title": "Itemsperpage"
+          },
+          "totalPages": {
+            "type": "integer",
+            "title": "Totalpages"
+          },
+          "totalCount": {
+            "type": "integer",
+            "title": "Totalcount"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ReportOrder"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "page",
+          "itemsPerPage",
+          "totalPages",
+          "totalCount",
+          "results"
+        ],
+        "title": "Paginated[ReportOrder]"
+      },
       "PaymentMethods": {
         "properties": {
           "cashOnDelivery": {
@@ -12735,6 +14540,26 @@
           "cardOnDelivery"
         ],
         "title": "PaymentMethods"
+      },
+      "Period": {
+        "properties": {
+          "dateFrom": {
+            "type": "string",
+            "format": "date",
+            "title": "Datefrom"
+          },
+          "dateTo": {
+            "type": "string",
+            "format": "date",
+            "title": "Dateto"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dateFrom",
+          "dateTo"
+        ],
+        "title": "Period"
       },
       "ProductCreate": {
         "properties": {
@@ -15898,6 +17723,172 @@
         ],
         "title": "PublishBody"
       },
+      "ReportDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "items": {
+            "type": "integer",
+            "title": "Items"
+          },
+          "subtotal": {
+            "type": "string",
+            "title": "Subtotal"
+          },
+          "discounts": {
+            "type": "string",
+            "title": "Discounts"
+          },
+          "tax": {
+            "type": "string",
+            "title": "Tax"
+          },
+          "delivery": {
+            "type": "string",
+            "title": "Delivery"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "orders",
+          "items",
+          "subtotal",
+          "discounts",
+          "tax",
+          "delivery",
+          "total"
+        ],
+        "title": "ReportDay"
+      },
+      "ReportOrder": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "title": "Ordernumber"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "outletName": {
+            "type": "string",
+            "title": "Outletname"
+          },
+          "customerName": {
+            "type": "string",
+            "title": "Customername"
+          },
+          "fulfillmentType": {
+            "type": "string",
+            "title": "Fulfillmenttype"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "title": "Paymentmethod"
+          },
+          "subtotal": {
+            "type": "string",
+            "title": "Subtotal"
+          },
+          "discounts": {
+            "type": "string",
+            "title": "Discounts"
+          },
+          "tax": {
+            "type": "string",
+            "title": "Tax"
+          },
+          "delivery": {
+            "type": "string",
+            "title": "Delivery"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "orderNumber",
+          "code",
+          "date",
+          "outletName",
+          "customerName",
+          "fulfillmentType",
+          "paymentMethod",
+          "subtotal",
+          "discounts",
+          "tax",
+          "delivery",
+          "total"
+        ],
+        "title": "ReportOrder"
+      },
+      "ReportTotals": {
+        "properties": {
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "items": {
+            "type": "integer",
+            "title": "Items"
+          },
+          "subtotal": {
+            "type": "string",
+            "title": "Subtotal"
+          },
+          "discounts": {
+            "type": "string",
+            "title": "Discounts"
+          },
+          "tax": {
+            "type": "string",
+            "title": "Tax"
+          },
+          "delivery": {
+            "type": "string",
+            "title": "Delivery"
+          },
+          "total": {
+            "type": "string",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "orders",
+          "items",
+          "subtotal",
+          "discounts",
+          "tax",
+          "delivery",
+          "total"
+        ],
+        "title": "ReportTotals"
+      },
       "ResetConfirmIn": {
         "properties": {
           "email": {
@@ -16015,6 +18006,173 @@
           "extras"
         ],
         "title": "RoleOut"
+      },
+      "SalesAnalytics": {
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "enum": [
+              "day",
+              "month"
+            ],
+            "title": "Bucket"
+          },
+          "tax": {
+            "type": "string",
+            "enum": [
+              "with",
+              "without"
+            ],
+            "title": "Tax"
+          },
+          "period": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "previousPeriod": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "previousYearPeriod": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "kpis": {
+            "$ref": "#/components/schemas/SalesKpis"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/SalesPoint"
+            },
+            "type": "array",
+            "title": "Series"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SalesPoint"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous"
+          },
+          "previousYear": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SalesPoint"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previousyear"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bucket",
+          "tax",
+          "period",
+          "previousPeriod",
+          "previousYearPeriod",
+          "kpis",
+          "series",
+          "previous",
+          "previousYear"
+        ],
+        "title": "SalesAnalytics"
+      },
+      "SalesKpis": {
+        "properties": {
+          "sales": {
+            "$ref": "#/components/schemas/MoneyKpi"
+          },
+          "averageOrder": {
+            "$ref": "#/components/schemas/MoneyKpi"
+          },
+          "orders": {
+            "$ref": "#/components/schemas/CountKpi"
+          },
+          "customers": {
+            "$ref": "#/components/schemas/CountKpi"
+          },
+          "delivery": {
+            "$ref": "#/components/schemas/MoneyKpi"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sales",
+          "averageOrder",
+          "orders",
+          "customers",
+          "delivery"
+        ],
+        "title": "SalesKpis"
+      },
+      "SalesPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "sales": {
+            "type": "string",
+            "title": "Sales"
+          },
+          "averageOrder": {
+            "type": "string",
+            "title": "Averageorder"
+          },
+          "orders": {
+            "type": "integer",
+            "title": "Orders"
+          },
+          "customers": {
+            "type": "integer",
+            "title": "Customers"
+          },
+          "delivery": {
+            "type": "string",
+            "title": "Delivery"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "sales",
+          "averageOrder",
+          "orders",
+          "customers",
+          "delivery"
+        ],
+        "title": "SalesPoint"
+      },
+      "SalesReportDays": {
+        "properties": {
+          "totals": {
+            "$ref": "#/components/schemas/ReportTotals"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ReportDay"
+            },
+            "type": "array",
+            "title": "Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "totals",
+          "rows"
+        ],
+        "title": "SalesReportDays"
       },
       "SettingsUpdate": {
         "properties": {
