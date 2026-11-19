@@ -59,14 +59,28 @@ async function copy(text: string) {
 function Section({
   title,
   action,
+  framed,
   children,
 }: {
   title: string;
   action?: React.ReactNode;
+  framed?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <Box>
+    <Box
+      sx={
+        framed
+          ? {
+              p: 2.5,
+              border: 1,
+              borderColor: "divider",
+              borderRadius: 3,
+              bgcolor: "background.paper",
+            }
+          : undefined
+      }
+    >
       <Stack
         direction="row"
         sx={{
@@ -137,7 +151,15 @@ function Photo({
   );
 }
 
-function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
+function Body({
+  order,
+  canAct,
+  framed,
+}: {
+  order: Detail;
+  canAct: boolean;
+  framed?: boolean;
+}) {
   const t = useTranslations("ordersPage");
   const format = useFormatter();
   const errorMessage = useErrorMessage();
@@ -179,14 +201,16 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
     <Box
       sx={{
         display: "grid",
-        gap: 4,
-        gridTemplateColumns: { xs: "1fr", md: "2fr 1fr" },
+        gap: framed ? 3 : 4,
+        gridTemplateColumns: framed
+          ? { xs: "1fr", lg: "minmax(0, 1.5fr) minmax(340px, 1fr)" }
+          : { xs: "1fr", md: "2fr 1fr" },
         alignItems: "start",
       }}
     >
       <Stack spacing={2}>
         {error && <Alert severity="error">{errorMessage(error)}</Alert>}
-        <Section title={t("detail.items")}>
+        <Section framed={framed} title={t("detail.items")}>
           <Stack spacing={2}>
             {order.lines.map((line) => (
               <Stack key={line.id} direction="row" spacing={2}>
@@ -296,6 +320,7 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
       <Stack spacing={3}>
         {order.deliveryAddressText && (
           <Section
+            framed={framed}
             title={t("detail.address")}
             action={
               <CopyLink
@@ -356,6 +381,7 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
           </Section>
         )}
         <Section
+          framed={framed}
           title={t("detail.contact")}
           action={
             order.customerPhone ? (
@@ -389,12 +415,12 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
           )}
         </Section>
         {order.customerNotes && (
-          <Section title={t("detail.notes")}>
+          <Section framed={framed} title={t("detail.notes")}>
             <Typography variant="body2">{order.customerNotes}</Typography>
           </Section>
         )}
         {order.driverName && (
-          <Section title={t("detail.driver")}>
+          <Section framed={framed} title={t("detail.driver")}>
             <Typography variant="body2">
               {[order.driverName, order.driverPhone]
                 .filter(Boolean)
@@ -402,7 +428,7 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
             </Typography>
           </Section>
         )}
-        <Section title={t("detail.timeline")}>
+        <Section framed={framed} title={t("detail.timeline")}>
           <Stack spacing={1} divider={<Divider flexItem />}>
             {order.history.map((step, index) => (
               <Stack
@@ -480,7 +506,15 @@ function Body({ order, canAct }: { order: Detail; canAct: boolean }) {
 }
 
 /** The expanded part of an order row: full order, contact and actions. */
-export function OrderDetail({ id, canAct }: { id: number; canAct: boolean }) {
+export function OrderDetail({
+  id,
+  canAct,
+  framed,
+}: {
+  id: number;
+  canAct: boolean;
+  framed?: boolean;
+}) {
   const t = useTranslations("ordersPage.detail");
   const errorMessage = useErrorMessage();
   const { data, error } = useOrderQuery(id);
@@ -495,5 +529,5 @@ export function OrderDetail({ id, canAct }: { id: number; canAct: boolean }) {
       </Stack>
     );
   }
-  return <Body order={data} canAct={canAct} />;
+  return <Body order={data} canAct={canAct} framed={framed} />;
 }

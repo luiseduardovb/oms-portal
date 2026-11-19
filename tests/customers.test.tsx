@@ -154,6 +154,11 @@ describe("customers", () => {
     expect(screen.getByText(/#21/)).toBeInTheDocument();
     expect(screen.getByText("Completado")).toBeInTheDocument();
     expect(screen.getByText("L 400.00")).toBeInTheDocument();
+    // Each order opens its own page.
+    expect(screen.getByText(/#21/).closest("a")).toHaveAttribute(
+      "href",
+      "/orders/9",
+    );
   });
 
   it("asks for analytics access", async () => {
@@ -163,10 +168,9 @@ describe("customers", () => {
     ).toBeInTheDocument();
     expect(
       visibleNav(NAV_ITEMS, { orders: "full" }).map((i) => i.key),
-    ).not.toContain("analytics");
-    const group = visibleNav(NAV_ITEMS, { analytics: "view" }).find(
-      (i) => i.key === "analytics",
-    );
-    expect(group?.children?.map((c) => c.key)).toContain("customers");
+    ).not.toContain("customers");
+    expect(
+      visibleNav(NAV_ITEMS, { analytics: "view" }).map((i) => i.key),
+    ).toContain("customers");
   });
 });

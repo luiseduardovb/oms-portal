@@ -16,6 +16,7 @@ export interface NavItem {
  * Team. Analytics and Billing join when their screens exist. */
 export const NAV_ITEMS: NavItem[] = [
   { key: "orders", href: "/orders", area: "orders" },
+  { key: "customers", href: "/customers", area: "analytics" },
   {
     key: "catalog",
     href: "/catalog",
@@ -68,8 +69,8 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "analyticsBehavior", href: "/analytics/behavior" },
       { key: "analyticsBest", href: "/analytics/best-selling" },
       { key: "analyticsGeo", href: "/analytics/geography" },
+      { key: "analyticsFeedback", href: "/analytics/feedback" },
       { key: "analyticsReport", href: "/analytics/sales-report" },
-      { key: "customers", href: "/customers" },
     ],
   },
   { key: "team", href: "/team", area: "team" },

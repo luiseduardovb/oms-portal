@@ -201,9 +201,14 @@ export function CustomerPage() {
             {c.orders.map((o) => (
               <Paper
                 key={o.id}
+                component={Link}
+                href={`/orders/${o.id}`}
                 variant="outlined"
                 sx={{
                   p: 2,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": { bgcolor: "action.hover" },
                   borderRadius: 3,
                   display: "flex",
                   gap: 2,

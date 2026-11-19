@@ -7,6 +7,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import GridViewIcon from "@mui/icons-material/GridView";
 import GroupIcon from "@mui/icons-material/Group";
 import MenuIcon from "@mui/icons-material/Menu";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import AppBar from "@mui/material/AppBar";
@@ -38,6 +39,7 @@ const STOREFRONT = process.env.NEXT_PUBLIC_STOREFRONT_URL ?? "";
 
 const ICONS: Record<string, ReactNode> = {
   orders: <ShoppingBagIcon />,
+  customers: <PeopleAltIcon />,
   catalog: <GridViewIcon />,
   analytics: <BarChartIcon />,
   team: <GroupIcon />,

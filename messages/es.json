@@ -227,7 +227,8 @@
       "analyticsBehavior": "Comportamiento",
       "analyticsReport": "Reporte de ventas",
       "analyticsBest": "Más vendidos",
-      "analyticsGeo": "Geografía"
+      "analyticsGeo": "Geografía",
+      "analyticsFeedback": "Comentarios"
     },
     "visitStore": "Ver tienda"
   },
@@ -967,6 +968,12 @@
   },
   "ordersPage": {
     "title": "Pedidos",
+    "back": "Volver",
+    "orderTitle": "Pedido #{number}",
+    "fulfillment": {
+      "delivery": "Entrega a domicilio",
+      "pickup": "Recoger en tienda"
+    },
     "noAccess": "No tienes permiso para ver los pedidos.",
     "tabs": {
       "label": "Estado de los pedidos",
@@ -1583,6 +1590,16 @@
       "noZone": "Sin zona",
       "deliveryOrders": "Pedidos a domicilio",
       "pickupOrders": "Pedidos para recoger"
+    },
+    "feedback": {
+      "title": "Comentarios",
+      "average": "Calificación promedio",
+      "count": "{count, plural, one {# comentario} other {# comentarios}}",
+      "all": "Todos",
+      "empty": "Aún no hay comentarios en este período.",
+      "noComment": "Sin comentario escrito.",
+      "order": "Pedido #{number}",
+      "general": "Sobre la tienda"
     }
   }
 }

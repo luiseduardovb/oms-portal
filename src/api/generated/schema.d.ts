@@ -835,6 +835,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/feedback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Feedback */
+        get: operations["list_feedback_feedback_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/feedback/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Feedback Summary */
+        get: operations["feedback_summary_feedback_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/feedback/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Export Feedback */
+        get: operations["export_feedback_feedback_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/team/members": {
         parameters: {
             query?: never;
@@ -2037,6 +2088,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/stores/{slug}/feedback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Leave Feedback
+         * @description A star rating and a comment, about the store or about one order.
+         *     Only the merchant reads it.
+         */
+        post: operations["leave_feedback_public_stores__slug__feedback_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public/orders/{code}": {
         parameters: {
             query?: never;
@@ -2883,6 +2955,65 @@ export interface components {
             expiresAt: string | null;
             /** Downloadurl */
             downloadUrl: string | null;
+        };
+        /**
+         * FeedbackIn
+         * @description What the customer sends: stars, a comment, and who they are if they
+         *     want to say. With ``order_code`` it is about that order.
+         */
+        FeedbackIn: {
+            /** Rating */
+            rating: number;
+            /** Comment */
+            comment?: string | null;
+            /** Customername */
+            customerName?: string | null;
+            /** Customerphone */
+            customerPhone?: string | null;
+            /** Outletid */
+            outletId?: number | null;
+            /** Ordercode */
+            orderCode?: string | null;
+        };
+        /** FeedbackRow */
+        FeedbackRow: {
+            /** Id */
+            id: number;
+            /** Rating */
+            rating: number;
+            /** Comment */
+            comment: string | null;
+            /** Customername */
+            customerName: string | null;
+            /** Customerphone */
+            customerPhone: string | null;
+            /** Outletid */
+            outletId: number | null;
+            /** Outletname */
+            outletName: string | null;
+            /** Orderid */
+            orderId: number | null;
+            /** Ordernumber */
+            orderNumber: number | null;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+        };
+        /** FeedbackSummary */
+        FeedbackSummary: {
+            /** Count */
+            count: number;
+            /** Average */
+            average: number | null;
+            /** Stars */
+            stars: components["schemas"]["StarCount"][];
+        };
+        /** FeedbackThanks */
+        FeedbackThanks: {
+            /** Id */
+            id: number;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -4019,6 +4150,19 @@ export interface components {
             totalCount: number;
             /** Results */
             results: components["schemas"]["CustomerRow"][];
+        };
+        /** Paginated[FeedbackRow] */
+        Paginated_FeedbackRow_: {
+            /** Page */
+            page: number;
+            /** Itemsperpage */
+            itemsPerPage: number;
+            /** Totalpages */
+            totalPages: number;
+            /** Totalcount */
+            totalCount: number;
+            /** Results */
+            results: components["schemas"]["FeedbackRow"][];
         };
         /** Paginated[MovementOut] */
         Paginated_MovementOut_: {
@@ -5307,6 +5451,13 @@ export interface components {
         SlugChange: {
             /** Slug */
             slug: string;
+        };
+        /** StarCount */
+        StarCount: {
+            /** Rating */
+            rating: number;
+            /** Count */
+            count: number;
         };
         /**
          * StockBody
@@ -7510,6 +7661,109 @@ export interface operations {
                 level?: "branches" | "areas";
                 tax?: "with" | "without";
                 outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_feedback_feedback_get: {
+        parameters: {
+            query?: {
+                page?: number;
+                itemsPerPage?: number;
+                from?: string | null;
+                to?: string | null;
+                outletId?: number | null;
+                rating?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Paginated_FeedbackRow_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    feedback_summary_feedback_summary_get: {
+        parameters: {
+            query?: {
+                from?: string | null;
+                to?: string | null;
+                outletId?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedbackSummary"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    export_feedback_feedback_export_get: {
+        parameters: {
+            query?: {
+                from?: string | null;
+                to?: string | null;
+                outletId?: number | null;
+                rating?: number | null;
             };
             header?: never;
             path?: never;
@@ -9864,6 +10118,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicOrder"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    leave_feedback_public_stores__slug__feedback_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FeedbackIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedbackThanks"];
                 };
             };
             /** @description Validation Error */

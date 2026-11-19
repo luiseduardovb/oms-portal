@@ -7,6 +7,7 @@ import { sessionStarted } from "@/auth/sessionSlice";
 import { setAccessToken } from "@/auth/tokenStore";
 import { BehaviorPage } from "@/analytics/BehaviorPage";
 import { BestSellingPage } from "@/analytics/BestSellingPage";
+import { FeedbackPage } from "@/analytics/FeedbackPage";
 import { GeographyPage } from "@/analytics/GeographyPage";
 import { level } from "@/analytics/AreaMap";
 import { ReportPage } from "@/analytics/ReportPage";
@@ -178,6 +179,42 @@ function open(View: () => ReactElement | null, me: object = MANAGER) {
         ],
       };
     }
+    if (call.url === "/feedback/summary") {
+      return {
+        status: 200,
+        data: {
+          count: 3,
+          average: 3.67,
+          stars: [5, 4, 3, 2, 1].map((rating) => ({
+            rating,
+            count: rating === 5 ? 2 : rating === 1 ? 1 : 0,
+          })),
+        },
+      };
+    }
+    if (call.url === "/feedback") {
+      return {
+        status: 200,
+        data: {
+          totalCount: 1,
+          totalPages: 1,
+          results: [
+            {
+              id: 1,
+              rating: 1,
+              comment: "Llegó frío",
+              customerName: "Ana",
+              customerPhone: null,
+              outletId: 7,
+              outletName: "Centro",
+              orderId: 9,
+              orderNumber: 12,
+              createdAt: "2026-11-17T18:00:00Z",
+            },
+          ],
+        },
+      };
+    }
     if (call.url === "/analytics/sales-report/days") {
       const row = {
         orders: 2,
@@ -341,5 +378,21 @@ describe("analytics pages", () => {
     expect([0, 25, 26, 50, 51, 75, 76, 100].map(level)).toEqual([
       0, 0, 1, 1, 2, 2, 3, 3,
     ]);
+  });
+
+  it("shows the feedback summary and each comment with its order", async () => {
+    search = "";
+    const user = userEvent.setup();
+    const api = open(FeedbackPage);
+    expect(await screen.findByText("Llegó frío")).toBeInTheDocument();
+    expect(screen.getByText("3 comentarios")).toBeInTheDocument();
+    expect(screen.getByText("Pedido #12")).toBeInTheDocument();
+    expect(screen.getByText("Centro")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "1★" }));
+    await waitFor(() =>
+      expect(
+        api.calls.some((c) => c.url === "/feedback" && c.params?.rating === 1),
+      ).toBe(true),
+    );
   });
 });
