@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
@@ -87,6 +88,9 @@ export function LoginForm() {
         disabled={isLoading}
       >
         {isLoading ? t("submitting") : t("submit")}
+      </Button>
+      <Button component={Link} href="/forgot-password">
+        {t("forgot")}
       </Button>
     </Stack>
   );

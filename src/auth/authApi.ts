@@ -7,6 +7,8 @@ import { setAccessToken } from "./tokenStore";
 export type Me = components["schemas"]["MeResponse"];
 export type Membership = components["schemas"]["MembershipOut"];
 export type LoginInput = components["schemas"]["LoginRequest"];
+export type ResetRequestInput = components["schemas"]["ResetRequest"];
+export type ResetConfirmInput = components["schemas"]["ResetConfirm"];
 type SwitchResponse = components["schemas"]["SwitchMerchantResponse"];
 
 export const authApi = baseApi.injectEndpoints({
@@ -22,6 +24,20 @@ export const authApi = baseApi.injectEndpoints({
           // The error is in the mutation state; the form shows it.
         }
       },
+    }),
+    requestPasswordReset: build.mutation<void, ResetRequestInput>({
+      query: (data) => ({
+        url: "/auth/password-reset",
+        method: "POST",
+        data,
+      }),
+    }),
+    confirmPasswordReset: build.mutation<void, ResetConfirmInput>({
+      query: (data) => ({
+        url: "/auth/password-reset/confirm",
+        method: "POST",
+        data,
+      }),
     }),
     me: build.query<Me, void>({
       query: () => ({ url: "/me" }),
@@ -65,8 +81,10 @@ export const authApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useConfirmPasswordResetMutation,
   useLoginMutation,
   useMeQuery,
+  useRequestPasswordResetMutation,
   useSwitchMerchantMutation,
   useLogoutMutation,
 } = authApi;

@@ -38,7 +38,8 @@
       "invalid_token": "Tu sesión no es válida. Inicia sesión de nuevo.",
       "token_expired": "Tu sesión venció. Inicia sesión de nuevo.",
       "not_a_member": "No perteneces a ese comercio.",
-      "outlet_forbidden": "No tienes acceso a esa sucursal."
+      "outlet_forbidden": "No tienes acceso a esa sucursal.",
+      "invalid_reset": "Este enlace ya no es válido. Pide uno nuevo."
     },
     "server": {
       "error": "Error del servidor. Inténtalo más tarde.",
@@ -192,7 +193,8 @@
     "submitting": "Ingresando…",
     "emailRequired": "Ingresa tu correo.",
     "emailInvalid": "Revisa el correo ingresado.",
-    "passwordRequired": "Ingresa tu contraseña."
+    "passwordRequired": "Ingresa tu contraseña.",
+    "forgot": "¿Olvidaste tu contraseña?"
   },
   "session": {
     "loading": "Cargando tu sesión…"
@@ -289,7 +291,7 @@
       "cancel": "Cancelar",
       "submit": "Crear invitación",
       "readyTitle": "Invitación lista",
-      "readyNote": "Comparte este enlace con {email}. Por ahora no enviamos correos; el enlace vence en 7 días y solo se muestra una vez.",
+      "readyNote": "Enviamos la invitación a {email}. También puedes compartir este enlace; vence en 7 días y solo se muestra una vez.",
       "link": "Enlace de invitación",
       "copy": "Copiar enlace",
       "copied": "Copiado",
@@ -1676,5 +1678,32 @@
       "bySystem": "automático",
       "byPlatform": "por el equipo de la plataforma"
     }
+  },
+  "forgot": {
+    "title": "Recupera tu contraseña",
+    "subtitle": "Escribe tu correo y te enviaremos un enlace para elegir una contraseña nueva.",
+    "email": "Correo electrónico",
+    "submit": "Enviar enlace",
+    "submitting": "Enviando…",
+    "back": "Volver a iniciar sesión",
+    "emailRequired": "Ingresa tu correo.",
+    "emailInvalid": "Revisa el correo ingresado.",
+    "sentTitle": "Revisa tu correo",
+    "sent": "Si {email} tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Vence en una hora."
+  },
+  "reset": {
+    "title": "Elige una contraseña nueva",
+    "subtitle": "Elige una contraseña de {count} caracteres o más.",
+    "password": "Contraseña nueva",
+    "again": "Repite la contraseña",
+    "submit": "Guardar contraseña",
+    "submitting": "Guardando…",
+    "passwordShort": "Usa al menos 10 caracteres.",
+    "passwordsDiffer": "Las contraseñas no coinciden.",
+    "invalidTitle": "Enlace no válido",
+    "askAgain": "Pedir un enlace nuevo",
+    "doneTitle": "Contraseña actualizada",
+    "done": "Cambiamos tu contraseña y cerramos tus otras sesiones. Ya puedes iniciar sesión.",
+    "signIn": "Iniciar sesión"
   }
 }
