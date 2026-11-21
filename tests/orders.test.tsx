@@ -248,6 +248,35 @@ describe("orders page", () => {
     expect(params.get("dateFrom")).toBe(todayISO());
   });
 
+  it("warns when a WhatsApp alert about a waiting order did not arrive", async () => {
+    open(MANAGER, (call) =>
+      call.url === "/orders" && call.method === "GET"
+        ? {
+            status: 200,
+            data: {
+              page: 1,
+              itemsPerPage: 25,
+              totalPages: 1,
+              totalCount: 1,
+              results: [{ ...SUMMARY, staffAlertFailed: true }],
+            },
+          }
+        : { status: 404 },
+    );
+    expect(await screen.findByText("WhatsApp no llegó")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /No pudimos avisar por WhatsApp de un pedido sin aceptar/,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("shows no warning when every alert arrived", async () => {
+    open();
+    expect(await screen.findByText("#K7M2QX")).toBeInTheDocument();
+    expect(screen.queryByText("WhatsApp no llegó")).not.toBeInTheDocument();
+  });
+
   it("changes tab and loads cancelled orders from the More menu", async () => {
     const api = open();
     await screen.findByText("#K7M2QX");

@@ -1090,6 +1090,10 @@
       "closedAccess": "Tu acceso cambió. Recarga la página.",
       "closedReplaced": "Los pedidos están abiertos en otra ventana."
     },
+    "alertFailed": {
+      "banner": "No pudimos avisar por WhatsApp de {count, plural, one {un pedido sin aceptar} other {# pedidos sin aceptar}}. Revísalo y acéptalo aquí; también te enviamos un correo.",
+      "chip": "WhatsApp no llegó"
+    },
     "sound": {
       "enable": "Activar sonido",
       "disable": "Silenciar",

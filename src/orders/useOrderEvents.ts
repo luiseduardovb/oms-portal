@@ -8,6 +8,7 @@ export const EVENT_TYPES = [
   "order.placed",
   "order.status_changed",
   "order.unaccepted",
+  "alert.failed",
 ] as const;
 
 export type LiveState = "connecting" | "live" | "polling" | "stopped";

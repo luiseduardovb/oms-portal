@@ -4591,6 +4591,12 @@ export interface components {
             paymentMethod: string;
             /** Paymentstatus */
             paymentStatus: string;
+            /**
+             * Staffalertfailed
+             * @description A WhatsApp alert about this still-unaccepted order did not arrive (TASK-843): the board warns the team.
+             * @default false
+             */
+            staffAlertFailed: boolean;
         };
         /** OutletCoverage */
         OutletCoverage: {

@@ -5,6 +5,7 @@ import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
+import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 import { alpha } from "@mui/material/styles";
@@ -140,6 +141,14 @@ export function OrderRow({
               ? t(`status.${order.status}`)
               : order.status}
           </Typography>
+          {order.staffAlertFailed && (
+            <Chip
+              size="small"
+              color="warning"
+              label={t("alertFailed.chip")}
+              sx={{ ml: 0.5 }}
+            />
+          )}
         </Box>
         <ExpandMoreIcon
           sx={{

@@ -16341,6 +16341,12 @@
           "paymentStatus": {
             "type": "string",
             "title": "Paymentstatus"
+          },
+          "staffAlertFailed": {
+            "type": "boolean",
+            "title": "Staffalertfailed",
+            "description": "A WhatsApp alert about this still-unaccepted order did not arrive (TASK-843): the board warns the team.",
+            "default": false
           }
         },
         "type": "object",

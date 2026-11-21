@@ -38,7 +38,11 @@ import { useOutletsQuery } from "@/outlets/outletsApi";
 import { useAppDispatch } from "@/store/hooks";
 
 const PAGE_SIZE = 25;
-const ALERT_EVENTS = new Set(["order.placed", "order.unaccepted"]);
+const ALERT_EVENTS = new Set([
+  "order.placed",
+  "order.unaccepted",
+  "alert.failed",
+]);
 
 export default function OrdersPage() {
   const t = useTranslations("ordersPage");
@@ -125,6 +129,9 @@ export default function OrdersPage() {
   };
   const error = (list.error ?? counts.error) as ApiError | undefined;
   const data = list.data;
+  const failedAlerts = (data?.results ?? []).filter(
+    (order) => order.staffAlertFailed,
+  ).length;
 
   const toggleSound = async () => {
     if (sound) {
@@ -164,6 +171,11 @@ export default function OrdersPage() {
         </Stack>
       </Stack>
       {soundBlocked && <Alert severity="info">{t("sound.blocked")}</Alert>}
+      {failedAlerts > 0 && (
+        <Alert severity="warning">
+          {t("alertFailed.banner", { count: failedAlerts })}
+        </Alert>
+      )}
       <Tabs
         value={tab === "cancelled" ? "more" : tab}
         variant="scrollable"
