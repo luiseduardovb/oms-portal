@@ -16550,19 +16550,26 @@
             "title": "Preptimeminutes",
             "default": 20
           },
+          "staffAlertMinutes": {
+            "type": "integer",
+            "maximum": 118,
+            "minimum": 0,
+            "title": "Staffalertminutes",
+            "default": 10
+          },
           "acceptAlertMinutes": {
             "type": "integer",
             "maximum": 119,
             "minimum": 1,
             "title": "Acceptalertminutes",
-            "default": 3
+            "default": 15
           },
           "expireUnacceptedMinutes": {
             "type": "integer",
             "maximum": 120,
             "minimum": 2,
             "title": "Expireunacceptedminutes",
-            "default": 15
+            "default": 60
           },
           "autoAccept": {
             "type": "boolean",
@@ -16703,6 +16710,10 @@
             "type": "integer",
             "title": "Preptimeminutes"
           },
+          "staffAlertMinutes": {
+            "type": "integer",
+            "title": "Staffalertminutes"
+          },
           "acceptAlertMinutes": {
             "type": "integer",
             "title": "Acceptalertminutes"
@@ -16787,6 +16798,7 @@
           "deliveryEnabled",
           "isBusy",
           "prepTimeMinutes",
+          "staffAlertMinutes",
           "acceptAlertMinutes",
           "expireUnacceptedMinutes",
           "autoAccept",
@@ -17071,6 +17083,19 @@
               }
             ],
             "title": "Preptimeminutes"
+          },
+          "staffAlertMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 118,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Staffalertminutes"
           },
           "acceptAlertMinutes": {
             "anyOf": [

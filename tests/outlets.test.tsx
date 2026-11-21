@@ -43,6 +43,7 @@ const DETAIL = {
   latitude: null,
   longitude: null,
   prepTimeMinutes: 20,
+  staffAlertMinutes: 0,
   acceptAlertMinutes: 3,
   expireUnacceptedMinutes: 15,
   autoAccept: false,
@@ -226,6 +227,22 @@ describe("Outlet data", () => {
         data: { latitude: 14.072275, longitude: -87.192139 },
       }),
     );
+  });
+
+  it("asks for the first alert before the reminder", async () => {
+    const { calls } = open(<OutletPage />);
+    const first = await screen.findByLabelText(/Avisar por WhatsApp/);
+    await userEvent.clear(first);
+    await userEvent.type(first, "5");
+    await userEvent.click(
+      screen.getByRole("button", { name: "Guardar cambios" }),
+    );
+    expect(
+      await screen.findByText(
+        "El recordatorio debe llegar después del primer aviso.",
+      ),
+    ).toBeVisible();
+    expect(writes(calls)).toHaveLength(0);
   });
 
   it("checks values before sending", async () => {

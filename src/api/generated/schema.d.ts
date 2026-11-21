@@ -4645,13 +4645,18 @@ export interface components {
              */
             prepTimeMinutes: number;
             /**
+             * Staffalertminutes
+             * @default 10
+             */
+            staffAlertMinutes: number;
+            /**
              * Acceptalertminutes
-             * @default 3
+             * @default 15
              */
             acceptAlertMinutes: number;
             /**
              * Expireunacceptedminutes
-             * @default 15
+             * @default 60
              */
             expireUnacceptedMinutes: number;
             /**
@@ -4707,6 +4712,8 @@ export interface components {
             isBusy: boolean;
             /** Preptimeminutes */
             prepTimeMinutes: number;
+            /** Staffalertminutes */
+            staffAlertMinutes: number;
             /** Acceptalertminutes */
             acceptAlertMinutes: number;
             /** Expireunacceptedminutes */
@@ -4802,6 +4809,8 @@ export interface components {
             isBusy?: boolean | null;
             /** Preptimeminutes */
             prepTimeMinutes?: number | null;
+            /** Staffalertminutes */
+            staffAlertMinutes?: number | null;
             /** Acceptalertminutes */
             acceptAlertMinutes?: number | null;
             /** Expireunacceptedminutes */

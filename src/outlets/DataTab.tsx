@@ -78,6 +78,9 @@ export function DataTab({ outlet, canEdit, canArchive }: Props) {
   const [delivery, setDelivery] = useState(outlet.deliveryEnabled);
   const [busy, setBusy] = useState(outlet.isBusy);
   const [prep, setPrep] = useState(String(outlet.prepTimeMinutes));
+  const [staffAlert, setStaffAlert] = useState(
+    String(outlet.staffAlertMinutes),
+  );
   const [alert, setAlert] = useState(String(outlet.acceptAlertMinutes));
   const [expire, setExpire] = useState(String(outlet.expireUnacceptedMinutes));
   const [auto, setAuto] = useState(outlet.autoAccept);
@@ -110,10 +113,15 @@ export function DataTab({ outlet, canEdit, canArchive }: Props) {
     if (!validTimezone(timezone.trim())) found.timezone = t("timezoneInvalid");
     const prepValue = whole(prep, 0, 600);
     if (prepValue === null) found.prep = t("numberInvalid", { max: 600 });
+    const staffValue = whole(staffAlert, 0, 118);
+    if (staffValue === null)
+      found.staffAlert = t("numberInvalid", { max: 118 });
     const alertValue = whole(alert, 1, 119);
     if (alertValue === null) found.alert = t("numberInvalid", { max: 119 });
     const expireValue = whole(expire, 2, 120);
     if (expireValue === null) found.expire = t("numberInvalid", { max: 120 });
+    if (staffValue !== null && alertValue !== null && staffValue >= alertValue)
+      found.alert = t("alertOrder");
     if (
       alertValue !== null &&
       expireValue !== null &&
@@ -140,6 +148,7 @@ export function DataTab({ outlet, canEdit, canArchive }: Props) {
       deliveryEnabled: delivery,
       isBusy: busy,
       prepTimeMinutes: prepValue!,
+      staffAlertMinutes: staffValue!,
       acceptAlertMinutes: alertValue!,
       expireUnacceptedMinutes: expireValue!,
       autoAccept: auto,
@@ -265,6 +274,12 @@ export function DataTab({ outlet, canEdit, canArchive }: Props) {
           {toggle(t("busy"), busy, setBusy)}
           {toggle(t("autoAccept"), auto, setAuto)}
           {field(t("prep"), prep, setPrep, problems.prep)}
+          {field(
+            t("staffAlert"),
+            staffAlert,
+            setStaffAlert,
+            problems.staffAlert,
+          )}
           {field(t("alert"), alert, setAlert, problems.alert)}
           {field(t("expire"), expire, setExpire, problems.expire)}
         </Stack>
