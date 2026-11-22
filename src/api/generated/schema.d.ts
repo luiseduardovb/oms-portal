@@ -4474,6 +4474,11 @@ export interface components {
             lines: components["schemas"]["OrderLineOut"][];
             /** History */
             history: components["schemas"]["OrderHistoryOut"][];
+            /**
+             * Messages
+             * @default []
+             */
+            messages: components["schemas"]["OrderMessageOut"][];
         };
         /** OrderSettings */
         OrderSettings: {
@@ -6783,6 +6788,33 @@ export interface components {
             sortOrder: number;
             /** Isactive */
             isActive: boolean;
+        };
+        /**
+         * OrderMessageOut
+         * @description One WhatsApp message sent for the order (TASK-842, D-160).
+         */
+        OrderMessageOut: {
+            /** Id */
+            id: number;
+            /** Template */
+            template: string;
+            /** Audience */
+            audience: string;
+            /** Status */
+            status: string;
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+            /** Reason */
+            reason?: string | null;
+            /** Code */
+            code?: string | null;
+            /** Kind */
+            kind?: string | null;
+            /** Hint */
+            hint?: string | null;
         };
     };
     responses: never;

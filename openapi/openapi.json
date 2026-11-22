@@ -15929,6 +15929,14 @@
             },
             "type": "array",
             "title": "History"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/OrderMessageOut"
+            },
+            "type": "array",
+            "title": "Messages",
+            "default": []
           }
         },
         "type": "object",
@@ -23359,6 +23367,85 @@
           "isActive"
         ],
         "title": "ZoneOut"
+      },
+      "OrderMessageOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "template": {
+            "type": "string",
+            "title": "Template"
+          },
+          "audience": {
+            "type": "string",
+            "title": "Audience"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "At"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "hint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "template",
+          "audience",
+          "status",
+          "at"
+        ],
+        "title": "OrderMessageOut",
+        "description": "One WhatsApp message sent for the order (TASK-842, D-160)."
       }
     },
     "securitySchemes": {

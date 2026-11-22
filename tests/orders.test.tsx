@@ -92,6 +92,7 @@ const DETAIL = {
       imageUrl: "https://files/baleada-thumb.webp",
     },
   ],
+  messages: [],
   history: [
     {
       status: "pending",
@@ -338,6 +339,58 @@ describe("orders page", () => {
       "href",
       expect.stringContaining("google.com/maps/search"),
     );
+  });
+
+  it("lists the WhatsApp messages and explains the one that failed", async () => {
+    const withMessages = {
+      ...DETAIL,
+      messages: [
+        {
+          id: 1,
+          template: "oms_order_received",
+          audience: "customer",
+          status: "read",
+          at: "2026-11-06T16:21:00Z",
+        },
+        {
+          id: 2,
+          template: "oms_staff_new_order",
+          audience: "staff",
+          status: "failed",
+          at: "2026-11-06T16:21:30Z",
+          reason: "El número no tiene WhatsApp o no pudo recibir el mensaje.",
+          code: "131026",
+          kind: "number",
+          hint: "Avísale a la sucursal por otro medio.",
+        },
+      ],
+    };
+    open(MANAGER, (call) =>
+      call.url === "/orders/1"
+        ? { status: 200, data: withMessages }
+        : { status: 404 },
+    );
+    await userEvent.click(
+      await screen.findByRole("button", { name: /K7M2QX/ }),
+    );
+    expect(await screen.findByText("Mensajes de WhatsApp")).toBeInTheDocument();
+    expect(
+      screen.getByText("Pedido recibido (al cliente)"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Leído")).toBeInTheDocument();
+    expect(screen.getByText("No llegó")).toBeInTheDocument();
+    expect(
+      screen.getByText(/no tiene WhatsApp.*Avísale a la sucursal/),
+    ).toBeInTheDocument();
+  });
+
+  it("shows no messages block when none were sent", async () => {
+    open();
+    await userEvent.click(
+      await screen.findByRole("button", { name: /K7M2QX/ }),
+    );
+    await screen.findByText("2× Baleada");
+    expect(screen.queryByText("Mensajes de WhatsApp")).toBeNull();
   });
 
   it("hides contact buttons when the phone is not visible to this role", async () => {

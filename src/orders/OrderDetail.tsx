@@ -5,6 +5,7 @@ import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
@@ -54,6 +55,43 @@ async function copy(text: string) {
   } catch {
     // Clipboard blocked: nothing else to do.
   }
+}
+
+const MESSAGE_STATUSES = [
+  "queued",
+  "sent",
+  "delivered",
+  "read",
+  "failed",
+  "skipped",
+] as const;
+type MessageStatus = (typeof MESSAGE_STATUSES)[number];
+
+const MESSAGE_COLOR: Record<
+  MessageStatus,
+  "default" | "info" | "success" | "error"
+> = {
+  queued: "default",
+  sent: "info",
+  delivered: "success",
+  read: "success",
+  failed: "error",
+  skipped: "default",
+};
+
+function messageStatus(value: string): MessageStatus {
+  return (MESSAGE_STATUSES as readonly string[]).includes(value)
+    ? (value as MessageStatus)
+    : "queued";
+}
+
+function messageName(
+  t: ReturnType<typeof useTranslations>,
+  template: string,
+): string {
+  return t.has(`messageTemplates.${template}`)
+    ? t(`messageTemplates.${template}`)
+    : template;
 }
 
 function Section({
@@ -467,6 +505,48 @@ function Body({
             ))}
           </Stack>
         </Section>
+        {order.messages.length > 0 && (
+          <Section framed={framed} title={t("detail.messages")}>
+            <Stack spacing={1.25} divider={<Divider flexItem />}>
+              {order.messages.map((m) => (
+                <Box key={m.id}>
+                  <Stack
+                    direction="row"
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {messageName(t, m.template)}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {format.dateTime(new Date(m.at), {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                      </Typography>
+                    </Box>
+                    <Chip
+                      size="small"
+                      label={t(`messageStatus.${messageStatus(m.status)}`)}
+                      color={MESSAGE_COLOR[messageStatus(m.status)]}
+                      variant={m.status === "failed" ? "filled" : "outlined"}
+                    />
+                  </Stack>
+                  {m.status === "failed" && (
+                    <Alert severity="warning" sx={{ mt: 1 }}>
+                      {m.reason}
+                      {m.hint ? ` ${m.hint}` : ""}
+                    </Alert>
+                  )}
+                </Box>
+              ))}
+            </Stack>
+          </Section>
+        )}
       </Stack>
       {dialog === "cancel" && (
         <CancelDialog

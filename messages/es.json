@@ -1046,7 +1046,8 @@
       "customer": "Cliente",
       "cashPayWith": "Paga con {amount}",
       "loading": "Cargando el pedido…",
-      "driver": "Repartidor"
+      "driver": "Repartidor",
+      "messages": "Mensajes de WhatsApp"
     },
     "copy": {
       "address": "Copiar dirección",
@@ -1100,7 +1101,21 @@
       "blocked": "El navegador bloqueó el sonido. Toca el botón para activarlo."
     },
     "stale": "El pedido cambió mientras lo veías. Se actualizó; revisa e inténtalo de nuevo.",
-    "map": "Ver mapa"
+    "map": "Ver mapa",
+    "messageStatus": {
+      "queued": "En cola",
+      "sent": "Enviado",
+      "delivered": "Entregado",
+      "read": "Leído",
+      "failed": "No llegó",
+      "skipped": "Omitido"
+    },
+    "messageTemplates": {
+      "oms_order_received": "Pedido recibido (al cliente)",
+      "oms_order_cancelled": "Pedido cancelado (al cliente)",
+      "oms_staff_new_order": "Aviso de pedido nuevo (al personal)",
+      "oms_staff_order_unaccepted": "Recordatorio de pedido sin aceptar (al personal)"
+    }
   },
   "vouchers": {
     "title": "Vouchers",
